@@ -1,0 +1,36 @@
+#+TITLE: TODOs
+
+* TODO Simplify assignement to hash tables and plist with a macro
+  :PROPERTIES:
+  :ID:       1781a88c-4eec-43b8-9bfd-aeb8952762e5
+  :END:
+  - macro symbol: ~[=]~
+  - definition:
+    #+begin_example
+      [=] compound key value
+
+      compound := hashtable | plist
+
+      key := hashtable-key | plist-key
+
+      value := lisp-object
+
+      hashtable-key := symbol | string | number
+
+      plist-key := symbol
+    #+end_example
+  - macro usage:
+    - Simple assignment
+      #+begin_src lisp
+        [=] myhash akey new-value
+      #+end_src
+    - Assigning a value into a hash of a plist
+      #+begin_src lisp
+        [=] (getf :a myplist) 'truc new-value
+      #+end_src
+  - Error cases:
+    - If *compound* is a plist
+      - *key* is not a symbol
+    - If *compound* is a hashtable
+      - *key* is incompatible with the =:test== function defined for the hashtable
+        - This only works with the basic functions =EQ=, =EQL=, =EQUAL=
