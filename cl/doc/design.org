@@ -1,0 +1,353 @@
+#+TITLE: REVE Workshop tools
+
+* Git tools
+  :PROPERTIES:
+  :ID:       64f6cf3a-ee8c-401c-99e3-a58111f9ebcb
+  :END:
+** Public functions and macros
+   :PROPERTIES:
+   :ID:       27cdc780-cda7-458a-8920-edad1e67ccd9
+   :END:
+   - repositories-get-list
+   - repositories-get-statistics
+   - is-repository-p
+   - is-reve-repository-p
+   - make-repository
+   - repository-describe-translation
+   - translate-to-reve-repository
+* Common tools
+  :PROPERTIES:
+  :ID:       5a6c7496-9926-4cc3-8016-81069a18a743
+  :END:
+** Public functions and macros
+   :PROPERTIES:
+   :ID:       8f83aa5b-716c-45fb-a805-9faf70514bad
+   :END:
+   - merge-pathnames-to-string
+   - pp-hash-table
+* Project management tools
+  :PROPERTIES:
+  :ID:       91da8b66-621d-4004-b4e4-1baad0e5e528
+  :END:
+** Public functions and macros
+   :PROPERTIES:
+   :ID:       013d8f83-a9b1-440e-a0c0-cb82d6eb4a70
+   :END:
+   - projectile-get-list-from-file
+   - myrepos-get-list-from-file
+   - projectile-add-repository-to-list
+   - myrepos-add-repository-to-list
+   - move
+   - translate
+   - create
+* User Interface
+  :PROPERTIES:
+  :ID:       1d97aa14-6a32-4948-acc8-b10b9b338d5f
+  :END:
+** Public functions and macros
+   :PROPERTIES:
+   :ID:       696d94a3-fec0-45af-9508-212563d45b63
+   :END:
+   - repository-display-statistics
+   - repository-display-describe-translation
+   - project-display-list
+   - project-add-repository
+   - project-move
+   - project-translate
+   - project-create
+* Command-Line Interface
+  :PROPERTIES:
+  :ID:       46163713-e132-4d54-b140-15b98db04b16
+  :END:
+  - Example usage
+    #+begin_example
+      revews project create PROJECT-NAME [--type=TYPE]
+      revews repo list DIR [--statistics]
+      revews repo show REPOSITORY [--statistics]
+      revews repo create REPOSITORY [--type=TYPE]
+    #+end_example
+  - General call form
+    #+begin_example
+      revews [OPTIONS] SUBCOMMAND [PARAMS...] [SUBCOMMAND-OPTIONS]
+    #+end_example
+    - _SUBCOMMAND_, a one word string argument designating an available
+      command to run.
+    - _PARAMS_, parameters to the SUBCOMMAND, space separated.
+    - _OPTIONS_, are optional arguments that will influence
+      =revews=. they follow the syntax of POSIX options. The default
+      value will be defined with each option or in the section
+      dedicated to the configuration.
+    - _SUBCOMMAND-OPTIONS_, are optional arguments dedicted to the
+      _SUBCOMMAND_. They follow the syntax of POSIX options. The
+      default value will be defined with each option or in the section
+      dedicated to the configuration
+** Sub-Commands
+   :PROPERTIES:
+   :ID:       0a8144dd-f65c-45ad-8bf1-9b88b191bb1a
+   :END:
+*** project
+    :PROPERTIES:
+    :ID:       134c0ebc-c4ff-4061-9ccb-8f33a467db71
+    :END:
+**** create NAME
+     :PROPERTIES:
+     :ID:       f50ed282-9699-42a4-9614-bf0023026225
+     :END:
+     Create a new project in projectile or myrepos files.
+
+     With projectile project manager, it is possible to specify if the
+     project must be a git repository or not. With myrepos, the
+     project will be a git repository.
+
+     Positional arguments:
+     - _NAME_, the name of the project to create. can contains
+       alpha-numeric characters, in addition to =-=,= =_= and =.=.
+
+     Options:
+     | *--type*             | specify the type of project to create, allowed values are =projectile= and =myrepos=. |
+     | *-r, --repository*   | if present the project will be initialized as a git repository.                       |
+     | *-f, --manager-file* | the full path to a file managed by the selected manager                               |
+**** remove NAME PROJECT-FILE
+     :PROPERTIES:
+     :ID:       d3ed1b90-a04a-4984-b9c8-925fdb2d5fee
+     :END:
+     Will remove the project with name NAME from PROJECT-FILE. the
+     extension of the file will tell =revews= if the project is a
+     projectile or a myrepos project.
+
+     This doesn't remove the project from the disk.
+
+     Positional arguments:
+     - _NAME_, the name of the project to remove. can contains
+       alpha-numeric characters, in addition to =-=,= =_= and =.=.
+     - _PROJECT-FILE_, the project file to update with the project to remove.
+**** add REPOSITORY
+     :PROPERTIES:
+     :ID:       d0658299-05d9-424c-824e-e0c3d867d1f8
+     :END:
+     Add an existing git repository to a project manager.
+
+     Positional arguments:
+     - _REPOSITORY_, the full path to a git repository.
+
+     Options:
+     | *--type* | The type of project manager, allowed values are =projectile= and =myrepos=.                                                             |
+     | *--name* | The name of the repository as known by the manager (if relevant) and =revews=. If not provided, the last part of the path will be used. |
+**** translate NAME
+     :PROPERTIES:
+     :ID:       dd64180c-b2d2-4da5-8f31-d478d274acf8
+     :END:
+     Convert an existing project from one manager to the other.
+
+     Positional arguments:
+     - _NAME_, the name of the project to translate to another
+       manager. can contains alpha-numeric characters, in addition to
+       =-=,= =_= and =.=.
+
+     Options:
+     | *--type* | specify the new manager of the project, allowed values are =projectile= and =myrepos=. |
+**** move NAME NEW-LOCATION
+     :PROPERTIES:
+     :ID:       ae7dc487-84ba-41a3-b46b-c757bf73a1c3
+     :END:
+     Move the directory of PROJECT to NEW-LOCATION.
+
+     Positional arguments:
+     - _NAME_, the name of the project to move to another
+       location. can contains alpha-numeric characters, in addition to
+       =-=,= =_= and =.=.
+     - _NEW-LOCATION_, the full path to the new location of the project directory.
+**** list [OBJECT]
+     :PROPERTIES:
+     :ID:       aea9db05-90b5-4a33-8c16-fb7efa5b1960
+     :END:
+     List entries for a particular object type known by =revews=.
+
+     Positional arguments:
+     - _OBJECT_, can be one of projects, keys, managers.
+       - projects, list all known projects.
+       - keys, list all keys that can be used in filters and fields specifications.
+       - manager, the supported managers.
+
+     Options:
+      | *--statistics* | will print statistics for each entry returned by the subcommand.                                  |
+      | *--filter*     | filters the type of projects to be displayed. See below for a complete description of the format. |
+      | *--fields*     | fields to display and in which order.                                                             |
+***** Filtering
+      :PROPERTIES:
+      :ID:       28bf52a2-b4c2-4668-bb34-9b584b1d281f
+      :END:
+     The *--filter* option can contain one or more filter
+     criteria, separated by comma (,). The form of a filter criterion
+     is ~[!]{[+]|-}key=value~. The filtering is based on exact
+     match. The exclamation mark, if present, allows to keep any
+     entry not equal to the value =value=. A plus (ascending) or
+     minus sign (descending) can prefix the key and specify the sort
+     order for the display. If absent, sorting is ascending.
+
+     List of keys:
+     - =manager=, the possible values are =projectile= and =myrepos=,
+     - a metadata, any metadatum that has been added to the program
+       via the configuration.
+     - =repository=, a boolean field. accepted values are yes, y, t,
+       true, no, n, nil, false.
+     - =mpath=, a path to a file managed by =projectile= or =myrepos=.
+***** Display
+      :PROPERTIES:
+      :ID:       41e78c20-94c8-40c9-9dbb-f093a4b7beea
+      :END:
+
+      The fields are displayed in column, with one line for each entry.
+
+      List of fields:
+      - =name=, project name
+      - =manager=, project manager
+      - =repository=, is the project a git repository?
+      - =mpath=, the full path to the project repository
+      - =metadata=, extra fields
+
+      If option *--statistics* is supplied, a second line will display
+      various statistics about the project and its associated
+      repository, if any. There will be one line for projects
+      statistics and one line for repository statistics.
+**** show NAME
+     :PROPERTIES:
+     :ID:       fb34b2e9-0444-43ae-8bb8-035a3ef663c7
+     :END:
+     Shows information about a project.
+
+     Positional arguments:
+     - _NAME_, the name of the project to show. can contains
+       alpha-numeric characters, in addition to =-=,= =_= and =.=.
+
+     Options:
+      | *--statistics* | will print statistics for the entry returned by the subcommand. |
+      | *--fields*     | fields to display and in which order.                           |
+***** Display
+      :PROPERTIES:
+      :ID:       41e78c20-94c8-40c9-9dbb-f093a4b7beea
+      :END:
+Fields will be printed on individual lines.
+
+      List of fields:
+      - =name=, project name
+      - =manager=, project manager
+      - =repository=, is the project a git repository?
+      - =mpath=, the full path to the project repository
+      - =metadata=, extra fields
+
+      If option *--statistics* is supplied, a second set of lines will
+      display various statistics about the project and its associated
+      repository, if any.
+**** media NAME MEDIUM 
+     :PROPERTIES:
+     :ID:       bc45ab79-4342-4d2c-ad3b-6cdcb1f24b37
+     :END:
+     Displays information about a project like, the last entries in
+     the journal, pending tasks, last commit messages, ...
+
+     Positional arguments:
+     - _NAME_, the name of the project. can contains alpha-numeric
+       characters, in addition to =-=,= =_= and =.=.
+     - _MEDIUM_ can be one of log, journal, tasks, commits, changelog, news, issues, pr, summary
+*** repo
+    :PROPERTIES:
+    :ID:       3bc2a9b8-b82b-4a86-b836-4a9465efb67c
+    :END:
+**** show NAME
+     :PROPERTIES:
+     :ID:       e0ae0569-23b2-4ebf-b040-15bfcc671539
+     :END:
+     Display information about a repository.
+
+     Positional arguments:
+     - _NAME_, the name of the repository to show. can contains
+       alpha-numeric characters, in addition to =-=,= =_= and =.=.
+
+     Options:
+      | *--statistics* | will print statistics for the entry returned by the subcommand.     |
+      | *--tree*       | if present, the files and directories will be displayed, as a tree. |
+***** Display
+      :PROPERTIES:
+      :ID:       59d27f13-ec63-400a-ac73-c971053722ac
+      :END:
+      Fields will be printed on individual lines.
+
+      List of fields:
+      - =name=, project name
+      - =manager=, can be one of, =projectile=, =myrepos= or =none=.
+      - =path=, the full path to the project repository
+
+      If option *--statistics* is supplied, a second set of lines will
+      display various statistics about the repository.
+**** list PATH
+     :PROPERTIES:
+     :ID:       23d62d71-b049-4090-ab16-2149ae9336dd
+     :END:
+     Options:
+     List repositories in a given directory.
+
+     Positional arguments:
+     - _PATH_, the full path to a directory containing repositories.
+
+     Options:
+      | *--statistics* | will print statistics for each entry returned by the subcommand. |
+***** Display
+      :PROPERTIES:
+      :ID:       959a5f6d-ccca-45c3-ab22-2ae0f8dfedb4
+      :END:
+      Fields will be printed on individual lines.
+
+      List of fields:
+      - =name=, project name
+      - =manager=, can be one of, =projectile=, =myrepos= or =none=.
+      - =path=, the full path to the repository.
+
+      If option *--statistics* is supplied, additional fields will
+      display various statistics about each entry.
+**** track
+     :PROPERTIES:
+     :ID:       0d5512a1-871a-450e-8a40-585bfbf8e6fb
+     :END:
+**** synchronize
+     :PROPERTIES:
+     :ID:       fce29d4e-44f1-4767-b5b3-282884df20f1
+     :END:
+**** remove
+     :PROPERTIES:
+     :ID:       7d02da2e-6d0d-4048-9cf5-7b8de25cfbbd
+     :END:
+**** move
+     :PROPERTIES:
+     :ID:       e958f56c-af36-4352-aecc-bc5ec9b163cb
+     :END:
+*** timesheet
+    :PROPERTIES:
+    :ID:       4aa63a26-c9dd-4eb7-b62e-9d5f18d8ab66
+    :END:
+**** process
+     :PROPERTIES:
+     :ID:       5250872c-355c-40a6-af3e-08855d699c8d
+     :END:
+**** fava
+     :PROPERTIES:
+     :ID:       96740d9b-5a9e-448e-a37d-745cb6457aa6
+     :END:
+      - start
+      - stop
+*** config
+    :PROPERTIES:
+    :ID:       3add1467-5835-41d1-8bfb-6f8fa62086cc
+    :END:
+**** list
+     :PROPERTIES:
+     :ID:       760c94b4-b794-42ba-a59e-1e45486a4586
+     :END:
+**** set
+     :PROPERTIES:
+     :ID:       43603e48-bf82-4b03-b699-3d1af917bad8
+     :END:
+**** unset
+     :PROPERTIES:
+     :ID:       3b3a2abd-d0d3-42a7-a6dd-3a05c439d79c
+     :END:

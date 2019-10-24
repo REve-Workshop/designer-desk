@@ -1,0 +1,14 @@
+- name: Install dependencies
+  command: sbcl --eval "(progn (ql:quickload \"clx\") (ql:quickload \"cl-ppcre\") (ql:quickload \"alexandria\"))"
+- name: Build configure script
+  command: autoconf
+  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+- name: Configure StumpWM
+  command: ./configure
+  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+- name: Compile StumpWM
+  command: make
+  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+- name: Install StumpWM
+  command: make install
+  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"

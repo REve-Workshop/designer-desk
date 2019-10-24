@@ -1,0 +1,16 @@
+- name: Install MPD
+  dnf:
+    name: mpd
+    state: latest
+- name: Ensure target directory is empty
+  file:
+        path: "{{ conf.xdghomeconfig }}/{{ mpd.dir }}"
+        state: absent
+- name: Create target directory
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ mpd.dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf.source }}/{{ mpd.dir }}/mpd.conf"
+    dest: "{{ conf.xdghomeconfig }}/{{ mpd.dir }}"

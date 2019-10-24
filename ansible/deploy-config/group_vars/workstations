@@ -1,0 +1,55 @@
+conf:
+  - source: ~/codes/reve-config-public
+  - dst: ~/tmp/todel/cfg
+  - xdghomeconfig: ~/tmp/todel/cfg/.config
+  - git_3rdparty: ~/codes/3rdparty
+alacritty:
+  - dir: alacritty
+  - config: False
+  - app: False
+conky:
+  - dir: conky
+  - config: False
+  - app: False
+dunst:
+  - dir: dunst
+  - config: False
+  - app: False
+emacs:
+  - config: False
+  - app: False
+mpd:
+  - dir: mpd
+  - config: False
+  - app: False
+neofetch:
+  - dir: neofetch
+  - config: False
+  - app: False
+nitrogen:
+  - dir: nitrogen
+  - config: False
+  - app: False
+polybar:
+  - dir: polybar
+  - config: False
+  - app: False
+ranger:
+  - dir: ranger
+  - config: False
+  - app: False
+stumpwm:
+  - dir: stumpwm
+  - config: False
+surfraw:
+  - dir: surfraw
+  - config: False
+  - app: False
+uhk_agent:
+  - dir: uhk-agent
+  - config: False
+  - app: False
+variety:
+  - dir: variety
+  - config: False
+  - app: False

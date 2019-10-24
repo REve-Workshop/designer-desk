@@ -1,0 +1,14 @@
+# This playbook is to be executed as root user.
+---
+- hosts: all
+  gather_facts: False
+  roles:
+    - common-lisp
+    - python
+    - git
+    - zsh
+    - emacs
+    - tmux
+    - stumpwm
+
+    

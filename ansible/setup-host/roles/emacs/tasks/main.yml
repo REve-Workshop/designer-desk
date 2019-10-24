@@ -1,0 +1,8 @@
+- name: Install Emacs
+  dnf:
+    name: {{ item.pkg }}
+    state: latest
+  with_item:
+    - pkg: emacs
+    - pkg: emacs-common
+    - pkg: emacs-filesystem

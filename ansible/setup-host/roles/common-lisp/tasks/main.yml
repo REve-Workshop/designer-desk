@@ -1,0 +1,10 @@
+- name: Install Common Lisp (SBCL)
+  dnf:
+    name: sbcl
+    state: latest
+- name: Download quicklisp
+  command: "curl -O https://beta.quicklisp.org/quicklisp.lisp"
+  path: "{{ conf.git_3rdparty }}/{{ quicklisp.dir }}"
+- name: Install quicklisp
+  command: "sbcl --load quicklisp.lisp --eval \"((quicklisp-quickstart:install) (ql:add-to-init-file))\""
+  path: "{{ conf.git_3rdparty }}/{{ quicklisp.dir }}"

@@ -1,0 +1,16 @@
+- name: Install Dunst
+  dnf:
+    name: dunst
+    state: latest
+- name: Ensure target directory is empty
+  file:
+        path: "{{ conf.xdghomeconfig }}/{{ dunst.dir }}"
+        state: absent
+- name: Create target directory
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ dunst.dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf.source }}/{{ dunst.dir }}/dunstrc"
+    dest: "{{ conf.xdghomeconfig }}/{{ dunst.dir }}"

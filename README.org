@@ -13,6 +13,25 @@
    :ID:       bcb8e202-07d3-4da5-a617-878b6e99fef0
    :END:
 
+** Repository structure
+   :PROPERTIES:
+   :ID:       6b5567b2-7bd2-4248-aeba-e740c9e6ad52
+   :END:
+*** =ansible/=
+    :PROPERTIES:
+    :ID:       7227dfd5-8aa1-4737-89f6-b6f8e1c3530a
+    :END:
+    Contains Ansible playbooks to help automate deployment of tools and configuration
+*** =cl/=
+    :PROPERTIES:
+    :ID:       ab110838-34b1-4809-925c-154793eea11a
+    :END:
+    Some home made tools in Common Lisp.
+*** =bin/=
+    :PROPERTIES:
+    :ID:       36197e7d-aff4-4fe5-8217-aa75a6e05cef
+    :END:
+    Shell scripts tools, mainly.
 ** Author
    :PROPERTIES:
    :ID:       29dedef8-dfa5-4c47-97e5-b6332d1aaa15

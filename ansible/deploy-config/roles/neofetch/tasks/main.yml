@@ -1,0 +1,16 @@
+- name: Install Neofetch
+  dnf:
+    name: neofetch
+    state: latest
+- name: Ensure target directory is empty
+  file:
+        path: "{{ conf.xdghomeconfig }}/{{ neofetch.dir }}"
+        state: absent
+- name: Create target directory
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ neofetch.dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf.source }}/{{ neofetch.dir }}/config.conf"
+    dest: "{{ conf.xdghomeconfig }}/{{ neofetch.dir }}"

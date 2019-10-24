@@ -1,0 +1,15 @@
+- name: Ensure target directory is empty
+  file:
+        path: "{{ dst }}/.zsh"
+        state: absent
+- name: Create target directory
+  file:
+        path: "{{ dst }}/.zsh"
+        state: directory
+- name: Deploy configuration files
+  copy:
+        src: "{{ source }}/{{ item.src }}"
+        dest: "{{ dst }}"
+  with_items:
+        - src: .zshrc
+        - src: .zsh

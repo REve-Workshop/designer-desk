@@ -1,0 +1,21 @@
+- name: Install Ranger
+  dnf:
+    name: ranger
+    state: latest
+- name: Ensure target directory is empty
+  file:
+        path: "{{ conf.xdghomeconfig }}/{{ ranger.dir }}"
+        state: absent
+- name: Create target directory
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ ranger.dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf.source }}/{{ ranger.dir }}/{{ item.src }}"
+    dest: "{{ conf.xdghomeconfig }}/{{ ranger.dir }}"
+  with_item:
+    - src: rc.conf
+    - src: rifle.conf
+    - src: scope.sh
+    - src: tagged

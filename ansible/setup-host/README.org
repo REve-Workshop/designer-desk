@@ -1,0 +1,9 @@
+#+TITLE: README
+
+* Prerequisites
+  :PROPERTIES:
+  :ID:       3fa925b1-0691-41ea-a1d3-85aa6e69bc9b
+  :END:
+  - Python 3.7
+  - ansible
+  - git

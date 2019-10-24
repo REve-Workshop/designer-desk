@@ -1,0 +1,25 @@
+- name: Create user
+  user:
+    name: {{ user.name }}
+    comment: {{ user.comment }}
+    create_home: True
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+    state: present
+  # TODO: Mend this condition
+  # when:
+  #   condition: "{{ user.state }}" == create
+  # --------------------------
+- name: Create user directories
+  file:
+    path: "~/{{ xdg }}"
+    loop: "{{ xdg }}"
+- name: Create config directory
+  file:
+    path: "{{ conf.xdghomeconfig }}"
+    state: directory
+- name: Deploy configuration files
+  template:
+    src: user-dirs.dirs.j2"
+    dest: "{{ conf.xdghomeconfig }}/user-dirs.dirs"

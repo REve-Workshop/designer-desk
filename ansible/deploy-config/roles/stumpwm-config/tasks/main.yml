@@ -1,0 +1,19 @@
+- name: Ensure target directory is empty
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ stumpwm.dir }}"
+    state: absent
+- name: Create target directory
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ stumpwm.dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf.source }}/{{ stumpwm.dir }}/{{ item.src }}"
+    dest: "{{ conf.xdghomeconfig }}/{{ stumpwm.dir }}"
+  with_items:
+    - src: config
+    - src: autostart.lisp
+    - src: customs.lisp
+    - src: equake-conf.lisp
+    - src: keybindings.lisp
+    - src: lisp-server.lisp

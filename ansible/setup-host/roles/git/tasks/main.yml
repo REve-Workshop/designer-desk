@@ -1,0 +1,11 @@
+- name: Installation of git tools
+  dnf:
+    name: "{{ item.pkg }}"
+    state: latest
+  with_item:
+    - pkg: git
+    - pkg: git-core
+    - pkg: git-core-doc
+    - pkg: libgit2
+    - pkg: perl-Git
+    - pkg: python3-pygit2

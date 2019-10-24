@@ -1,0 +1,22 @@
+- name: Enable Alacritty Copr repository
+  yum_repository:
+    name: copr:copr.fedorainfracloud.org:pschyska:alacritty
+    description: Copr repo for alacritty owned by pschyska
+    baseurl: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/fedora-$releasever-$basearch/
+    gpgkey: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/pubkey.gpg
+- name: Install Alacritty
+  dnf:
+    name: alacritty
+    state: latest
+- name: Ensure target directory is empty
+  file:
+        path: "{{ conf.xdghomeconfig }}/{{ alacritty.dir }}"
+        state: absent
+- name: Create target directory
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ alacritty.dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf.src }}/{{ alacritty.dir }}/alacritty.yml"
+    dest: "{{ conf.xdghomeconfig }}/{{ alacritty.dir }}"

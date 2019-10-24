@@ -1,0 +1,20 @@
+- name: Ensure target directory is empty
+  file:
+        path: "{{ xdghomeconfig }}/{{ variety_dir }}"
+        state: absent
+- name: Create target directory
+  file:
+    path: "{{ xdghomeconfig }}/{{ variety_dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ source }}/{{ variety_dir }}/{{ item.src }}"
+    dest: "{{ xdghomeconfig }}/{{ variety_dir }}"
+  with_item:
+    - src: banned.txt
+    - src: plugins
+    - src: scripts
+    - src: ui.conf
+    - src: variety.conf
+    - src: variety_latest_default.conf
+    - src: wallpaper

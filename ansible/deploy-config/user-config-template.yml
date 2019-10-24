@@ -1,0 +1,4 @@
+user:
+  name: reve
+  comment: Reve At Home
+  state: create # Possible values are create and config.

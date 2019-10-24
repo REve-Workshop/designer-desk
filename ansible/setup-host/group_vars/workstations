@@ -1,0 +1,7 @@
+conf:
+  - dst: ~/tmp/todel/cfg
+  - git_3rdparty: ~/codes/3rdparty
+stumpwm:
+  - dir: stumpwm
+quicklisp:
+  - dir: quicklisp

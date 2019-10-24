@@ -1,0 +1,7 @@
+- name: Install Tmux
+  dnf:
+    name: {{ item.pkg }}
+    state: latest
+  with_item:
+    - pkg: tmux
+    - pkg: tmux-powerline
