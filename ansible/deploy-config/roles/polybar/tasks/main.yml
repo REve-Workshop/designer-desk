@@ -12,5 +12,5 @@
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf.source }}/{{ polybar.dir }}/config"
+    src: "{{ conf.conf_repo }}/{{ polybar.dir }}/config"
     dest: "{{ conf.xdghomeconfig }}/{{ polybar.dir }}"

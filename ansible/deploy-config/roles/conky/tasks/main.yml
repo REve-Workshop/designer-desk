@@ -4,13 +4,13 @@
     state: latest
 - name: Ensure target directory is empty
   file:
-        path: "{{ conf.xdghomeconfig }}/{{ conky.dir }}"
+        path: "{{ user_home_dir}}/{{ user_home_dir}}/{{ conf.xdghomeconfig }}/{{ conky.dir }}"
         state: absent
 - name: Create target directory
   file:
-    path: "{{ conf.xdghomeconfig }}/{{ conky.dir }}"
+    path: "{{ user_home_dir}}/{{ user_home_dir}}/{{ conf.xdghomeconfig }}/{{ conky.dir }}"
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf.source }}/{{ conky.dir }}/conky.conf"
-    dest: "{{ conf.xdghomeconfig }}/{{ conky.dir }}"
+    src: "{{ conf.conf_repo }}/{{ conky.dir }}/conky.conf"
+    dest: "{{ user_home_dir}}/{{ user_home_dir}}/{{ conf.xdghomeconfig }}/{{ conky.dir }}"

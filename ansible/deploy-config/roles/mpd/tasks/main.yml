@@ -12,5 +12,5 @@
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf.source }}/{{ mpd.dir }}/mpd.conf"
+    src: "{{ conf.conf_repo }}/{{ mpd.dir }}/mpd.conf"
     dest: "{{ conf.xdghomeconfig }}/{{ mpd.dir }}"

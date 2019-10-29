@@ -1,15 +1,10 @@
-- name: Ensure target directory is empty
-  file:
-        path: "{{ dst }}/.zsh"
-        state: absent
-- name: Create target directory
-  file:
-        path: "{{ dst }}/.zsh"
-        state: directory
-- name: Deploy configuration files
-  copy:
-        src: "{{ source }}/{{ item.src }}"
-        dest: "{{ dst }}"
-  with_items:
-        - src: .zshrc
-        - src: .zsh
+- name: Ensure ZSH Configuration repository is present and the latest
+  git:
+    repo: "{{ zsh.repo }}"
+    dest: "{{ conf.conf_repo }}/{{ zsh.dir }}"
+    state: latest
+  notify:
+    - "Delete directory {{ user.xdghomeconfig }}/zsh"
+    - Deploy .zshrc
+    - "Deploy {{ zsh.dir }}/zsh"
+  when: zsh['config'] == True

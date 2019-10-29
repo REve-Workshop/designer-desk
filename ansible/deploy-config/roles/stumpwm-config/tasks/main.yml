@@ -8,12 +8,12 @@
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf.source }}/{{ stumpwm.dir }}/{{ item.src }}"
+    src: "{{ conf.conf_repo }}/{{ stumpwm.dir }}/{{ item.src }}"
     dest: "{{ conf.xdghomeconfig }}/{{ stumpwm.dir }}"
   with_items:
     - src: config
     - src: autostart.lisp
     - src: customs.lisp
-    - src: equake-conf.lisp
+    # - src: equake-conf.lisp
     - src: keybindings.lisp
     - src: lisp-server.lisp

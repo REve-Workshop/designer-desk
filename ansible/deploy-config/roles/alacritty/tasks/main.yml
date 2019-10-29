@@ -4,19 +4,18 @@
     description: Copr repo for alacritty owned by pschyska
     baseurl: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/fedora-$releasever-$basearch/
     gpgkey: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/pubkey.gpg
+  when: alacritty['app'] == True
 - name: Install Alacritty
   dnf:
     name: alacritty
     state: latest
-- name: Ensure target directory is empty
-  file:
-        path: "{{ conf.xdghomeconfig }}/{{ alacritty.dir }}"
-        state: absent
-- name: Create target directory
-  file:
-    path: "{{ conf.xdghomeconfig }}/{{ alacritty.dir }}"
-    state: directory
-- name: Deploy configuration files
-  copy:
-    src: "{{ conf.src }}/{{ alacritty.dir }}/alacritty.yml"
-    dest: "{{ conf.xdghomeconfig }}/{{ alacritty.dir }}"
+  when: alacritty['app'] == True
+- name: Ensure Alacritty Configuration repository is present and the latest
+  git:
+    repo: "{{ alacritty.repo }}"
+    dest: "{{ conf.conf_repo }}/{{ alacritty.dir }}"
+    state: latest
+  notify:
+    - "Delete directory {{ user.xdghomeconfig }}/alacritty"
+    - "Deploy {{ alacritty.dir }} configuration files"
+  when: alacritty['config'] == True

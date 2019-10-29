@@ -1,20 +1,20 @@
 ---
 - hosts: workstations
-  connection: local
   gather_facts: False
   roles:
-    - zsh-config
     - config-xdg
-    - dunst
-    - stumpwm-config
-    - alacritty
-    - mpd
-    - conky
-    - emacs
-    - neofetch
-    - nitrogen
-    - ranger
-    - surfraw
-    - uhk-agent
-    - variety
-    - tmux
+    # - update-local-config-repo
+    - zsh-config
+    # - tmux
+    # - emacs
+    # - dunst
+    # - stumpwm-config
+    # - alacritty
+    # - mpd
+    # - conky
+    # - neofetch
+    # - nitrogen
+    # - ranger
+    # - surfraw
+    # - uhk-agent
+    # - variety

@@ -1,0 +1,21 @@
+### ----------------------------------------
+# Remove remains of previous configuration
+- name: "Delete directory {{ user.xdghomeconfig }}/zsh"
+  file:
+    path: "{{ user.xdghomeconfig }}/zsh"
+    state: absent
+### ----------------------------------------
+# .zshrc must remain in the $HOME directory of the user
+- name: Deploy .zshrc
+  copy:
+    src: "{{ conf.conf_repo }}/{{ zsh.dir }}/.zshrc"
+    dest: "{{ user.home }}"
+### ----------------------------------------
+# The rest of the configuration is expected to be stored following the
+# XDG specification.  Doing it that way, ensure that the root of the
+# home directory stay as clean as possible.
+- name: "Deploy {{ zsh.dir }}/zsh"
+  copy:
+    src: "{{ conf.conf_repo }}/{{ zsh.dir }}/zsh"
+    dest: "{{ user.xdghomeconfig }}"
+### ----------------------------------------

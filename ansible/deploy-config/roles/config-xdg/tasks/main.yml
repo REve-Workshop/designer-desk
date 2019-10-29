@@ -1,25 +1,32 @@
 - name: Create user
   user:
-    name: {{ user.name }}
-    comment: {{ user.comment }}
+    name: "{{ user.name }}"
+    comment: "{{ user.comment }}"
     create_home: True
     generate_ssh_key: yes
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
     state: present
-  # TODO: Mend this condition
-  # when:
-  #   condition: "{{ user.state }}" == create
-  # --------------------------
+  when: user['state'] == "create"
 - name: Create user directories
   file:
-    path: "~/{{ xdg }}"
-    loop: "{{ xdg }}"
-- name: Create config directory
-  file:
-    path: "{{ conf.xdghomeconfig }}"
+    path: "{{ user.home }}/{{ item.value }}"
     state: directory
-- name: Deploy configuration files
+  loop: "{{ xdg|dict2items }}"
+  when: user['state'] == "create"
+- name: Create extra user directories
+  file:
+    path: "{{ user.home }}/{{ item }}"
+    state: directory
+  loop: "{{ extra }}"
+  when: user['state'] == "create"
+- name: Create XDG configuration directory
+  file:
+    path: "{{ user.xdghomeconfig }}"
+    state: directory
+  when: user['state'] == "config" or user['state'] == "create"
+- name: Deploy XDG configuration file
   template:
-    src: user-dirs.dirs.j2"
-    dest: "{{ conf.xdghomeconfig }}/user-dirs.dirs"
+    src: user-dirs.dirs.j2
+    dest: "{{ user.xdghomeconfig }}/user-dirs.dirs"
+  when: user['state'] == "config" or user['state'] == "create"

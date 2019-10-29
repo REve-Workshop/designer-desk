@@ -12,7 +12,7 @@
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf.source }}/{{ nitrogen.dir }}/{{ item.src }}"
+    src: "{{ conf.conf_repo }}/{{ nitrogen.dir }}/{{ item.src }}"
     dest: "{{ conf.xdghomeconfig }}/{{ nitrogen.dir }}"
   with_item:
     - src: bg-saved.cfg

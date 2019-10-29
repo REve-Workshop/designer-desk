@@ -1,0 +1,12 @@
+- name: "Delete directory {{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+  file:
+    path: "{{ conf.xdghomeconfig }}/{{ item.value.xdgdir }}"
+    state: absent
+  loop: "{{ applications|dict2items }}"
+  when: item['value']['uncommon'] is absent and ((conf['actions']['delete_xdgdir_first'] and item['value']['delete_xdgdir_first'] is absent) or item['value']['delete_xdgdir_first'])
+- name: "Deploy {{ item.value.dir }} configuration files"
+  copy:
+    src: "{{ conf.src }}/{{ item.value.dir }}"
+    dest: "{{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+  loop: "{{ applications|dict2items }}"
+  when: item['value']['uncommon'] is absent

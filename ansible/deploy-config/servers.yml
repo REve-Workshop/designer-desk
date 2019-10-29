@@ -1,10 +1,11 @@
 ---
-- hosts: workstations
+- hosts: servers
   connection: local
   gather_facts: False
   roles:
-    - zsh
+    - update-local-config-repo
     - config-xdg
+    - zsh
+    - tmux
     - neofetch
     - ranger
-    - tmux

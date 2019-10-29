@@ -8,5 +8,5 @@
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf.source }}/{{ surfraw.dir }}/conf"
+    src: "{{ conf.conf_repo }}/{{ surfraw.dir }}/conf"
     dest: "{{ conf.xdghomeconfig }}/{{ surfraw.dir }}"

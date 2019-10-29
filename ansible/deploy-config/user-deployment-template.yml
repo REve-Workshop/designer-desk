@@ -1,0 +1,86 @@
+user:
+  name: reve
+  comment: Reve At Home
+  state: create # Possible values are: create, config and None.
+  home: /home/reve
+  xdghomeconfig: /home/reve/.config/
+conf:
+  conf_repo: "{{ user.home }}/codes/reve-config-public"
+  git_3rdparty: "{{ user.home }}/codes/3rdparty"
+  actions:
+    config: no
+    app: no
+    delete_xdgdir_first: yes
+applications:
+  alacritty:
+    dir: alacritty-config
+    xdgdir: alacritty
+    repo: https://github.com/montaropdf/alacritty-config.git
+    uncommon: yes
+  conky:
+    dir: conky-config
+    xdgdir: conky
+    repo: https://github.com/montaropdf/conky-config.git
+  dunst:
+    dir: dunst-config
+    xdgdir: dunst
+    repo: https://github.com/montaropdf/dunst-config.git
+  emacs:
+    dir: emacs-config
+    xdgdir: emacs
+    repo: https://github.com/montaropdf/emacs-config.git
+    uncommon: yes
+  mpd:
+    dir: mpd-config
+    xdgdir: mpd
+    repo: https://github.com/montaropdf/mpd-config.git
+  neofetch:
+    dir: neofetch-config
+    xdgdir: neofetch
+    repo: https://github.com/montaropdf/neofetch-config.git
+  nitrogen:
+    dir: nitrogen-config
+    xdgdir: nitrogen
+    repo: https://github.com/montaropdf/nitrogen-config.git
+  polybar:
+    dir: polybar-config
+    xdgdir: polybar
+    repo: https://github.com/montaropdf/polybar-config.git
+  ranger:
+    dir: ranger-config
+    xdgdir: ranger
+    repo: https://github.com/montaropdf/ranger-config.git
+    config: yes
+  stumpwm:
+    dir: stumpwm-config
+    xdgdir: stumpwm
+    repo: https://github.com/montaropdf/stumpwm-config.git
+    uncommon: yes
+  surfraw:
+    dir: surfraw-config
+    xdgdir: surfraw
+    repo: https://github.com/montaropdf/surfraw-config.git
+  uhk_agent:
+    dir: uhk-agent-config
+    xdgdir: uhk-agent
+    repo: https://github.com/montaropdf/uhk-config.git
+  variety:
+    dir: variety-config
+    xdgdir: variety
+    repo: https://github.com/montaropdf/variety-config.git
+  zsh:
+    dir: zsh-config
+    xdgdir: zsh
+    config: yes
+    repo: https://github.com/montaropdf/zsh-config.git
+    uncommon: yes
+  tmux:
+    dir: tmux-config
+    xdgdir: tmux
+    config: yes
+    repo: https://github.com/montaropdf/tmux-config.git
+    uncommon: yes
+  beancount:
+    dir: beancount-importer
+    repo: https://github.com/montaropdf/beancount-importer.git
+    uncommon: yes

@@ -7,3 +7,11 @@ xdg:
   music_dir: mic
   pictures_dir: img
   videos_dir: vid
+extra:
+  - tmp
+  - tmp/todel
+  - tmp/inbox
+  - tmp/outbox
+  - codes
+  - prg
+  - bin

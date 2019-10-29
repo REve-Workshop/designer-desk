@@ -12,7 +12,7 @@
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf.source }}/{{ ranger.dir }}/{{ item.src }}"
+    src: "{{ conf.conf_repo }}/{{ ranger.dir }}/{{ item.src }}"
     dest: "{{ conf.xdghomeconfig }}/{{ ranger.dir }}"
   with_item:
     - src: rc.conf

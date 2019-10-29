@@ -1,0 +1,16 @@
+- name: "Install {{ item.value }}"
+  dnf:
+    name: "{{ item.value }}"
+    state: latest
+  loop: "{{ applications|dict2items }}"
+  when: ((conf['actions']['app'] == yes and item['value']['app'] is absent) or item['value']['app'] == yes) and item['value']['uncommon'] is absent
+- name: "Ensure {{ item.value }} configuration repository is present and the latest"
+  git:
+    repo: "{{ item.value.repo }}"
+    dest: "{{ conf.conf_repo }}/{{ item.value.dir }}"
+    state: latest
+  notify:
+    - "Delete directory {{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+    - "Deploy {{ item.value.dir }} configuration files"
+  loop: "{{ applications|dict2items }}"
+  when: ((conf['actions']['config'] == yes and item['value']['config'] is absent) or item['value']['config'] == yes) and item['value']['uncommon'] is absent
