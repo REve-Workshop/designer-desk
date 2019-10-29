@@ -11,6 +11,7 @@ conf:
     config: no
     app: no
     delete_xdgdir_first: yes
+    checkout: no
 applications:
   alacritty:
     dir: alacritty-config

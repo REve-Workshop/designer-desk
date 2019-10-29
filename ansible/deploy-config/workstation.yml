@@ -5,6 +5,7 @@
     - config-xdg
     # - update-local-config-repo
     - zsh-config
+    - common
     # - tmux
     # - emacs
     # - dunst

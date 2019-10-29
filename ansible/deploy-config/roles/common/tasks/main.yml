@@ -3,14 +3,32 @@
     name: "{{ item.value }}"
     state: latest
   loop: "{{ applications|dict2items }}"
-  when: ((conf['actions']['app'] == yes and item['value']['app'] is absent) or item['value']['app'] == yes) and item['value']['uncommon'] is absent
-- name: "Ensure {{ item.value }} configuration repository is present and the latest"
-  git:
-    repo: "{{ item.value.repo }}"
-    dest: "{{ conf.conf_repo }}/{{ item.value.dir }}"
-    state: latest
-  notify:
-    - "Delete directory {{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
-    - "Deploy {{ item.value.dir }} configuration files"
-  loop: "{{ applications|dict2items }}"
-  when: ((conf['actions']['config'] == yes and item['value']['config'] is absent) or item['value']['config'] == yes) and item['value']['uncommon'] is absent
+  when:
+    - user['state'] == "apponly" or user['state'] == "all"
+    - item['value']['uncommon'] is absent
+    - (conf['actions']['app'] == yes and item['value']['app'] is absent) or item['value']['app'] == yes
+- name: "Deploy {{ item.value }} configuration"
+  block:
+    - name: "Checkout lastest version of {{ item.value }} configuration repository"
+      git:
+        repo: "{{ item.value.repo }}"
+        dest: "{{ conf.conf_repo }}/{{ item.value.dir }}"
+        state: latest
+      loop: "{{ applications|dict2items }}"
+      when:
+        - (conf['actions']['checkout'] == yes and item['value']['checkout'] is absent) or item['value']['checkout'] == yes
+        - (conf['actions']['config'] == yes and item['value']['config'] is absent) or item['value']['config'] == yes
+    - name: "Delete {{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+      file:
+        path: "{{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+        state: absent
+      loop: "{{ applications|dict2items }}"
+      when: (conf['actions']['delete_xdgdir_first'] == yes and item['value']['delete_xdgdir_first'] is absent) or item['value']['delete_xdgdir_first'] == yes
+    - name: "Deploy configuration directory in {{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+      copy:
+        src: "{{ conf.src }}/{{ item.value.dir }}"
+        dest: "{{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+      loop: "{{ applications|dict2items }}"
+  when:
+    - user['state'] == "configonly" or user['state'] == "all"
+    - item['value']['uncommon'] is absent
