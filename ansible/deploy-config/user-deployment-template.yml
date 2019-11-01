@@ -1,36 +1,40 @@
 user:
   name: reve
   comment: Reve At Home
-  state: create # Possible values are: create, config and None.
+  state: all # Possible values are: create, configonly and None.
   home: /home/reve
-  xdghomeconfig: /home/reve/.config/
+  xdghomeconfig: /home/reve/.config
 conf:
-  conf_repo: "{{ user.home }}/codes/reve-config-public"
+  conf_repo: "/home/roland/codes/reve-config-public"
   git_3rdparty: "{{ user.home }}/codes/3rdparty"
   actions:
-    config: no
-    app: no
-    delete_xdgdir_first: yes
-    checkout: no
+    config: False
+    app: False
+    delete_xdgdir_first: True
+    checkout: False
 applications:
   alacritty:
-    dir: alacritty-config
+    dir: alacritty
     xdgdir: alacritty
     repo: https://github.com/montaropdf/alacritty-config.git
-    uncommon: yes
+    config: False
+    uncommon: True
   conky:
-    dir: conky-config
+    dir: conky
     xdgdir: conky
     repo: https://github.com/montaropdf/conky-config.git
   dunst:
-    dir: dunst-config
+    dir: dunst
     xdgdir: dunst
     repo: https://github.com/montaropdf/dunst-config.git
+    config: True
+    files:
+      - dunstrc
   emacs:
     dir: emacs-config
     xdgdir: emacs
     repo: https://github.com/montaropdf/emacs-config.git
-    uncommon: yes
+    uncommon: True
   mpd:
     dir: mpd-config
     xdgdir: mpd
@@ -48,15 +52,15 @@ applications:
     xdgdir: polybar
     repo: https://github.com/montaropdf/polybar-config.git
   ranger:
-    dir: ranger-config
+    dir: ranger
     xdgdir: ranger
     repo: https://github.com/montaropdf/ranger-config.git
-    config: yes
+    # config: True
   stumpwm:
     dir: stumpwm-config
     xdgdir: stumpwm
     repo: https://github.com/montaropdf/stumpwm-config.git
-    uncommon: yes
+    uncommon: True
   surfraw:
     dir: surfraw-config
     xdgdir: surfraw
@@ -72,16 +76,16 @@ applications:
   zsh:
     dir: zsh-config
     xdgdir: zsh
-    config: yes
+    config: True
     repo: https://github.com/montaropdf/zsh-config.git
-    uncommon: yes
+    uncommon: True
   tmux:
     dir: tmux-config
     xdgdir: tmux
-    config: yes
+    config: True
     repo: https://github.com/montaropdf/tmux-config.git
-    uncommon: yes
+    uncommon: True
   beancount:
     dir: beancount-importer
     repo: https://github.com/montaropdf/beancount-importer.git
-    uncommon: yes
+    uncommon: True

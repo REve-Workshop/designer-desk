@@ -1,21 +1,20 @@
 ---
 - hosts: workstations
   gather_facts: False
-  roles:
-    - config-xdg
-    # - update-local-config-repo
-    - zsh-config
-    - common
+  tasks:
+    - name: Create user environement
+      include_role:
+        name: config-xdg
+      when: user['state'] != 'None'
+    # - zsh-config
     # - tmux
     # - emacs
-    # - dunst
     # - stumpwm-config
     # - alacritty
-    # - mpd
-    # - conky
-    # - neofetch
-    # - nitrogen
-    # - ranger
-    # - surfraw
-    # - uhk-agent
-    # - variety
+    - name: Deploy regular applications
+      include_role:
+        name: common
+      loop: "{{ applications|dict2items }}"
+      loop_control:
+        loop_var: appl
+      when: appl['value']['uncommon'] is undefined

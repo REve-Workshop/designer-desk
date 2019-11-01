@@ -1,34 +1,46 @@
-- name: "Install {{ item.value }}"
-  dnf:
-    name: "{{ item.value }}"
+- name: "Install {{ appl.key }} package."
+  package:
+    name: "{{ appl.key }}"
     state: latest
-  loop: "{{ applications|dict2items }}"
   when:
-    - user['state'] == "apponly" or user['state'] == "all"
-    - item['value']['uncommon'] is absent
-    - (conf['actions']['app'] == yes and item['value']['app'] is absent) or item['value']['app'] == yes
-- name: "Deploy {{ item.value }} configuration"
+    - user['state'] == "all"
+    - applic['uncommon'] is undefined
+    - (applic['app'] is defined and applic['app'] == True) or
+      (actions['app'] == True and applic['app'] is undefined)
+- name: "Deploy {{ appl.key }} configuration"
   block:
-    - name: "Checkout lastest version of {{ item.value }} configuration repository"
+    - name: Checkout lastest version of configuration repository
       git:
-        repo: "{{ item.value.repo }}"
-        dest: "{{ conf.conf_repo }}/{{ item.value.dir }}"
+        repo: "{{ appl.value.repo }}"
+        dest: "{{ conf.conf_repo }}/{{ appl.value.dir }}"
         state: latest
-      loop: "{{ applications|dict2items }}"
       when:
-        - (conf['actions']['checkout'] == yes and item['value']['checkout'] is absent) or item['value']['checkout'] == yes
-        - (conf['actions']['config'] == yes and item['value']['config'] is absent) or item['value']['config'] == yes
-    - name: "Delete {{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+        - (applic['checkout'] is defined and applic['checkout'] == True) or
+          (actions['checkout'] == True and applic['checkout'] is undefined)
+        - (applic['config'] is defined and applic['config'] == True) or
+          (actions['config'] == True and applic['config'] is undefined)
+    - name: "Delete old configuration directory"
       file:
-        path: "{{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+        path: "{{ user.xdghomeconfig }}/{{ appl.value.xdgdir }}"
         state: absent
-      loop: "{{ applications|dict2items }}"
-      when: (conf['actions']['delete_xdgdir_first'] == yes and item['value']['delete_xdgdir_first'] is absent) or item['value']['delete_xdgdir_first'] == yes
-    - name: "Deploy configuration directory in {{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
+      when:
+        - (applic['config'] is defined and applic['config'] == True) or
+          (actions['config'] == True and applic['config'] is undefined)
+        - (applic['delete_xdgdir_first'] is defined and applic['delete_xdgdir_first'] == True) or
+          (actions['delete_xdgdir_first'] == True and applic['delete_xdgdir_first'] is undefined)
+    - name: "Create new configuration directory"
+      file:
+        path: "{{ user.xdghomeconfig }}/{{ appl.value.xdgdir }}"
+        state: directory
+      when:
+        - (applic['config'] is defined and applic['config'] == True) or
+          (actions['config'] == True and applic['config'] is undefined)
+    - name: "Deploy new configuration resources"
       copy:
-        src: "{{ conf.src }}/{{ item.value.dir }}"
-        dest: "{{ user.xdghomeconfig }}/{{ item.value.xdgdir }}"
-      loop: "{{ applications|dict2items }}"
+        src: "{{ conf.conf_repo }}/{{ applic.dir }}/{{ item }}"
+        dest: "{{ user.xdghomeconfig }}/{{ appl.value.xdgdir }}"
+      loop: "{{ appl.value.files }}"
+      when: (applic['config'] is defined and applic['config'] == True) or
+            (actions['config'] == True and applic['config'] is undefined)
   when:
     - user['state'] == "configonly" or user['state'] == "all"
-    - item['value']['uncommon'] is absent
