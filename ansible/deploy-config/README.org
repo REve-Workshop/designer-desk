@@ -8,8 +8,8 @@
   changed and I want to propagate it on all my machines.
 
   There are 2 playbooks:
-  - workstations.yml
-  - servers.yml
+  - =workstations.yml=
+  - =servers.yml=
 * Usage
   :PROPERTIES:
   :ID:       b4822be3-3f89-42d2-ae6e-230f9e0a1be6

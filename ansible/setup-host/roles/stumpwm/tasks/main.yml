@@ -1,7 +1,7 @@
 - name: Install StumpWM
   git:
-    repo: https://github.com/stumpwm/stumpwm.git
-    dest: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+    repo: "{{ applications.stumpwm.repo }}"
+    dest: "{{ conf.git_3rdparty }}/{{ applications.stumpwm.dir }}"
     state: latest
   notify:
     - Install dependencies
@@ -11,6 +11,6 @@
     - Install StumpWM
 - name: Install StumpWM Contributions
   git:
-    repo: https://github.com:stumpwm/stumpwm-contrib.git
-    dest: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}-contrib"
+    repo: "{{ applications.stumpwm.repo_contrib }}"
+    dest: "{{ conf.git_3rdparty }}/{{ applications.stumpwm.dir }}-contrib"
     state: latest

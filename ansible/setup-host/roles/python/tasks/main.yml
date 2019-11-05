@@ -1,12 +1,3 @@
-- name: Install python and everything related to it
-  dnf:
-    name: "{{ item.pkg }}"
-    state: latest
-  with_item:
-    - pkg: python3
-    - pkg: python36
-    - pkg: python3-pip
-    - pkg: python3-virtualenv
 - name: Install pipenv
   pip:
     name: pipenv

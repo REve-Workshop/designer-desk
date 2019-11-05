@@ -13,12 +13,12 @@
       file:
         path: "{{ user.home }}/{{ item.value }}"
         state: directory
-        loop: "{{ xdg|dict2items }}"
+      loop: "{{ xdg|dict2items }}"
     - name: Create extra user directories
       file:
         path: "{{ user.home }}/{{ item }}"
         state: directory
-        loop: "{{ extra }}"
+      loop: "{{ extra }}"
   when: user['state'] == "create" or user['state'] == "all"
 - name: Setup XDG environement
   block:

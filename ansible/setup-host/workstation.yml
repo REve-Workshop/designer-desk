@@ -1,14 +1,47 @@
-# This playbook is to be executed as root user.
+# The host user must be root.
 ---
 - hosts: all
   gather_facts: False
-  roles:
-    - common-lisp
-    - python
-    - git
-    - zsh
-    - emacs
-    - tmux
-    - stumpwm
+  tasks:
+    - name: Setup Repository directory
+      file:
+        path: "{{ conf.git_3rdparty }}"
+        state: directory
+    - name: Install applications from package manager
+      include_role:
+        name: common
+      loop: "{{ applications|dict2items }}"
+      loop_control:
+        loop_var: applic
+      when:
+        - ((conf['actions']['install'] == True and applic['value']['install'] is undefined) or (applic['value']['install'] is defined and applic['value']['install'] == True))
+    - name: Install and configure Common Lisp dependencies
+      include_role:
+        name: common-lisp
+      when:
+        - applications['common_lisp']['uncommon'] is defined
+        - (conf['actions']['install'] == True and applications['common_lisp']['install'] is undefined) or
+          (applications['common_lisp']['install'] is defined and applications['common_lisp']['install'] == True)
+    - name: Install Python dependencies
+      include_role:
+        name: python
+      when:
+        - applications['python']['uncommon'] is defined
+        - (conf['actions']['install'] == True and applications['python']['install'] is undefined) or
+          (applications['python']['install'] is defined and applications['python']['install'] == True)
+    - name: Install ZSH related applications
+      include_role:
+        name: zsh
+      when:
+        - applications['zsh']['uncommon'] is defined
+        - (conf['actions']['install'] == True and applications['zsh']['install'] is undefined) or
+          (applications['zsh']['install'] is defined and applications['zsh']['install'] == True)
+    - name: Install and installure StumpWM
+      include_role:
+        name: stumpWM
+      when:
+        - applications['stumpwm']['uncommon'] is defined
+        - (conf['actions']['install'] == True and applications['stumpwm']['install'] is undefined) or
+          (applications['stumpwm']['install'] is defined and applications['stumpwm']['install'] == True)
 
     

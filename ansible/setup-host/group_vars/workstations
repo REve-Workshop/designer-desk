@@ -1,7 +1,53 @@
+# -*- mode: yaml -*-
+---
 conf:
-  - dst: ~/tmp/todel/cfg
-  - git_3rdparty: ~/codes/3rdparty
-stumpwm:
-  - dir: stumpwm
-quicklisp:
-  - dir: quicklisp
+  git_3rdparty: "/var/lib/codes/3rdparty"
+  actions:
+    install: False
+applications:
+  stumpwm:
+    dir: stumpwm
+    repo: https://github.com/stumpwm/stumpwm.git
+    repo_contrib: https://github.com:stumpwm/stumpwm-contrib.git
+    uncommon: True
+  common_lisp:
+    ql_repo_dir: quicklisp
+    uncommon: True
+    pkg_list:
+      - sbcl
+  python:
+    uncommon: True
+    pkg_list:
+      - python3
+      - python36
+      - python3-pip
+      - python3-virtualenv
+  git:
+    pkg_list:
+      - git
+      - git-core
+      - git-core-doc
+      - libgit2
+      - perl-Git
+      - python3-pygit2
+  zsh:
+    install: True
+    antigen:
+      dir: antigen
+      repo: https://github.com/zsh-users/antigen.git
+    uncommon: True
+    pkg_list:
+      - zsh
+      - powerline
+      - powerline-docs
+      - powerline-fonts
+  emacs:
+    install: False
+    pkg_list:
+      - emacs
+      - emacs-common
+      - emacs-filesystem  
+  tmux:
+    pkg_list:
+      - tmux
+      - tmux-powerline

@@ -1,11 +1,34 @@
 ---
 - hosts: servers
-  connection: local
   gather_facts: False
-  roles:
-    - update-local-config-repo
-    - config-xdg
-    - zsh
-    - tmux
-    - neofetch
-    - ranger
+  tasks:
+    - name: Create user environement
+      include_role:
+        name: config-xdg
+      when: user['state'] != 'None'
+    - name: Deploy ZSH configuration
+      include_role:
+        name: zsh-config
+      when:
+        - user['state'] == "configonly" or user['state'] == "all"
+        - applications['zsh']['uncommon'] is defined
+        - (conf['actions']['config'] == True and applications['zsh']['config'] is undefined) or
+          (applications['zsh']['config'] is defined and applications['zsh']['config'] == True)
+    - name: Deploy TMux configuration
+      include_role:
+        name: tmux
+      when:
+        - user['state'] == "configonly" or user['state'] == "all"
+        - applications['tmux']['uncommon'] is defined
+        - (conf['actions']['config'] == True and applications['tmux']['config'] is undefined) or
+          (applications['tmux']['config'] is defined and applications['tmux']['config'] == True)
+    - name: Deploy regular applications configuration
+      include_role:
+        name: common
+      loop: "{{ applications|dict2items }}"
+      loop_control:
+        loop_var: appl
+      when:
+        - user['state'] == "configonly" or user['state'] == "all"
+        - appl['value']['uncommon'] is undefined
+        - ((conf['actions']['app'] == True and appl['value']['app'] is undefined) or (appl['value']['app'] is defined and appl['value']['app'] == True)) or ((conf['actions']['config'] == True and appl['value']['config'] is undefined) or (appl['value']['config'] is defined and appl['value']['config'] == True))

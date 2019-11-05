@@ -1,14 +1,5 @@
-- name: Install ZSH
-  dnf:
-    name: "{{ item.pkg }}"
-    state: latest
-  with_item:
-    - pkg: zsh
-    - pkg: powerline
-    - pkg: powerline-docs
-    - pkg: powerline-fonts
 - name: Install antigen
   git:
-    repo: https://github.com/zsh-users/antigen.git
-    dest: "{{ conf.git_3rdparty }}/{{ antigen.dir }}"
+    repo: "{{ applications.zsh.antigen.repo }}"
+    dest: "{{ conf.git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
   state: latest

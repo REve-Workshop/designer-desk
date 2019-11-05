@@ -1,10 +1,39 @@
-- name: Ensure ZSH Configuration repository is present and the latest
+- name: Checkout lastest version of configuration repository
   git:
-    repo: "{{ zsh.repo }}"
-    dest: "{{ conf.conf_repo }}/{{ zsh.dir }}"
+    repo: "{{ applic.zsh.repo }}"
+    dest: "{{ conf.conf_repo }}/{{ applic.dir }}"
     state: latest
-  notify:
-    - "Delete directory {{ user.xdghomeconfig }}/zsh"
-    - Deploy .zshrc
-    - "Deploy {{ zsh.dir }}/zsh"
-  when: zsh['config'] == True
+  when:
+    - (applic['checkout'] is defined and applic['checkout'] == True) or
+      (actions['checkout'] == True and applic['checkout'] is undefined)
+### ----------------------------------------
+# Remove remains of previous configuration
+- name: Delete configuration directory zsh
+  file:
+    path: "{{ user.xdghomeconfig }}/{{ applic.xdgdir }}"
+    state: absent
+  when:
+    - (applic['delete_xdgdir_first'] is defined and applic['delete_xdgdir_first'] == True) or
+      (actions['delete_xdgdir_first'] == True and applic['delete_xdgdir_first'] is undefined)
+### ----------------------------------------
+# .zshrc must remain in the $HOME directory of the user
+- name: Deploy .zshrc
+  copy:
+    src: "{{ conf.conf_repo }}/{{ applic.dir }}/zshrc"
+    dest: "{{ user.home }}/.zshrc"
+### ----------------------------------------
+# The rest of the configuration is expected to be stored following the
+# XDG specification.  Doing it that way, ensure that the root of the
+# home directory stay as clean as possible.
+- name: Create new XDG configuration directories for zsh
+  file:
+    path: "{{ user.xdghomeconfig }}/{{ applic.xdgdir }}/{{ item.path }}"
+    state: directory
+  with_filetree: "{{ conf.conf_repo }}/{{ applic.dir }}/zsh"
+  when: item.state == 'directory'
+- name: Deploy new configuration resources for zsh
+  copy:
+    src: "{{ conf.conf_repo }}/{{ applic.dir }}/zsh/{{ item }}"
+    dest: "{{ user.xdghomeconfig }}/{{ applic.xdgdir }}/{{ item }}"
+  loop: "{{ applic.files }}"
+### ----------------------------------------
