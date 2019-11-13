@@ -1,0 +1,6 @@
+- name: Enable Alacritty Copr repository
+  yum_repository:
+    name: copr:copr.fedorainfracloud.org:pschyska:alacritty
+    description: Copr repo for alacritty owned by pschyska
+    baseurl: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/fedora-$releasever-$basearch/
+    gpgkey: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/pubkey.gpg

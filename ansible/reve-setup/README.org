@@ -1,0 +1,189 @@
+#+TITLE: REVE setup ansible playbooks
+
+* Purpose
+  :PROPERTIES:
+  :ID:       e07f89dd-c891-46cf-860e-3ee3925f373f
+  :END:
+  These playbooks allows to setup a machine, following my standard.
+
+  They are design so they can also be used individually:
+  - to keep a machine up to date with configuration changes -
+    =deploy-config.yml=.
+  - to keep a machine up to date with new version of applications not
+    managed by package managers - =host-setup.yml=.
+  - when new users must be create on a machine - =user-setup.yml=.
+* Usage
+  :PROPERTIES:
+  :ID:       b4822be3-3f89-42d2-ae6e-230f9e0a1be6
+  :END:
+** The repository
+   :PROPERTIES:
+   :ID:       ba94ec9f-068e-43b8-a736-e9eaf1fda2d9
+   :END:
+   You should fork it, and not clone it, if you plan to modify the
+   content of the =roles/= directory or if you want to use the
+   directories meant to store various data used by the playbooks.
+
+   This has the following caracteristics:
+   - Stay updated with my modifications.
+   - Submit patches to this repository.
+   - Store your own modifcations in your repository
+** Grand setup
+   :PROPERTIES:
+   :ID:       c95482e7-0548-46aa-bc16-6f282c3fa994
+   :END:
+   #+begin_example
+     ansible-playbook -i <inventory> grand-setup.yml
+   #+end_example
+   - =<inventory>=, an inventory file listing machines impacted by the
+     playbook.
+
+   This playbook call all the other playbooks:
+   - to setup hosts.
+   - create one user and install its applications on each host.
+   - deploy the application's configuration in the user's =$HOME=
+     directory of each host.
+** Host setup
+   :PROPERTIES:
+   :ID:       e525b617-b1f2-4c4f-8e45-e42331202858
+   :END:
+   #+begin_example
+     ansible-playbook -i <inventory> host-setup.yml
+   #+end_example
+   - =<inventory>=, an inventory file listing machines impacted by the
+     playbook.
+
+   This playbook is in charge of:
+   - Installing the softwares
+   - Updating the softwares
+
+   It use both the package manager or by compiling the sources from a
+   git repositories.  It is to be used to update applications not
+   maintained by package managers
+** User setup
+   :PROPERTIES:
+   :ID:       564d4f0e-cca1-41cb-95a7-e91f75ca07b0
+   :END:
+   #+begin_example
+     ansible-playbook -i <inventory> user-setup.yml
+   #+end_example
+   - =<inventory>=, an inventory file listing machines impacted by the
+     playbook.
+
+   It allows to create new users and ensure that a user has the
+   minimum tree structure in its =$HOME= directory.
+** Configuration deployment
+   :PROPERTIES:
+   :ID:       71b3a98d-3cb1-4976-aecd-9b5d9e53f6e0
+   :END:
+   #+begin_example
+     ansible-playbook -i <inventory> deploy-config.yml
+   #+end_example
+   - =<inventory>=, an inventory file listing machines impacted by the
+     playbook.
+
+   It ensures that the configuration for a set of applications are
+   deployed in a user's =$HOME= directory and are at their latest
+   version.
+* Repository structure
+  :PROPERTIES:
+  :ID:       4949b992-a2d4-48ac-9134-4f2480fbb7bc
+  :END:
+  The repository is structured following the Ansible best pratices with
+  some personal additions.
+
+  It is composed of the following main structures:
+  - =group_vars/=, should be used to define variables used by the
+    playbooks for specific host groups.
+  - =host_vars/=, should be used to define variables used for specific
+    hosts.
+  - =inventories/=, should be used to store inventory files
+  - =roles/=, contains the bulk of the ansible commands used by the
+    playbooks.
+  - =users/=, should be used to store the configuration related to
+    each user to be deployed.
+
+  The other directories are not used currently.
+** =group_vars=
+   :PROPERTIES:
+   :ID:       85be618f-a5f4-41e0-a3d5-7216399bfb91
+   :END:
+   If this directory is used, it must contain one YAML file for each
+   group specified in inventory files. The files must have the same
+   name has the group they belong to.
+
+   A YAML file specifies the list of users to be created and
+   maintained up to date in addition to the set of applications for a
+   host to be functional.
+   
+   The =host-group-template.yml= file, is an example file and contains
+   all the instructions to create such file.
+** =host_vars=
+   :PROPERTIES:
+   :ID:       1b4aaaff-ad39-4599-87be-a781a5674890
+   :END:
+   Like =group_vars/=, but in this directory each file is linked to
+   one host. Hence, each YAML file must be name like the host that
+   will use it.
+
+   The =host-template.yml= file, is an example file and contains
+   all the instructions to create such file.
+** =inventories=
+   :PROPERTIES:
+   :ID:       9cf3b3de-32ba-4717-b36f-af8d790cbee7
+   :END:
+   It is here that you could store the files defining the hosts to be
+   managed by the playbook. Refer to the Ansible documentation to know
+   how to format the content of an inventory file.
+
+   A  few example files are present in this directory, anyway.
+** =roles=
+   :PROPERTIES:
+   :ID:       348fe314-f753-4b44-9d22-3ed10676e3af
+   :END:
+   If you simply want to use my setup, you shouldn't have to modify
+   the content of this directory.
+
+   This is where the magic happens. each directory defines the rules
+   to treat an aspect of the host management.
+
+   The =common/= directory contains all the rules that can be reused,
+   like installing a particular software using a package manager.
+
+   The other directories treat a particular cases of software and
+   configuration deployment.
+** =users=
+   :PROPERTIES:
+   :ID:       a25317b0-c13f-408f-903b-aea1d6f86894
+   :END:
+   It can be used to store the files containing the data defining
+   users' software set, the related configuration and more generally
+   there definition in the host's system.
+
+   The file =user-template.yml= contains all the documentation
+   describing the structure of such file.
+
+   The file names must match the user's names defined in =host_vars/=
+   and =group_vars/= files.
+* Playbooks
+  :PROPERTIES:
+  :ID:       8e607928-2663-4e65-9e6c-21d4bd0d74a6
+  :END:
+** Deciding which task to perform
+   :PROPERTIES:
+   :ID:       e321e203-7d01-4d48-b381-2e473d8cfc21
+   :END:
+   With the file =<user-config.yml>=, it is possible to limit the
+   tasks of the playbooks.
+   
+   The playbooks perform the following steps:
+   1. Update the local copy of the repository containing the configuration.
+   2. Create the user and its basic directory structure, if a new user is requested
+   3. For each application configured, execute its role
+
+   For each application's configuration, an ansible role is
+   defined. Each role perform the following tasks:
+   1. Install the software related to the configuration, if requested
+   2. If deployment of the configuration is requested:
+      1. Clean the user directory of any existing configuration for the application
+      2. Deploy the last version of the configuration available

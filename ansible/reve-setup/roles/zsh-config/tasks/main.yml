@@ -1,0 +1,33 @@
+- name: Checkout lastest version of configuration repository
+  git:
+    repo: "{{ applic.zsh.repo }}"
+    dest: "{{ conf.conf_repo }}/{{ applic.dir }}"
+    state: latest
+  when:
+    - (applic['checkout'] is defined and applic['checkout'] == True) or
+      (actions['checkout'] == True and applic['checkout'] is undefined)
+### ----------------------------------------
+# Remove remains of previous configuration
+- name: Delete configuration directory zsh
+  file:
+    path: "{{ user.xdghomeconfig }}/{{ applic.xdgdir }}"
+    state: absent
+  when:
+    - (applic['delete_xdgdir_first'] is defined and applic['delete_xdgdir_first'] == True) or
+      (actions['delete_xdgdir_first'] == True and applic['delete_xdgdir_first'] is undefined)
+### ----------------------------------------
+# The rest of the configuration is expected to be stored following the
+# XDG specification.  Doing it that way, ensure that the root of the
+# home directory stay as clean as possible.
+- name: Create new XDG configuration directories for zsh
+  file:
+    path: "{{ user.xdghomeconfig }}/{{ applic.xdgdir }}/{{ item.path }}"
+    state: directory
+  with_filetree: "{{ conf.conf_repo }}/{{ applic.dir }}/zsh"
+  when: item.state == 'directory'
+- name: Deploy new configuration resources for zsh
+  copy:
+    src: "{{ conf.conf_repo }}/{{ applic.dir }}/zsh/{{ item }}"
+    dest: "{{ user.xdghomeconfig }}/{{ applic.xdgdir }}/{{ item }}"
+  loop: "{{ applic.files }}"
+### ----------------------------------------

@@ -1,0 +1,30 @@
+#+TITLE: Script to add a role to an Ansible project
+
+* Introduction
+  :PROPERTIES:
+  :ID:       55eca7a4-fcac-4fa4-bc39-1078cf87661f
+  :END:
+
+  This script allows to add a directory tree inside the =roles/=
+  directory of an ansible project.
+
+  Like =bin/setup-ansible-project.sh=, this tool follow the ansible
+  best pratices.
+
+  The script assume that the target project follow the structure of
+  the first variant.
+* Usage
+  :PROPERTIES:
+  :ID:       51350357-ed3b-42e0-9572-05c7c8c8e385
+  :END:
+  #+begin_example
+    bin/add-role-to-ansible-project.sh PROJECT-NAME ROLE-NAME
+  #+end_example
+
+  - PROJECT-NAME, the path of an ansible projet.
+  - ROLE-NAME, the name of the role to add. This must be a valid
+    directory name.
+* Resources
+  :PROPERTIES:
+  :ID:       a7d9896f-ba54-4f88-a6a1-953c9dc98be2
+  :END:

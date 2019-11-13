@@ -1,0 +1,16 @@
+- name: Ensure target directory is empty
+  file:
+    path: ~/.emacs.d
+    state: absent
+- name: Create target directory
+  file:
+    path: ~/.emacs.d
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf_repo }}/{{ emacs.dir }}/{{ item.src }}"
+    dest: ~/.emacs.d
+  with_items:
+    - src: init.emacs.org
+    - src: init.el
+    # - src: equake.el

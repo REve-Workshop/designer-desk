@@ -1,0 +1,30 @@
+# The host user must be root.
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: Setup third party Repository directory
+      file:
+        path: "{{ git_3rdparty }}"
+        state: directory
+    - name: Enable package manager's extra repositories
+      include_role:
+        name: enable-pm-repo
+    - name: Install applications from package manager
+      include_role:
+        name: common
+        task_from: manage-pkg.yml
+      loop: "{{ applications|dict2items }}"
+      loop_control:
+        loop_var: applic
+    - name: Install Common Lisp dependencies
+      command: "curl -O https://beta.quicklisp.org/quicklisp.lisp"
+      path: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+    - name: Install antigen (ZSH package manager)
+      git:
+        repo: "{{ applications.zsh.antigen.repo }}"
+        dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
+        state: latest
+    - name: Install StumpWM
+      include_role:
+        name: stumpWM

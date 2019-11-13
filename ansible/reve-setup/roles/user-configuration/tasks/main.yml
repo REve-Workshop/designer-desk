@@ -1,0 +1,28 @@
+### ----------------------------------------
+# .zshrc must remain in the $HOME directory of the user.  The rest of
+# the zsh configuration is stored in the $XDG_CONFIG_HOME directory.
+- name: Deploy .zshrc
+  copy:
+    src: "{{ conf.conf_repo }}/{{ applic.dir }}/zshrc"
+    dest: "{{ user.home }}/.zshrc"
+  when:
+    - (actions['config'] == True and configurations['zsh']['config'] is undefined) or
+      (configurations['zsh']['config'] is defined and configurations['zsh']['config'] == True)
+- name: Configure quicklisp
+  command: "sbcl --load quicklisp.lisp --eval \"((quicklisp-quickstart:install) (ql:add-to-init-file))\""
+  path: "{{ git_3rdparty }}/{{ configurations.common_lisp.ql_repo_dir }}"
+  when:
+    - (actions['config'] == True and configurations['common_lisp']['config'] is undefined) or
+      (configurations['common_lisp']['config'] is defined and configurations['common_lisp']['config'] == True)
+- name: Deploy TMux configuration
+  include_role:
+    name: tmux
+  when:
+    - (actions['config'] == True and configurations['tmux']['config'] is undefined) or
+      (configurations['tmux']['config'] is defined and configurations['tmux']['config'] == True)
+- name: Deploy Emacs configuration
+  include_role:
+    name: emacs
+  when:
+    - (actions['config'] == True and configurations['emacs']['config'] is undefined) or
+      (configurations['emacs']['config'] is defined and configurations['emacs']['config'] == True)

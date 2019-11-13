@@ -1,0 +1,71 @@
+#+TITLE: REVE hosts setup playbooks design
+
+* Introduction
+  :PROPERTIES:
+  :ID:       b343ba66-9700-4f2b-9893-baa6a72f7fbf
+  :END:
+  This tool will allow me to keep all my hosts up to date
+  - With configuration changes I perform for the set of applications I
+    use.
+  - With users to be present on each host.
+
+  The tool will be composed of Ansible playbooks, each performing a
+  part of the setup. Splitting the process among multiple playbooks
+  will allow to execute specific parts of the process for maintenance
+  purpose, like updating configuration or adding users.
+
+  My hosts are Fedora and Debian linux machines.
+
+  The playbooks will connect to the remote hosts as the root
+  user. This implies that after installation, the SSH public-key of
+  the user executing the ansible playbook, on the Ansible controller,
+  must be deployed on each host in the =authorized_keys= file of the
+  =root= users.
+
+  It also means that some commands executed by the playbooks must be
+  executed as a particular user.
+* Setting up a host
+  :PROPERTIES:
+  :ID:       0d60aa66-b2ec-424b-9596-c1a53994ab1f
+  :END:
+  For a host to be functionnal after installation, a set of
+  applications must be installed like:
+  - the window manager,
+  - execution environments for various languages.
+  - end-user applications.
+
+  Configuration files deployment and user definition are not part of
+  this process.
+* Defining users
+  :PROPERTIES:
+  :ID:       fcc4dc10-5e72-4dd9-a358-53b97ff0e01e
+  :END:
+  This process will create the user and its environment using the
+  system tools. among the data to be supplied to define a user the
+  following are the most important:
+  - A valid user name for the target operating system.
+  - A set of groups the user is part of.
+  - Does he have the right to execute super-user commands.
+  - An SSH key to connect to remote hosts.
+  - A default shell (zsh is the default for me).
+  - A set of directories in its =$HOME= directory.
+
+  I tend to follow the XDG Directory specifiction as much as possible
+  to keep my =$HOME= directory clean and ensure that applications will
+  find easily the data they are supposed to manipulate.
+
+  Once the user and its =$HOME= directory have been created, the
+  creation of directories must be done as the user itself to ensure
+  the permissions are correct.
+* Configuration deployment
+  :PROPERTIES:
+  :ID:       18156eda-6fcf-4e29-80b3-b192b039c30e
+  :END:
+  Each user have its set of configuration files. Most of them are
+  stored in the directory defined by the environment variable
+  =$XDG_CONFIG_HOME=.
+
+  Global configuration could also be managed by the playbooks.
+
+  The deployment of the user configuration must be done as the target
+  user, once again, to ensure correct application of the permissions.

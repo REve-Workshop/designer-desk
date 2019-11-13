@@ -15,7 +15,7 @@
 
    In the new project, create 4 playbooks:
    - =host-setup.yml=, setup a new host or ensure that a host has the minimum required for a REVE host.
-   - =user-setup.yml=, setup a new user or ensure the a user is setup according to my standard.
+   - =user-setup.yml=, setup a new user or ensure that a user is setup according to my standard.
    - =deploy-config.yml=, ensure the configuration is deployed for a user 
    - =sites.yml=, call the 3 other playbooks in this order:
      1. =host-setup.yml=
@@ -25,13 +25,21 @@
    :PROPERTIES:
    :ID:       58583e8a-e98f-4c8f-8562-56b38b99d0b4
    :END:
-   The document should describe the variables used and how and where to populate them.
-   - Idea: use =group_vars=, see actual implementation
-     ([2019-11-05 mar.]) of =deploy-config= and =setup-host=.
+   The document should:
+   - describe the variables used and how and where to populate them.
+     - Idea: use =group_vars=, see actual implementation
+       ([2019-11-05 mar.]) of =deploy-config= and =setup-host=.
+   - define the intent of the playbooks.
 ** TODO Study how to deal with private data
    :PROPERTIES:
    :ID:       692c6cb5-a846-46e4-a9d6-b8168cd8af46
    :END:
    - Private repos
+     - ansible_vault?
+     - private playbooks?
    - Private files
-   - Data to modify/add/remove in standard files (ansible_vault???), with private data
+     - ansible_vault?
+     - private playbooks?
+   - Data to modify/add/remove in standard files, with private data
+     - ansible_vault?
+     - private playbooks?

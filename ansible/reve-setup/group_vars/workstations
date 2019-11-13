@@ -1,0 +1,84 @@
+# -*- mode: yaml -*-
+---
+actions:
+  config: False
+  xdg_compliant: True
+git_3rdparty: "/var/lib/src/3rdparty"
+users:
+  - user1
+  - user-beta
+applications:
+  stumpwm:
+    dir: stumpwm
+    repo: https://github.com/stumpwm/stumpwm.git
+    repo_contrib: https://github.com:stumpwm/stumpwm-contrib.git
+    pkg_list:
+      - autoconf
+  common_lisp:
+    ql_repo_dir: quicklisp
+    pkg_list:
+      - sbcl
+  python:
+    pkg_list:
+      - python3
+      - python36
+      - python3-pip
+      - python3-virtualenv
+  git:
+    pkg_list:
+      - git
+      - git-core
+      - git-core-doc
+      - libgit2
+      - perl-Git
+      - python3-pygit2
+  zsh:
+    antigen:
+      dir: antigen
+      repo: https://github.com/zsh-users/antigen.git
+    pkg_list:
+      - zsh
+      - powerline
+      - powerline-docs
+      - powerline-fonts
+  emacs:
+    pkg_list:
+      - emacs
+      - emacs-common
+      - emacs-filesystem  
+  tmux:
+    pkg_list:
+      - tmux
+      - tmux-powerline
+  alacritty:
+    pkg_list:
+      - alacritty
+  conky:
+    pkg_list:
+      - conky
+  dunst:
+    pkg_list:
+      - dunst
+  mpd:
+    pkg_list:
+      - mpd
+  neofetch:
+    pkg_list:
+      - neofetch
+  nitrogen:
+    pkg_list:
+      - nitrogen
+  polybar:
+    pkg_list:
+      - polybar
+  ranger:
+    pkg_list:
+      - ranger
+  surfraw:
+    pkg_list:
+      - surfraw
+  # uhk_agent:
+  #   uncommon: True
+  variety:
+    pkg_list:
+      - variety

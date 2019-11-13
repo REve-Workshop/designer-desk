@@ -1,0 +1,16 @@
+- name: Install StumpWM
+  git:
+    repo: "{{ applications.stumpwm.repo }}"
+    dest: "{{ conf.git_3rdparty }}/{{ applications.stumpwm.dir }}"
+    state: latest
+  notify:
+    - Install dependencies
+    - Build configure script
+    - Configure StumpWM
+    - Compile StumpWM
+    - Install StumpWM
+- name: Install StumpWM Contributions
+  git:
+    repo: "{{ applications.stumpwm.repo_contrib }}"
+    dest: "{{ conf.git_3rdparty }}/{{ applications.stumpwm.dir }}-contrib"
+    state: latest

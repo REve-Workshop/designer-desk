@@ -1,0 +1,5 @@
+- name: Install antigen
+  git:
+    repo: "{{ applications.zsh.antigen.repo }}"
+    dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
+  state: latest

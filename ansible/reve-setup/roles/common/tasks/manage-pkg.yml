@@ -1,0 +1,5 @@
+- name: "Install {{ applic.key }}"
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ applic.pkg_list }}"

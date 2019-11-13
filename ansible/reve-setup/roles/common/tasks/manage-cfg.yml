@@ -1,0 +1,37 @@
+- name: "Deploy {{ appl.key }} configuration"
+  block:
+    - name: Checkout lastest version of configuration repository
+      git:
+        repo: "{{ applic.repo }}"
+        dest: "{{ root_config_repo }}/{{ applic.dir }}"
+        state: latest
+      when:
+        - (applic['checkout'] is defined and applic['checkout'] == True) or
+          (actions['checkout'] == True and applic['checkout'] is undefined)
+    - name: Delete old configuration directory
+      file:
+        path: "{{ xdg_config_home }}/{{ applic.xdgdir }}"
+        state: absent
+      when:
+        - (applic['xdg_compliant'] is defined and applic['xdg_compliant'] == True) or
+          (actions['xdg_compliant'] == True and applic['xdg_compliant'] is undefined)
+        - (applic['delete_xdgdir_first'] is defined and applic['delete_xdgdir_first'] == True) or
+          (actions['delete_xdgdir_first'] == True and applic['delete_xdgdir_first'] is undefined)
+    - name: Create new configuration directory
+      file:
+        path: "{{ xdg_config_home }}/{{ applic.xdgdir }}"
+        state: directory
+      when:
+        - (applic['xdg_compliant'] is defined and applic['xdg_compliant'] == True) or
+          (actions['xdg_compliant'] == True and applic['xdg_compliant'] is undefined)
+    - name: Deploy new configuration resources
+      copy:
+        src: "{{ root_config_repo }}/{{ applic.dir }}/{{ item }}"
+        dest: "{{ xdg_config_home }}/{{ applic.xdgdir }}"
+      loop: "{{ applic.files }}"
+      when:
+        - (applic['xdg_compliant'] is defined and applic['xdg_compliant'] == True) or
+          (actions['xdg_compliant'] == True and applic['xdg_compliant'] is undefined)
+  when:
+    - (applic['config'] is defined and applic['config'] == True) or
+      (actions['config'] == True and applic['config'] is undefined)

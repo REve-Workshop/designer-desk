@@ -1,0 +1,16 @@
+- name: Ensure target directory is empty
+  file:
+        path: "{{ xdghomeconfig }}/{{ uhk_agent_dir }}"
+        state: absent
+- name: Create target directory
+  file:
+    path: "{{ xdghomeconfig }}/{{ uhk_agent_dir }}"
+    state: directory
+- name: Deploy configuration files
+  copy:
+    src: "{{ conf.conf_repo }}/{{ uhk_agent_dir }}/{{ item.src }}"
+    dest: "{{ xdghomeconfig }}/{{ uhk_agent_dir }}"
+  with_item:
+    - src: 523379216.json
+    - src: Preferences
+    - src: Settings

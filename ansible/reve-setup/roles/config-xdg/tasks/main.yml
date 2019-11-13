@@ -1,0 +1,45 @@
+- name: Create user home
+  block:
+    - name: Create user
+      user:
+        name: "{{ remote_user.name }}"
+        comment: "{{ remote_user.comment }}"
+        create_home: True
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+        state: present
+    - name: Create desktop user directories
+      become: true
+      # TODO: check directive
+      become_as: "{{ remote_user.name }}"
+      file:
+        path: "{{ home_dir }}/{{ item.value }}"
+        state: directory
+      loop: "{{ xdg|dict2items }}"
+    - name: Create extra user directories
+      become: true
+      # TODO: check directive
+      become_as: "{{ remote_user.name }}"
+      file:
+        path: "{{ home_dir }}/{{ item }}"
+        state: directory
+      loop: "{{ remote_user.extra }}"
+  when: user['state'] == "create" or user['state'] == "all"
+- name: Setup XDG environement
+  block:
+    - name: Create XDG configuration directory
+      become: true
+      # TODO: check directive
+      become_as: "{{ remote_user.name }}"
+      file:
+        path: "{{ home_dir }}/.config"
+        state: directory
+    - name: Deploy XDG configuration file
+      become: true
+      # TODO: check directive
+      become_as: "{{ remote_user.name }}"
+      template:
+        src: user-dirs.dirs.j2
+        dest: "{{ home_dir }}/.config/user-dirs.dirs"
+  when: user['state'] == "config" or user['state'] == "all"

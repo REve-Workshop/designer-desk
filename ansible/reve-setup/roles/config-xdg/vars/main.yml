@@ -1,0 +1,19 @@
+home_dir: "/home/{{ remote_user.name }}"
+
+xdg:
+  desktop_dir: Desktop
+  download_dir: dwl
+  templates_dir: tpl
+  publicshare_dir: pub
+  documents_dir: dox
+  music_dir: mic
+  pictures_dir: img
+  videos_dir: vid
+extra:
+  - tmp
+  - tmp/todel
+  - tmp/inbox
+  - tmp/outbox
+  - codes
+  - prg
+  - bin

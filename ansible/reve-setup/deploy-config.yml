@@ -1,0 +1,25 @@
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: Update configuration repositories and deploy XDG compliant configuration elements
+      include_role:
+        name: common
+        task_from: manage-cfg.yml
+      become: true
+      become_user: "{{ remote_user.name }}"
+      loop: "{{ users|dict2items }}"
+      loop_control:
+        loop_var: remote_user
+      when: remote_user['state'] == "config" or remote_user['state'] == "all"
+    - name: Deploy uncommon configuration elements
+      include_role:
+        name: user-configuration
+      become: true
+      become_user: "{{ remote_user.name }}"
+      loop: "{{ users|dict2items }}"
+      loop_control:
+        loop_var: remote_user
+      include_vars:
+        name: "users/{{ remote_user }}.yml"
+      when: remote_user['state'] == "configonly" or remote_user['state'] == "all"
