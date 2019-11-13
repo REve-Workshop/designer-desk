@@ -50,7 +50,7 @@
   - A default shell (zsh is the default for me).
   - A set of directories in its =$HOME= directory.
 
-  I tend to follow the XDG Directory specifiction as much as possible
+  I tend to follow the XDG Directory specification as much as possible
   to keep my =$HOME= directory clean and ensure that applications will
   find easily the data they are supposed to manipulate.
 

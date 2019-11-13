@@ -1,2 +1,0 @@
-applic: "{{ appl.value }}"
-actions: "{{ conf.actions }}"

@@ -1,8 +1,0 @@
-# This playbook is to be executed as root user.
----
-- hosts: all
-  gather_facts: False
-  roles:
-    - zsh
-    - python
-    - tmux

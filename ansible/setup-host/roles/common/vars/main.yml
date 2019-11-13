@@ -1,2 +1,0 @@
-appl: "{{ applic.value }}"
-application: "{{ applic.key }}"
