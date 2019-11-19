@@ -3,18 +3,15 @@
 - hosts: all
   gather_facts: False
   tasks:
-    - name: Create user environement
+    - name: "Create user environement"
       include_role:
         name: config-xdg
-      loop: "{{ users|dict2items }}"
-      loop_control:
-        loop_var: remote_user
-    - name: Install Python dependencies
-      include_role:
-        name: python
-      include_vars:
-        name: "users/{{ remote_user }}.yml"
       loop: "{{ users }}"
       loop_control:
         loop_var: remote_user
-      when: user['state'] != 'None'
+    - name: "Install Python dependencies"
+      include_role:
+        name: python
+      loop: "{{ users }}"
+      loop_control:
+        loop_var: remote_user

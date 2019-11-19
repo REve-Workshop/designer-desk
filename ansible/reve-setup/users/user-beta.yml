@@ -1,0 +1,194 @@
+#### User definition
+# The name of the user
+# Must be a valid user name for the target OS
+name: user-beta
+# One-line text to be inserted in the description field of the user
+# definition in /etc/passwd.
+comment: Beta user
+# What aspect of the user must be handled?
+# - config: Only the configuration will be updated/deployed
+# - create: The user will be created and nothing else
+# - all: All the aspects of the user will be handled
+# - none: Nothing must be done for this user.
+state: all
+#
+# The $HOME directory will be /home/{{ user.name }}/
+#
+# $XDG_CONFIG_HOME will be used in this file to refer to the directory
+# /home/{{ user.name }}/.config/.
+#
+# Directory in user $HOME dire where the working directory of the
+# configuration's repositories of the user must be deployed.
+root_repo_dir: codes
+#
+# The shell the user want to use.
+shell: /usr/bin/zsh
+# #
+# # Is the user a system user (sudo access)
+# system: True
+# ---------------------------------
+#### Application's configuration of the user
+configurations:
+  # To define an application's configration, define a dictionnary named
+  # after the application's name in the "group_vars/" or "host_vars/"
+  # configuration files.
+  #
+  # Configuration's definition for an application:
+  app_conf:
+  # Specifiy if the configuration must be updated/deployed for the
+  # application.
+  # Possible values:
+  # - True
+  # - False
+    config: False
+  #
+  # By default, all applications are supposed to be XDG compliant with
+  # regard to the location of the configuration. To override that
+  # behaviour, The following field can be set to False.
+    xdg_compliant: True
+  #
+  # Is it necessary to remove the current configuration directory in
+  # $XDG_CONFIG_HOME, before deploying the new version?
+    delete_xdgdir_first: True
+  #
+  # Working directory of the configuration's repository.  This is a
+  # path relative to the path specified in root_repo_dir.
+    dir: app-conf
+  #
+  # The target directory of the configuration files in $XDG_CONFIG_HOME.
+    xdgdir: app-conf-dir-in-xdg-config-home
+  #
+  # The URL to the configuration's repository the user relies on.
+    repo: <https://example.repository.org/path/to/repo.git>
+  #
+  # The list of files to copy from the repository to xdgdir. If the
+  # files contain path, the playbook will ensure the directories
+  # exists.
+    files:
+      - file1
+      - file2.txt
+      - config-subdir/file3.conf
+  # ---------------------------------------
+  #
+  # Examples:
+  python:
+    config: True
+  beancount:
+    dir: beancount-importer
+    repo: https://github.com/montaropdf/beancount-importer.git
+  common_lisp:
+    config: True
+  alacritty:
+    dir: alacritty
+    xdgdir: alacritty
+    repo: https://github.com/montaropdf/alacritty-config.git
+    config: False
+    files:
+      - alacritty.yml
+  conky:
+    dir: conky
+    xdgdir: conky
+    repo: https://github.com/montaropdf/conky-config.git
+    files:
+      - conky.conf
+  dunst:
+    dir: dunst
+    xdgdir: dunst
+    repo: https://github.com/montaropdf/dunst-config.git
+    config: True
+    files:
+      - dunstrc
+  emacs:
+    dir: emacs-config
+    xdgdir: emacs
+    repo: https://github.com/montaropdf/emacs-config.git
+    config: False
+  mpd:
+    dir: mpd
+    xdgdir: mpd
+    repo: https://github.com/montaropdf/mpd-config.git
+    files:
+      - mpd.conf
+  neofetch:
+    dir: neofetch-config
+    xdgdir: neofetch
+    repo: https://github.com/montaropdf/neofetch-config.git
+    files:
+      - config.conf
+  nitrogen:
+    dir: nitrogen-config
+    xdgdir: nitrogen
+    repo: https://github.com/montaropdf/nitrogen-config.git
+    files:
+      - bg-saved.cfg
+      - nitrogen.cfg
+  # polybar:
+  #   dir: polybar-config
+  #   xdgdir: polybar
+  #   repo: https://github.com/montaropdf/polybar-config.git
+  #   files:
+  #     - config
+  ranger:
+    dir: ranger
+    xdgdir: ranger
+    repo: https://github.com/montaropdf/ranger-config.git
+    files:
+      - rc.conf
+      - rifle.conf
+      - scope.sh
+      - tagged
+  stumpwm:
+    dir: stumpwm-config
+    xdgdir: stumpwm
+    repo: https://github.com/montaropdf/stumpwm-config.git
+    config: False
+    files:
+      - config
+      - conf.d/autostart.lisp
+      - conf.d/customs.lisp
+      - conf.d/equake-conf.lisp
+      - conf.d/keybindings.lisp
+      - conf.d/lisp-server.lisp
+  surfraw:
+    dir: surfraw-config
+    xdgdir: surfraw
+    repo: https://github.com/montaropdf/surfraw-config.git
+    files:
+      - conf
+  uhk_agent:
+    dir: uhk-agent-config
+    xdgdir: uhk-agent
+    repo: https://github.com/montaropdf/uhk-config.git
+    files:
+      - 523379216.json
+      - Preferences
+      - Settings
+  variety:
+    dir: variety-config
+    xdgdir: variety
+    repo: https://github.com/montaropdf/variety-config.git
+    files:
+      - banned.txt
+      - plugins/
+      - scripts/
+      - ui.conf
+      - variety.conf
+      - variety_latest_default.conf
+      - wallpaper
+  zsh:
+    dir: zsh
+    xdgdir: zsh
+    config: True
+    repo: https://github.com/montaropdf/zsh-config.git
+    files:
+      - antigenrc
+      - conf.d/001-init.zsh
+      - conf.d/010-aliases.zsh
+      - conf.d/020-reve-env.zsh
+      - conf.d/999-close.zsh
+  tmux: # No file listed here because the role tmux, knows the list
+        # and perform additional naming convertion.
+    dir: tmux-config
+    config: False
+    xdg_compliant: False
+    repo: https://github.com/montaropdf/tmux-config.git

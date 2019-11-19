@@ -1,5 +1,13 @@
-- name: Install pipenv
+- name: "Load user description data for {{ remote_user }}"
+  include_vars:
+    file: "{{ users_dir }}/{{ remote_user }}.yml"
+    name: user_data
+- name: "Install pipenv for {{ remote_user }}"
   pip:
     name: pipenv
     executable: 'pip-3'
+    extra_args: "--user"
     state: latest
+  become: yes
+  become_user: "{{ user_data.name }}"
+  when: user_data['state'] != "None"
