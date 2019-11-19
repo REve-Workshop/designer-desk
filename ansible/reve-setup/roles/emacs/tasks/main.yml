@@ -8,9 +8,8 @@
     state: directory
 - name: Deploy configuration files
   copy:
-    src: "{{ conf_repo }}/{{ emacs.dir }}/{{ item.src }}"
+    src: "{{ root_config_repo }}/{{ emacs.dir }}/{{ item.src }}"
     dest: ~/.emacs.d
   with_items:
     - src: init.emacs.org
     - src: init.el
-    # - src: equake.el

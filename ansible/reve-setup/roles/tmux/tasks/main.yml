@@ -2,13 +2,9 @@
   file:
         path: "{{ user_home_dir }}/.tmux"
         state: absent
-# - name: Create target directory
-#   file:
-#     path: "{{ conf.xdghomeconfig }}/{{ tmux.dir }}"
-#     state: directory
 - name: Deploy configuration files
   copy:
-    remote_src: "{{ conf_repo }}/{{ tmux.dir }}/{{ item }}"
+    remote_src: "{{ root_config_repo }}/{{ tmux.dir }}/{{ item }}"
     dest: "{{ user_home_dir }}/.{{ item }}"
   with_item:
     - tmux
