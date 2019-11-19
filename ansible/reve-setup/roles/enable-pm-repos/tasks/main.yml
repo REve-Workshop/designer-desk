@@ -4,3 +4,15 @@
     description: Copr repo for alacritty owned by pschyska
     baseurl: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/fedora-$releasever-$basearch/
     gpgkey: https://copr-be.cloud.fedoraproject.org/results/pschyska/alacritty/pubkey.gpg
+- name: Enable RPMFusion Free repository
+  yum_repository:
+    name: rpmfusion-free
+    description: RPM Fusion for Fedora - Free
+    metalink: https://mirrors.rpmfusion.org/metalink?repo=free-fedora-$releasever&arch=$basearch
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-free-fedora-$releasever
+- name: Enable RPM Fusion Non-Free repository
+  yum_repository:
+    name: rpmfusion-nonfree
+    metalink: https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-$releasever&arch=$basearch
+    description: RPM Fusion for Fedora - Free
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever

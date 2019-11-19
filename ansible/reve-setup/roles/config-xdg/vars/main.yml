@@ -1,4 +1,4 @@
-home_dir: "/home/{{ remote_user.name }}"
+home_dir: "/home/{{ remote_user }}"
 
 xdg:
   desktop_dir: Desktop

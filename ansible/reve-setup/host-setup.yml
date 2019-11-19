@@ -3,28 +3,51 @@
 - hosts: all
   gather_facts: False
   tasks:
-    - name: Setup third party Repository directory
+    - name: Setup Time Zone
+      timezone:
+        name: 'Europe/Brussels'
+    - name: Setup third party Git repository directory
       file:
         path: "{{ git_3rdparty }}"
         state: directory
     - name: Enable package manager's extra repositories
       include_role:
-        name: enable-pm-repo
+        name: enable-pm-repos
+    - name: Ensure System is up to date
+      dnf:
+        name: "*"
+        state: latest
     - name: Install applications from package manager
       include_role:
         name: common
-        task_from: manage-pkg.yml
+        tasks_from: manage-pkg
       loop: "{{ applications|dict2items }}"
       loop_control:
         loop_var: applic
-    - name: Install Common Lisp dependencies
-      command: "curl -O https://beta.quicklisp.org/quicklisp.lisp"
-      path: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+    - name: Create the builder user
+      vars:
+        remote_user: builder
+      include_role:
+        name: config-xdg
     - name: Install antigen (ZSH package manager)
       git:
         repo: "{{ applications.zsh.antigen.repo }}"
         dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
-        state: latest
-    - name: Install StumpWM
-      include_role:
-        name: stumpWM
+    - name: Install Common Lisp dependencies
+      block:
+        - name: Ensure a directory exist for the quicklisp sources
+          file:
+            path: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+            state: directory
+        - name: Download Quicklisp
+          get_url:
+            url: https://beta.quicklisp.org/quicklisp.lisp
+            dest: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+        - name: Setup builder user environment
+          include_role:
+            name: user-configuration
+          vars:
+            remote_user: builder
+        - name: Install StumpWM
+          include_role:
+            name: stumpwm

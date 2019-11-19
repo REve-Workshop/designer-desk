@@ -1,14 +1,33 @@
 - name: Install dependencies
-  command: sbcl --eval "(progn (ql:quickload \"clx\") (ql:quickload \"cl-ppcre\") (ql:quickload \"alexandria\"))"
+  command: sbcl --disable-debugger --eval "(progn (ql:quickload \"clx\") (ql:quickload \"cl-ppcre\") (ql:quickload \"alexandria\") (exit))"
+  become: True
+  become_user: builder
+- name: Set permission on StumpWM working directory
+  file:
+    path: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}"
+    state: directory
+    recurse: True
+    owner: builder
+    group: builder
 - name: Build configure script
-  command: autoconf
-  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+  command: ./autogen.sh
+  args:
+    chdir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}"
+  become: True
+  become_user: builder
 - name: Configure StumpWM
   command: ./configure
-  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+  args:
+    chdir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}"
+  become: True
+  become_user: builder
 - name: Compile StumpWM
   command: make
-  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+  args:
+    chdir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}"
+  become: True
+  become_user: builder
 - name: Install StumpWM
   command: make install
-  path: "{{ conf.git_3rdparty }}/{{ stumpwm.dir }}"
+  args:
+    chdir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}"

@@ -1,10 +1,11 @@
-- name: Install StumpWM
+- name: Download StumpWM Repository
   git:
     repo: "{{ applications.stumpwm.repo }}"
-    dest: "{{ conf.git_3rdparty }}/{{ applications.stumpwm.dir }}"
-    state: latest
+    dest: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}"
+    version: 'HEAD'
   notify:
     - Install dependencies
+    - Set permission on StumpWM working directory
     - Build configure script
     - Configure StumpWM
     - Compile StumpWM
@@ -12,5 +13,4 @@
 - name: Install StumpWM Contributions
   git:
     repo: "{{ applications.stumpwm.repo_contrib }}"
-    dest: "{{ conf.git_3rdparty }}/{{ applications.stumpwm.dir }}-contrib"
-    state: latest
+    dest: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}-contrib"

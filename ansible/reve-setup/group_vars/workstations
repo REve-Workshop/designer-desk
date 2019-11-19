@@ -8,12 +8,28 @@ users:
   - user1
   - user-beta
 applications:
+  system:
+    pkg_list:
+      - bind-utils
+      - autoconf
+      - libtool
+      - gcc
+      - texinfo
+      - info
+      - curl
+      - wget
+      - udiskie
+  admin-tools:
+    pkg_list:
+      - ftop
+      - iftop
+      - net-tools
+      - sysstat
+      - glances
   stumpwm:
     dir: stumpwm
     repo: https://github.com/stumpwm/stumpwm.git
-    repo_contrib: https://github.com:stumpwm/stumpwm-contrib.git
-    pkg_list:
-      - autoconf
+    repo_contrib: https://github.com/stumpwm/stumpwm-contrib.git
   common_lisp:
     ql_repo_dir: quicklisp
     pkg_list:
@@ -68,9 +84,9 @@ applications:
   nitrogen:
     pkg_list:
       - nitrogen
-  polybar:
-    pkg_list:
-      - polybar
+  # polybar:
+  #   pkg_list:
+  #     - polybar
   ranger:
     pkg_list:
       - ranger

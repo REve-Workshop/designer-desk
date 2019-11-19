@@ -4,10 +4,12 @@
   :PROPERTIES:
   :ID:       fba2d23a-2680-4f62-a15f-8b7d080c5922
   :END:
-** TODO Merge =deploy-config= and =setup-host=
+** DONE Merge =deploy-config= and =setup-host=
+   CLOSED: [2019-11-19 mar. 08:17]
    :PROPERTIES:
    :ID:       d3b52d34-1bbd-421d-bf10-4164e23a14b8
    :END:
+   - State "DONE"       from "TODO"       [2019-11-19 mar. 08:17]
    Some applications need to be installed in the user environement and not during host setup.
 
    It should be easier to manage everything from one ansible project
@@ -43,3 +45,14 @@
    - Data to modify/add/remove in standard files, with private data
      - ansible_vault?
      - private playbooks?
+** TODO Study how to use the skeleton parameter of the =user= module
+   :PROPERTIES:
+   :ID:       cb42b36f-7101-4987-a575-134fe083c296
+   :END:
+   The skeleton parameter allows to use the skeleton feature of linux
+   system. When using this feature, the content of =/etc/skel=, the
+   skeleton directory, is used to populate the user's $HOME directory
+   with an initial content.
+
+   The skeleton directory should be populated during the host setup
+   phase.

@@ -70,6 +70,8 @@ configurations:
   beancount:
     dir: beancount-importer
     repo: https://github.com/montaropdf/beancount-importer.git
+  common_lisp:
+    config: True
   alacritty:
     dir: alacritty
     xdgdir: alacritty
@@ -114,12 +116,12 @@ configurations:
     files:
       - bg-saved.cfg
       - nitrogen.cfg
-  polybar:
-    dir: polybar-config
-    xdgdir: polybar
-    repo: https://github.com/montaropdf/polybar-config.git
-    files:
-      - config
+  # polybar:
+  #   dir: polybar-config
+  #   xdgdir: polybar
+  #   repo: https://github.com/montaropdf/polybar-config.git
+  #   files:
+  #     - config
   ranger:
     dir: ranger
     xdgdir: ranger

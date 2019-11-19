@@ -1,4 +1,4 @@
 # applic: "{{ appl.value }}"
 # actions: "{{ conf.actions }}"
-root_config_repo: "/home/{{ remote_user.name }}/.local/configs"
-xdg_config_home: "/home/{{ remote_user.name }}/.config"
+root_config_repo: "/home/{{ remote_user }}/.local/configs"
+xdg_config_home: "/home/{{ remote_user }}/.config"

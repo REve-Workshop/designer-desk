@@ -1,28 +1,55 @@
-### ----------------------------------------
-# .zshrc must remain in the $HOME directory of the user.  The rest of
-# the zsh configuration is stored in the $XDG_CONFIG_HOME directory.
-- name: Deploy .zshrc
-  copy:
-    src: "{{ conf.conf_repo }}/{{ applic.dir }}/zshrc"
-    dest: "{{ user.home }}/.zshrc"
-  when:
-    - (actions['config'] == True and configurations['zsh']['config'] is undefined) or
-      (configurations['zsh']['config'] is defined and configurations['zsh']['config'] == True)
-- name: Configure quicklisp
-  command: "sbcl --load quicklisp.lisp --eval \"((quicklisp-quickstart:install) (ql:add-to-init-file))\""
-  path: "{{ git_3rdparty }}/{{ configurations.common_lisp.ql_repo_dir }}"
-  when:
-    - (actions['config'] == True and configurations['common_lisp']['config'] is undefined) or
-      (configurations['common_lisp']['config'] is defined and configurations['common_lisp']['config'] == True)
-- name: Deploy TMux configuration
-  include_role:
-    name: tmux
-  when:
-    - (actions['config'] == True and configurations['tmux']['config'] is undefined) or
-      (configurations['tmux']['config'] is defined and configurations['tmux']['config'] == True)
-- name: Deploy Emacs configuration
-  include_role:
-    name: emacs
-  when:
-    - (actions['config'] == True and configurations['emacs']['config'] is undefined) or
-      (configurations['emacs']['config'] is defined and configurations['emacs']['config'] == True)
+- name: Load user description data
+  include_vars:
+    file: "{{ users_dir }}/{{ remote_user }}.yml"
+    name: user_data
+- name: "Update configuration for {{ user_data.name }}"
+  block:
+    - name: Update configuration repositories and deploy XDG compliant configuration elements
+      include_role:
+        name: common
+        tasks_from: manage-cfg.yml
+      loop: "{{ user_data.configurations|dict2items }}"
+      loop_control:
+        loop_var: user_conf
+    ### ----------------------------------------
+    # .zshrc must remain in the $HOME directory of the user.  The rest of
+    # the zsh configuration is stored in the $XDG_CONFIG_HOME directory.
+    - name: Deploy .zshrc
+      copy:
+        src: "{{ root_config_repo }}/{{ applications.zsh.dir }}/zshrc"
+        dest: "/home/{{ user_data.name }}/.zshrc"
+      when:
+        - (actions['config'] == True and user_data['configurations']['zsh']['config'] is undefined) or
+          (user_data['configurations']['zsh']['config'] is defined and user_data['configurations']['zsh']['config'] == True)
+    # ------------------------------------------
+    - name: QuickLisp setup
+      block:
+        - name: Install quicklisp
+          command: "sbcl --disable-debugger --load {{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}/quicklisp.lisp --eval \"(progn (quicklisp-quickstart:install) (exit))\""
+        # It is necessary to patch this file, else, the command in the
+        # next task will ask for pressing enter.
+        - name: Patch quicklisp/quicklisp/impl-util.lisp
+          lineinfile:
+            line: "(when (eq 1 1)"
+            regexp: "\\(ql-util:press-enter-to-continue\\)"
+            path: "/home/{{ user_data.name }}/quicklisp/quicklisp/impl-util.lisp"
+            state: present
+        - name: Ensure quicklisp is automatically loaded
+          command: "sbcl --disable-debugger --load /home/{{ user_data.name }}/quicklisp/setup.lisp --eval \"(progn (ql:add-to-init-file) (exit))\""
+      when:
+        - (actions['config'] == True and user_data['configurations']['common_lisp']['config'] is undefined) or
+          (user_data['configurations']['common_lisp']['config'] is defined and user_data['configurations']['common_lisp']['config'] == True)
+    - name: Deploy TMux configuration
+      include_role:
+        name: tmux
+      when:
+        - (actions['config'] == True and user_data['configurations']['tmux']['config'] is undefined) or
+          (user_data['configurations']['tmux']['config'] is defined and user_data['configurations']['tmux']['config'] == True)
+    - name: Deploy Emacs configuration
+      include_role:
+        name: emacs
+      when:
+        - (actions['config'] == True and user_data['configurations']['emacs']['config'] is undefined) or
+          (user_data['configurations']['emacs']['config'] is defined and user_data['configurations']['emacs']['config'] == True)
+  become: True
+  become_user: "{{ user_data.name }}"

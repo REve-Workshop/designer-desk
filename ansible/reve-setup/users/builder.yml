@@ -1,0 +1,34 @@
+#### User definition
+# The name of the user
+# Must be a valid user name for the target OS
+name: builder
+# One-line text to be inserted in the description field of the user
+# definition in /etc/passwd.
+comment: User for building software during host setup
+# What aspect of the user must be handled?
+# - config: Only the configuration will be updated/deployed
+# - create: The user will be created and nothing else
+# - all: All the aspects of the user will be handled
+# - none: Nothing must be done for this user.
+state: all
+#
+# The $HOME directory will be /home/{{ user.name }}/
+#
+# $XDG_CONFIG_HOME will be used in this file to refer to the directory
+# /home/{{ user.name }}/.config/.
+#
+# Directory in user $HOME dire where the working directory of the
+# configuration's repositories of the user must be deployed.
+root_repo_dir: codes
+#
+# The shell the user want to use.
+# If absent, will default to /bin/bsh
+shell: /bin/bash
+#
+# Is the user a system user (sudo access)
+# If absent, will default to False.
+system: False
+# ---------------------------------
+configurations:
+  common_lisp:
+    config: true
