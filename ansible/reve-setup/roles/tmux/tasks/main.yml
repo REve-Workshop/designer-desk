@@ -1,4 +1,4 @@
-- name: Ensure target directory is empty
+- name: Ensure .tmux directory is empty
   file:
         path: "{{ user_home_dir }}/.tmux"
         state: absent

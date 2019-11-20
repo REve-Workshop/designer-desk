@@ -20,6 +20,6 @@
       loop: "{{ users|dict2items }}"
       loop_control:
         loop_var: remote_user
-      include_vars:
-        name: "users/{{ remote_user }}.yml"
+      # include_vars:
+      #   name: "users/{{ remote_user }}.yml"
       when: remote_user['state'] == "config" or remote_user['state'] == "all"

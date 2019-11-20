@@ -1,10 +1,10 @@
 #### User definition
 # The name of the user
 # Must be a valid user name for the target OS
-name: reve
+name: user-example
 # One-line text to be inserted in the description field of the user
 # definition in /etc/passwd.
-comment: Reve At Home
+comment: Example of user definition using Ansible playbooks from REVE Workshop
 # What aspect of the user must be handled?
 # - config: Only the configuration will be updated/deployed
 # - create: The user will be created and nothing else
@@ -20,6 +20,18 @@ state: all
 # Directory in user $HOME dire where the working directory of the
 # configuration's repositories of the user must be deployed.
 root_repo_dir: codes
+#
+# The shell the user want to use.
+# If absent, will default to /bin/bash
+shell: /bin/zsh
+#
+# Is the user a system user (sudo access)
+# If absent, will default to False.
+system: False
+#
+# The password of the user.
+# The password must be stored in a file encrypted with ansible-vault.
+password: "{{ user_example_pwd_from_vault }}"
 # ---------------------------------
 #### Application's configuration of the user
 configurations:
@@ -50,7 +62,7 @@ configurations:
     dir: app-conf
   #
   # The target directory of the configuration files in $XDG_CONFIG_HOME.
-    xdgdir: app-conf-dir-in-xdg-config-home
+    xdgdir: $XDG_CONFIG_HOME/app_dir
   #
   # The URL to the configuration's repository the user relies on.
     repo: <https://example.repository.org/path/to/repo.git>
@@ -58,13 +70,17 @@ configurations:
   # The list of files to copy from the repository to xdgdir. If the
   # files contain path, the playbook will ensure the directories
   # exists.
+  # If the configuration of an application doesn't follow the XDG
+  # specification or the configuration is not about updating files,
+  # the dictionnary can be omitted. Usually, a dedicated role or task
+  # has been designed to handle the configuration of that application.
     files:
       - file1
       - file2.txt
       - config-subdir/file3.conf
   # ---------------------------------------
   #
-  # Examples:
+  # Some Examples:
   python:
     config: True
   beancount:
@@ -72,13 +88,6 @@ configurations:
     repo: https://github.com/montaropdf/beancount-importer.git
   common_lisp:
     config: True
-  alacritty:
-    dir: alacritty
-    xdgdir: alacritty
-    repo: https://github.com/montaropdf/alacritty-config.git
-    config: False
-    files:
-      - alacritty.yml
   conky:
     dir: conky
     xdgdir: conky
@@ -92,45 +101,6 @@ configurations:
     config: True
     files:
       - dunstrc
-  emacs:
-    dir: emacs-config
-    xdgdir: emacs
-    repo: https://github.com/montaropdf/emacs-config.git
-    config: False
-  mpd:
-    dir: mpd
-    xdgdir: mpd
-    repo: https://github.com/montaropdf/mpd-config.git
-    files:
-      - mpd.conf
-  neofetch:
-    dir: neofetch-config
-    xdgdir: neofetch
-    repo: https://github.com/montaropdf/neofetch-config.git
-    files:
-      - config.conf
-  nitrogen:
-    dir: nitrogen-config
-    xdgdir: nitrogen
-    repo: https://github.com/montaropdf/nitrogen-config.git
-    files:
-      - bg-saved.cfg
-      - nitrogen.cfg
-  # polybar:
-  #   dir: polybar-config
-  #   xdgdir: polybar
-  #   repo: https://github.com/montaropdf/polybar-config.git
-  #   files:
-  #     - config
-  ranger:
-    dir: ranger
-    xdgdir: ranger
-    repo: https://github.com/montaropdf/ranger-config.git
-    files:
-      - rc.conf
-      - rifle.conf
-      - scope.sh
-      - tagged
   stumpwm:
     dir: stumpwm-config
     xdgdir: stumpwm
@@ -149,37 +119,6 @@ configurations:
     repo: https://github.com/montaropdf/surfraw-config.git
     files:
       - conf
-  uhk_agent:
-    dir: uhk-agent-config
-    xdgdir: uhk-agent
-    repo: https://github.com/montaropdf/uhk-config.git
-    files:
-      - 523379216.json
-      - Preferences
-      - Settings
-  variety:
-    dir: variety-config
-    xdgdir: variety
-    repo: https://github.com/montaropdf/variety-config.git
-    files:
-      - banned.txt
-      - plugins/
-      - scripts/
-      - ui.conf
-      - variety.conf
-      - variety_latest_default.conf
-      - wallpaper
-  zsh:
-    dir: zsh
-    xdgdir: zsh
-    config: True
-    repo: https://github.com/montaropdf/zsh-config.git
-    files:
-      - antigenrc
-      - conf.d/001-init.zsh
-      - conf.d/010-aliases.zsh
-      - conf.d/020-reve-env.zsh
-      - conf.d/999-close.zsh
   tmux: # No file listed here because the role tmux, knows the list
         # and perform additional naming convertion.
     dir: tmux-config

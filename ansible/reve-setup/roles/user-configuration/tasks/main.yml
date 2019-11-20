@@ -18,16 +18,16 @@
       copy:
         src: "{{ root_config_repo }}/{{ applications.zsh.dir }}/zshrc"
         dest: "/home/{{ user_data.name }}/.zshrc"
-      when:
-        - (actions['config'] == True and user_data['configurations']['zsh']['config'] is undefined) or
-          (user_data['configurations']['zsh']['config'] is defined and user_data['configurations']['zsh']['config'] == True)
+      when: (actions['config'] == True and user_data['configurations']['zsh']['config'] is undefined) or
+            (user_data['configurations']['zsh']['config'] is defined and user_data['configurations']['zsh']['config'] == True)
     # ------------------------------------------
     - name: QuickLisp setup
       block:
         - name: Install quicklisp
           command: "sbcl --disable-debugger --load {{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}/quicklisp.lisp --eval \"(progn (quicklisp-quickstart:install) (exit))\""
         # It is necessary to patch this file, else, the command in the
-        # next task will ask for pressing enter.
+        # next task will ask for pressing enter (Ansible doesn't
+        # manage interactive applications).
         - name: Patch quicklisp/quicklisp/impl-util.lisp
           lineinfile:
             line: "(when (eq 1 1)"

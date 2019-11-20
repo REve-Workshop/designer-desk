@@ -1,2 +1,2 @@
 applic: "{{ applications.zsh }}"
-actions: "{{ conf.actions }}"
+# actions: "{{ conf.actions }}"

@@ -1,26 +1,34 @@
-# -*- mode: yaml -*-
----
-user:
-  name: reve
-  comment: Reve At Home
-  state: all # Possible values are: create, configonly and None.
-  home: /home/reve
-  xdghomeconfig: /home/reve/.config
-conf:
-  conf_repo: "/home/roland/codes/reve-config-public"
-  git_3rdparty: "{{ user.home }}/codes/3rdparty"
-  actions:
-    config: True
-    app: False
+name: reve
+comment: Reve At Home
+state: all
+root_repo_dir: codes
+shell: /bin/zsh
+system: False
+password: "{{ reve_pwd_from_vault }}"
+configurations:
+  app_conf:
+    config: False
+    xdg_compliant: True
     delete_xdgdir_first: True
-    checkout: False
-applications:
+    dir: app-conf
+    xdgdir: app-conf-dir-in-xdg-config-home
+    repo: <https://example.repository.org/path/to/repo.git>
+    files:
+      - file1
+      - file2.txt
+      - config-subdir/file3.conf
+  python:
+    config: True
+  beancount:
+    dir: beancount-importer
+    repo: https://github.com/montaropdf/beancount-importer.git
+  common_lisp:
+    config: True
   alacritty:
     dir: alacritty
     xdgdir: alacritty
     repo: https://github.com/montaropdf/alacritty-config.git
     config: False
-    uncommon: True
     files:
       - alacritty.yml
   conky:
@@ -40,8 +48,9 @@ applications:
     dir: emacs-config
     xdgdir: emacs
     repo: https://github.com/montaropdf/emacs-config.git
-    uncommon: True
     config: False
+    files:
+      - public/init.emacs.org
   mpd:
     dir: mpd
     xdgdir: mpd
@@ -61,17 +70,10 @@ applications:
     files:
       - bg-saved.cfg
       - nitrogen.cfg
-  polybar:
-    dir: polybar-config
-    xdgdir: polybar
-    repo: https://github.com/montaropdf/polybar-config.git
-    files:
-      - config
   ranger:
     dir: ranger
     xdgdir: ranger
     repo: https://github.com/montaropdf/ranger-config.git
-    # config: True
     files:
       - rc.conf
       - rifle.conf
@@ -81,7 +83,6 @@ applications:
     dir: stumpwm-config
     xdgdir: stumpwm
     repo: https://github.com/montaropdf/stumpwm-config.git
-    uncommon: True
     config: False
     files:
       - config
@@ -100,7 +101,6 @@ applications:
     dir: uhk-agent-config
     xdgdir: uhk-agent
     repo: https://github.com/montaropdf/uhk-config.git
-    uncommon: True
     files:
       - 523379216.json
       - Preferences
@@ -122,24 +122,15 @@ applications:
     xdgdir: zsh
     config: True
     repo: https://github.com/montaropdf/zsh-config.git
-    uncommon: True
     files:
       - antigenrc
       - conf.d/001-init.zsh
       - conf.d/010-aliases.zsh
       - conf.d/020-reve-env.zsh
       - conf.d/999-close.zsh
-  tmux:
+  tmux: # No file listed here because the role tmux, knows the list
+        # and perform additional naming convertion.
     dir: tmux-config
-    xdgdir: tmux
     config: False
+    xdg_compliant: False
     repo: https://github.com/montaropdf/tmux-config.git
-    uncommon: True
-    files:
-      - tmux.conf
-      - tmux
-  beancount:
-    dir: beancount-importer
-    repo: https://github.com/montaropdf/beancount-importer.git
-    uncommon: True
-    config: False

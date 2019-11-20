@@ -1,4 +1,4 @@
-- name: "Deploy {{ user_conf.key }} configuration"
+- name: "{{ user_conf.key }} configuration processing"
   block:
     - name: Checkout lastest version of configuration repository
       git:
@@ -7,7 +7,7 @@
         version: 'HEAD'
       when: (user_conf['checkout'] is defined and user_conf['checkout'] == True) or
             (actions['checkout'] == True and user_conf['checkout'] is undefined)
-    - name: Create XDG compliant directory
+    - name: Deploy XDG compliant configuration
       block:
         - name: Delete old configuration directory
           file:
@@ -26,8 +26,6 @@
           loop: "{{ applic.files }}"
       when: (user_conf['xdg_compliant'] is defined and user_conf['xdg_compliant'] == True) or
             (actions['xdg_compliant'] == True and user_conf['xdg_compliant'] is undefined)
-  # become: true
-  # become_user: "{{ user_data.name }}"
   when:
     - (applic['config'] is defined and applic['config'] == True) or
       (actions['config'] == True and applic['config'] is undefined)
