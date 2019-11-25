@@ -9,6 +9,7 @@
         name: "{{ user_data.name }}"
         comment: "{{ user_data.comment | default('User populated by Ansible playbook users-setup') }}"
         create_home: True
+        password: "{{ user_data.password | default('!') }}"
         shell: "{{ user_data.shell | default('/bin/bash') }}"
         generate_ssh_key: yes
         ssh_key_bits: 2048

@@ -6,12 +6,12 @@
     - name: "Create user environement"
       include_role:
         name: config-xdg
-      loop: "{{ users }}"
-      loop_control:
-        loop_var: remote_user
+      # loop: "{{ users }}"
+      # loop_control:
+      #   loop_var: remote_user
     - name: "Install Python dependencies"
       include_role:
         name: python
-      loop: "{{ users }}"
-      loop_control:
-        loop_var: remote_user
+      # loop: "{{ users }}"
+      # loop_control:
+      #   loop_var: remote_user

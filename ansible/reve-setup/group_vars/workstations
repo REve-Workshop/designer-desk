@@ -3,10 +3,10 @@
 actions:
   config: False
   xdg_compliant: True
-git_3rdparty: "/var/lib/src/3rdparty"
-users:
-  - user1
-  - user-beta
+git_3rdparty: "/usr/local/src/3rdparty"
+# users:
+#   - user1
+#   - user-beta
 applications:
   system:
     pkg_list:
@@ -26,6 +26,10 @@ applications:
       - net-tools
       - sysstat
       - glances
+  tools:
+    pkg_list:
+      - pass
+      
   stumpwm:
     dir: stumpwm
     repo: https://github.com/stumpwm/stumpwm.git
