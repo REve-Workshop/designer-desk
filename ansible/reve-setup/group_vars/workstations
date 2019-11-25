@@ -4,9 +4,6 @@ actions:
   config: False
   xdg_compliant: True
 git_3rdparty: "/usr/local/src/3rdparty"
-# users:
-#   - user1
-#   - user-beta
 applications:
   system:
     pkg_list:
@@ -29,7 +26,6 @@ applications:
   tools:
     pkg_list:
       - pass
-      
   stumpwm:
     dir: stumpwm
     repo: https://github.com/stumpwm/stumpwm.git
@@ -88,17 +84,12 @@ applications:
   nitrogen:
     pkg_list:
       - nitrogen
-  # polybar:
-  #   pkg_list:
-  #     - polybar
   ranger:
     pkg_list:
       - ranger
   surfraw:
     pkg_list:
       - surfraw
-  # uhk_agent:
-  #   uncommon: True
   variety:
     pkg_list:
       - variety
