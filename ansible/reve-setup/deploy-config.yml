@@ -15,11 +15,11 @@
     - name: Deploy configuration elements
       include_role:
         name: user-configuration
-      become: true
-      become_user: "{{ remote_user }}"
-      loop: "{{ users|dict2items }}"
-      loop_control:
-        loop_var: remote_user
+      # become: true
+      # become_user: "{{ remote_user }}"
+      # loop: "{{ users|dict2items }}"
+      # loop_control:
+      #   loop_var: remote_user
       # include_vars:
       #   name: "users/{{ remote_user }}.yml"
       when: remote_user['state'] == "config" or remote_user['state'] == "all"

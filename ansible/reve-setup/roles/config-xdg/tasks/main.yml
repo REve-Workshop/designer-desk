@@ -41,7 +41,7 @@
       template:
         src: user-dirs.dirs.j2
         dest: "{{ home_dir }}/.config/user-dirs.dirs"
-    - name: Create repository directory in XDG local directory
+    - name: Create repositories directory in XDG local directory
       file:
         path: "{{ home_dir }}/.local/configs"
         state: directory
