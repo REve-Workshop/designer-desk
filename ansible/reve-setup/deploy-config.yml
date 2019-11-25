@@ -22,4 +22,4 @@
       #   loop_var: remote_user
       # include_vars:
       #   name: "users/{{ remote_user }}.yml"
-      when: remote_user['state'] == "config" or remote_user['state'] == "all"
+      # when: remote_user['state'] == "config" or remote_user['state'] == "all"
