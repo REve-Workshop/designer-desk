@@ -1,23 +1,15 @@
-- name: Load user description data
+- name: Include common variables
   include_vars:
-    file: "{{ users_dir }}/{{ remote_user }}.yml"
-    name: user_data
-- name: "Update configuration for {{ user_data.name }}"
+    file: ../../common/vars/main.yml
+- name: "Update non XDG compliant configuration"
   block:
-    - name: Update configuration repositories and deploy XDG compliant configuration elements
-      include_role:
-        name: common
-        tasks_from: manage-cfg.yml
-      loop: "{{ user_data.configurations|dict2items }}"
-      loop_control:
-        loop_var: user_conf
     ### ----------------------------------------
     # .zshrc must remain in the $HOME directory of the user.  The rest of
     # the zsh configuration is stored in the $XDG_CONFIG_HOME directory.
     - name: Deploy .zshrc
       copy:
         src: "{{ root_config_repo }}/{{ applications.zsh.dir }}/zshrc"
-        dest: "/home/{{ user_data.name }}/.zshrc"
+        dest: "{{ user_home }}/.zshrc"
       when: (actions['config'] == True and user_data['configurations']['zsh']['config'] is undefined) or
             (user_data['configurations']['zsh']['config'] is defined and user_data['configurations']['zsh']['config'] == True)
     # ------------------------------------------
@@ -27,15 +19,15 @@
           command: "sbcl --disable-debugger --load {{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}/quicklisp.lisp --eval \"(progn (quicklisp-quickstart:install) (exit))\""
         # It is necessary to patch this file, else, the command in the
         # next task will ask for pressing enter (Ansible doesn't
-        # manage interactive applications).
+        # manage interactive applications, AFAIK).
         - name: Patch quicklisp/quicklisp/impl-util.lisp
           lineinfile:
             line: "(when (eq 1 1)"
             regexp: "\\(ql-util:press-enter-to-continue\\)"
-            path: "/home/{{ user_data.name }}/quicklisp/quicklisp/impl-util.lisp"
+            path: "{{ user_home }}/quicklisp/quicklisp/impl-util.lisp"
             state: present
         - name: Ensure quicklisp is automatically loaded
-          command: "sbcl --disable-debugger --load /home/{{ user_data.name }}/quicklisp/setup.lisp --eval \"(progn (ql:add-to-init-file) (exit))\""
+          command: "sbcl --disable-debugger --load {{ user_home }}/quicklisp/setup.lisp --eval \"(progn (ql:add-to-init-file) (exit))\""
       when:
         - (actions['config'] == True and user_data['configurations']['common_lisp']['config'] is undefined) or
           (user_data['configurations']['common_lisp']['config'] is defined and user_data['configurations']['common_lisp']['config'] == True)

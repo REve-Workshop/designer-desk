@@ -2,24 +2,17 @@
 - hosts: all
   gather_facts: False
   tasks:
-    # - name: Update configuration repositories and deploy XDG compliant configuration elements
-    #   include_role:
-    #     name: common
-    #     task_from: manage-cfg.yml
-    #   become: true
-    #   become_user: "{{ remote_user }}"
-    #   loop: "{{ users|dict2items }}"
-    #   loop_control:
-    #     loop_var: remote_user
-    #   when: remote_user['state'] == "config" or remote_user['state'] == "all"
-    - name: Deploy configuration elements
+    - name: Load user description data
+      include_vars:
+        file: "{{ users_dir }}/{{ remote_user }}.yml"
+        name: user_data
+    - name: Update configuration repositories and deploy XDG compliant configuration elements
+      include_role:
+        name: common
+        tasks_from: manage-cfg.yml
+      loop: "{{ user_data.configurations|dict2items }}"
+      loop_control:
+        loop_var: user_conf
+    - name: Deploy non XDG compliant configuration elements
       include_role:
         name: user-configuration
-      # become: true
-      # become_user: "{{ remote_user }}"
-      # loop: "{{ users|dict2items }}"
-      # loop_control:
-      #   loop_var: remote_user
-      # include_vars:
-      #   name: "users/{{ remote_user }}.yml"
-      # when: remote_user['state'] == "config" or remote_user['state'] == "all"

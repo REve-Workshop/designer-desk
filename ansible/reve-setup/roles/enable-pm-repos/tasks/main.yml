@@ -14,5 +14,5 @@
   yum_repository:
     name: rpmfusion-nonfree
     metalink: https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-$releasever&arch=$basearch
-    description: RPM Fusion for Fedora - Free
+    description: RPM Fusion for Fedora - Non-Free
     gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever

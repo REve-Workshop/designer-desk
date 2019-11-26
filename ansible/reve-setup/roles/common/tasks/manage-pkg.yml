@@ -2,5 +2,4 @@
   dnf:
     name: "{{ applic.value.pkg_list }}"
     state: latest
-  # loop: "{{ applic.value.pkg_list }}"
   when: applic['value']['pkg_list'] is defined

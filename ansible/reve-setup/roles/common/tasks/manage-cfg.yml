@@ -26,6 +26,5 @@
           loop: "{{ applic.files }}"
       when: (user_conf['xdg_compliant'] is defined and user_conf['xdg_compliant'] == True) or
             (actions['xdg_compliant'] == True and user_conf['xdg_compliant'] is undefined)
-  when:
-    - (applic['config'] is defined and applic['config'] == True) or
-      (actions['config'] == True and applic['config'] is undefined)
+  when: (applic['config'] is defined and applic['config'] == True) or
+        (actions['config'] == True and applic['config'] is undefined)

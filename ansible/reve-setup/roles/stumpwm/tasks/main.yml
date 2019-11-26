@@ -4,11 +4,9 @@
     dest: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}"
     version: 'HEAD'
   notify:
-    - Install dependencies
     - Set permission on StumpWM working directory
-    - Build configure script
-    - Configure StumpWM
-    - Compile StumpWM
+    - Install dependencies
+    - Build StumpWM
     - Install StumpWM
 - name: Install StumpWM Contributions
   git:

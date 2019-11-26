@@ -24,15 +24,11 @@
       loop: "{{ applications|dict2items }}"
       loop_control:
         loop_var: applic
-    - name: Create the builder user
-      vars:
-        remote_user: builder
-      include_role:
-        name: config-xdg
     - name: Install antigen (ZSH package manager)
       git:
         repo: "{{ applications.zsh.antigen.repo }}"
         dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
+      state: latest
     - name: Install Common Lisp dependencies
       block:
         - name: Ensure a directory exist for the quicklisp sources
@@ -43,11 +39,25 @@
           get_url:
             url: https://beta.quicklisp.org/quicklisp.lisp
             dest: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
-        - name: Setup builder user environment
+    - name: Create the user for building applcations from source
+      block:
+        - name: Load user description data
+          include_vars:
+            file: "{{ users_dir }}/builder.yml"
+            name: user_data
+        - name: Create the user
+          include_role:
+            name: config-xdg
+        - name: Update configuration repositories and deploy XDG compliant configuration elements
+          include_role:
+            name: common
+            tasks_from: manage-cfg.yml
+          loop: "{{ user_data.configurations|dict2items }}"
+          loop_control:
+            loop_var: user_conf
+        - name: Deploy configuration elements
           include_role:
             name: user-configuration
-          vars:
-            remote_user: builder
-        - name: Install StumpWM
-          include_role:
-            name: stumpwm
+    - name: Install StumpWM
+      include_role:
+        name: stumpwm

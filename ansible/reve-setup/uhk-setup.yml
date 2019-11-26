@@ -1,0 +1,22 @@
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: Load user description data
+      include_vars:
+        file: "{{ users_dir }}/{{ remote_user }}.yml"
+        name: user_data
+    - name: Download latest version of the UHK agent
+      git:
+        repo: "{{ uhk_repo }}"
+        dest: "{{ git_3rdparty }}/uhk-agent"
+    - name: Deploy new version of the agent
+      copy:
+        src: "{{ git_3rdparty }}/uhk-agent/FIXME"
+        dest: "/home/{{ user_data.name }}/prg/uhk-agent"
+    - name: Deploy UHK agent configuration
+      include_role:
+        name: common
+        tasks_from: manage-cfg.yml
+        vars:
+          user_conf: "{{ user_data.configurations.uhk_agent }}"

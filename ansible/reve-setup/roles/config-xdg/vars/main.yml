@@ -1,5 +1,3 @@
-home_dir: "/home/{{ remote_user }}"
-
 xdg:
   desktop_dir: Desktop
   download_dir: dwl

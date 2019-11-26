@@ -1,7 +1,6 @@
-- name: Load user description data
+- name: Include common variables
   include_vars:
-    file: "{{ users_dir }}/{{ remote_user }}.yml"
-    name: user_data
+    file: ../../common/vars/main.yml
 - name: "Create user home for {{ user_data.name }}"
   block:
     - name: Create user
@@ -20,14 +19,14 @@
       become: true
       become_user: "{{ user_data.name }}"
       file:
-        path: "{{ home_dir }}/{{ item.value }}"
+        path: "{{ user_home }}/{{ item.value }}"
         state: directory
       loop: "{{ xdg|dict2items }}"
     - name: Create extra user directories
       become: true
       become_user: "{{ user_data.name }}"
       file:
-        path: "{{ home_dir }}/{{ item }}"
+        path: "{{ user_home }}/{{ item }}"
         state: directory
       loop: "{{ extra }}"
   when: user_data['state'] == "create" or user_data['state'] == "all"
@@ -35,15 +34,15 @@
   block:
     - name: Create XDG configuration directory
       file:
-        path: "{{ home_dir }}/.config"
+        path: "{{ xdg_config_home }}"
         state: directory
     - name: Deploy XDG configuration file
       template:
         src: user-dirs.dirs.j2
-        dest: "{{ home_dir }}/.config/user-dirs.dirs"
+        dest: "{{ user_home }}/.config/user-dirs.dirs"
     - name: Create repositories directory in XDG local directory
       file:
-        path: "{{ home_dir }}/.local/configs"
+        path: "{{ root_config_repo }}"
         state: directory
   become: true
   become_user: "{{ user_data.name }}"

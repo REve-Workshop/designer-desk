@@ -1,2 +1,2 @@
-root_config_repo: "/home/{{ remote_user }}/.local/configs"
-xdg_config_home: "/home/{{ remote_user }}/.config"
+# root_config_repo: "/home/{{ user_data.name }}/.local/configs"
+# user_home: "/home/{{ user_data.name }}"
