@@ -3,8 +3,8 @@
 # 
 - name: Ensure target directory is empty
   file:
-        path: "{{ xdghomeconfig }}/{{ uhk_agent_dir }}"
-        state: absent
+    path: "{{ xdghomeconfig }}/{{ uhk_agent_dir }}"
+    state: absent
 - name: Create target directory
   file:
     path: "{{ xdghomeconfig }}/{{ uhk_agent_dir }}"

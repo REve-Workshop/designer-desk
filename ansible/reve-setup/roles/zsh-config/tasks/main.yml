@@ -2,7 +2,7 @@
   git:
     repo: "{{ applic.zsh.repo }}"
     dest: "{{ conf.conf_repo }}/{{ applic.dir }}"
-    state: latest
+    version: 'HEAD'
   when:
     - (applic['checkout'] is defined and applic['checkout'] == True) or
       (actions['checkout'] == True and applic['checkout'] is undefined)

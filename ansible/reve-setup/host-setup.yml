@@ -28,7 +28,7 @@
       git:
         repo: "{{ applications.zsh.antigen.repo }}"
         dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
-      state: latest
+        version: 'HEAD'
     - name: Install Common Lisp dependencies
       block:
         - name: Ensure a directory exist for the quicklisp sources

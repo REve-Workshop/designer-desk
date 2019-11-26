@@ -12,3 +12,4 @@
   git:
     repo: "{{ applications.stumpwm.repo_contrib }}"
     dest: "{{ git_3rdparty }}/{{ applications.stumpwm.dir }}-contrib"
+    version: 'HEAD'

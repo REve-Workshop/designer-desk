@@ -1,7 +1,7 @@
 - name: Ensure .tmux directory is empty
   file:
-        path: "{{ user_home_dir }}/.tmux"
-        state: absent
+    path: "{{ user_home_dir }}/.tmux"
+    state: absent
 - name: Deploy configuration files
   copy:
     remote_src: "{{ root_config_repo }}/{{ tmux.dir }}/{{ item }}"
