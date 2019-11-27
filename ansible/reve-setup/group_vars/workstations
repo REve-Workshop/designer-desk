@@ -23,6 +23,7 @@ applications:
       - net-tools
       - sysstat
       - glances
+      - arp
   tools:
     pkg_list:
       - pass
