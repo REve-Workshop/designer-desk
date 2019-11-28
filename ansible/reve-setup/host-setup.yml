@@ -1,4 +1,4 @@
-# The host user must be root.
+# The target host user must be root.
 ---
 - hosts: all
   gather_facts: False
@@ -39,7 +39,7 @@
           get_url:
             url: https://beta.quicklisp.org/quicklisp.lisp
             dest: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
-    - name: Create the user for building applcations from source
+    - name: Create the user for building applcations from sources
       block:
         - name: Load user description data
           include_vars:
@@ -55,9 +55,13 @@
           loop: "{{ user_data.configurations|dict2items }}"
           loop_control:
             loop_var: user_conf
-        - name: Deploy configuration elements
+        - name: Deploy other configuration elements
           include_role:
             name: user-configuration
-    - name: Install StumpWM
+    - name: Deploy StumpWM
       include_role:
         name: stumpwm
+        vars:
+          repository: "{{ applications.stumpwm.repo }}"
+          repository_contrib: "{{ applications.stumpwm.repo_contrib }}"
+          working_dir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir}}"

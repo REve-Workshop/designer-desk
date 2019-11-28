@@ -65,3 +65,7 @@
    The UHK repository provide a file called =latest.yml=. Check with
    the vendor if it can be reliably used to retrieve the latest
    version of the agent and firmware.
+** TODO Add a role to setup git_config
+   :PROPERTIES:
+   :ID:       d593a5a3-0661-4e4a-b811-1f9bb1bbe104
+   :END:
