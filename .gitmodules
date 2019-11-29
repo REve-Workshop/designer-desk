@@ -7,3 +7,9 @@
 [submodule "ansible/reve-setup/roles/stumpwm"]
 	path = ansible/reve-setup/roles/stumpwm
 	url = git@github.com:montaropdf/ansible-stumpwm-role.git
+[submodule "ansible/reve-setup/roles/librem-coreboot"]
+	path = ansible/reve-setup/roles/librem-coreboot
+	url = git@github.com:montaropdf/ansible-librem-coreboot-role.git
+[submodule "ansible/reve-setup/roles/quicklisp"]
+	path = ansible/reve-setup/roles/quicklisp
+	url = git@github.com:montaropdf/quicklisp-ansible-role.git
