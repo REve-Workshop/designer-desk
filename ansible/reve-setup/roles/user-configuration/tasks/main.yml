@@ -13,24 +13,6 @@
       when: (actions['config'] == True and user_data['configurations']['zsh']['config'] is undefined) or
             (user_data['configurations']['zsh']['config'] is defined and user_data['configurations']['zsh']['config'] == True)
     # ------------------------------------------
-    - name: QuickLisp setup
-      block:
-        - name: Install quicklisp
-          command: "sbcl --disable-debugger --load {{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}/quicklisp.lisp --eval \"(progn (quicklisp-quickstart:install) (exit))\""
-        # It is necessary to patch this file, else, the command in the
-        # next task will ask for pressing enter (Ansible doesn't
-        # manage interactive applications, AFAIK).
-        - name: Patch quicklisp/quicklisp/impl-util.lisp
-          lineinfile:
-            line: "(when (eq 1 1)"
-            regexp: "\\(ql-util:press-enter-to-continue\\)"
-            path: "{{ user_home }}/quicklisp/quicklisp/impl-util.lisp"
-            state: present
-        - name: Ensure quicklisp is automatically loaded
-          command: "sbcl --disable-debugger --load {{ user_home }}/quicklisp/setup.lisp --eval \"(progn (ql:add-to-init-file) (exit))\""
-      when:
-        - (actions['config'] == True and user_data['configurations']['common_lisp']['config'] is undefined) or
-          (user_data['configurations']['common_lisp']['config'] is defined and user_data['configurations']['common_lisp']['config'] == True)
     - name: Deploy TMux configuration
       include_role:
         name: tmux

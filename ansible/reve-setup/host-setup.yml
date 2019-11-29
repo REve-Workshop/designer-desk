@@ -29,16 +29,6 @@
         repo: "{{ applications.zsh.antigen.repo }}"
         dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
         version: 'HEAD'
-    - name: Install Common Lisp dependencies
-      block:
-        - name: Ensure a directory exist for the quicklisp sources
-          file:
-            path: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
-            state: directory
-        - name: Download Quicklisp
-          get_url:
-            url: https://beta.quicklisp.org/quicklisp.lisp
-            dest: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
     - name: Create the user for building applcations from sources
       block:
         - name: Load user description data
@@ -58,10 +48,15 @@
         - name: Deploy other configuration elements
           include_role:
             name: user-configuration
+        - name: Ensure QuickLisp is installed
+          include_role:
+            name: quicklisp
+          vars:
+            working_directory: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
     - name: Deploy StumpWM
       include_role:
         name: stumpwm
-        vars:
-          repository: "{{ applications.stumpwm.repo }}"
-          repository_contrib: "{{ applications.stumpwm.repo_contrib }}"
-          working_dir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir}}"
+      vars:
+        repository: "{{ applications.stumpwm.repo }}"
+        repository_contrib: "{{ applications.stumpwm.repo_contrib }}"
+        working_dir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir}}"
