@@ -1,0 +1,19 @@
+# The target host user must be root.
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: Ensure System is up to date
+      dnf:
+        name: "*"
+        state: latest
+    - name: Install mu dependencies
+      include_role:
+        name: common
+        tasks_from: manage-pkg
+      vars:
+        applic: applications['mu']
+      when: applications['mu'] is defined
+    - name: Deploy mu
+      include_role:
+        name: mu

@@ -1,15 +1,15 @@
 [submodule "ansible/reve-setup/roles/bashmount"]
 	path = ansible/reve-setup/roles/bashmount
-	url = git@github.com:montaropdf/ansible-bashmount-role.git
+	url = https://github.com/montaropdf/ansible-bashmount-role.git
 [submodule "ansible/reve-setup/roles/mu"]
 	path = ansible/reve-setup/roles/mu
-	url = git@github.com:montaropdf/ansible-mu-role.git
+	url = https://github.com/montaropdf/ansible-mu-role.git
 [submodule "ansible/reve-setup/roles/stumpwm"]
 	path = ansible/reve-setup/roles/stumpwm
-	url = git@github.com:montaropdf/ansible-stumpwm-role.git
+	url = https://github.com/montaropdf/ansible-stumpwm-role.git
 [submodule "ansible/reve-setup/roles/librem-coreboot"]
 	path = ansible/reve-setup/roles/librem-coreboot
-	url = git@github.com:montaropdf/ansible-librem-coreboot-role.git
+	url = https://github.com/montaropdf/ansible-librem-coreboot-role.git
 [submodule "ansible/reve-setup/roles/quicklisp"]
 	path = ansible/reve-setup/roles/quicklisp
-	url = git@github.com:montaropdf/quicklisp-ansible-role.git
+	url = https://github.com/montaropdf/quicklisp-ansible-role.git

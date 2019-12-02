@@ -1,0 +1,15 @@
+# The host user must be root.
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: Load user description data
+      include_vars:
+        file: "{{ users_dir }}/{{ remote_user }}.yml"
+        name: user_data
+    - name: "Create user environement"
+      include_role:
+        name: manage-user
+    - name: "Install Python dependencies"
+      include_role:
+        name: python

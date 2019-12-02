@@ -1,0 +1,23 @@
+# The target host user must be root.
+#
+# =connection= is set to =local= because this playbook is meant to act
+# on the host that run it.
+---
+- hosts: all
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Ensure System is up to date
+      dnf:
+        name: "*"
+        state: latest
+    - name: Install Librem Coreboot utility script dependencies
+      include_role:
+        name: common
+        tasks_from: manage-pkg
+      vars:
+        applic: applications['librem-coreboot']
+      when: applications['librem-coreboot'] is defined
+    - name:
+      include_role:
+        name: librem-coreboot
