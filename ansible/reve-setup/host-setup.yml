@@ -37,7 +37,7 @@
             name: user_data
         - name: Create the user
           include_role:
-            name: config-xdg
+            name: manage-user
         - name: Update configuration repositories and deploy XDG compliant configuration elements
           include_role:
             name: common

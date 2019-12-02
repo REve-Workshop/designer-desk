@@ -9,7 +9,7 @@
         name: user_data
     - name: "Create user environement"
       include_role:
-        name: config-xdg
+        name: manage-user
     - name: "Install Python dependencies"
       include_role:
         name: python
