@@ -18,7 +18,6 @@ applications:
       - gcc
       - curl
       - wget
-      - udiskie
   admin-tools:
     pkg_list:
       - ftop
@@ -28,20 +27,10 @@ applications:
       - glances
   tools:
     pkg_list:
-      - pass
       - mosh
-  stumpwm:
-    dir: stumpwm
-    repo: https://github.com/stumpwm/stumpwm.git
-    repo_contrib: https://github.com/stumpwm/stumpwm-contrib.git
-  common_lisp:
-    ql_repo_dir: quicklisp
-    pkg_list:
-      - sbcl
   python:
     pkg_list:
       - python3
-      - python36
       - python3-pip
       - python3-virtualenv
   git:
@@ -70,30 +59,9 @@ applications:
     pkg_list:
       - tmux
       - tmux-powerline
-  alacritty:
-    pkg_list:
-      - alacritty
-  conky:
-    pkg_list:
-      - conky
-  dunst:
-    pkg_list:
-      - dunst
-  mpd:
-    pkg_list:
-      - mpd
   neofetch:
     pkg_list:
       - neofetch
-  nitrogen:
-    pkg_list:
-      - nitrogen
   ranger:
     pkg_list:
       - ranger
-  surfraw:
-    pkg_list:
-      - surfraw
-  variety:
-    pkg_list:
-      - variety
