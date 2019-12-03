@@ -9,7 +9,7 @@ applications:
     pkg_list:
       - man
       - man-pages
-      - mandb
+      - man-db
       - texinfo
       - info
       - bind-utils
