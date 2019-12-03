@@ -5,36 +5,36 @@
   block:
     - name: Create user
       user:
-        name: user_data['name']
-        comment: "{{ user_data.comment | default('User populated by Ansible playbook users-setup') }}"
+        name: "{{ user_data['name'] }}"
+        comment: "{{ user_data['comment'] | default('User populated by Ansible playbook users-setup') }}"
         create_home: True
-        password: "{{ user_data.password | default('!') | password_hash('sha512') }}"
+        password: "{{ user_data['password'] | default('!') | password_hash('sha512') }}"
         shell: "{{ user_data.shell | default('/bin/bash') }}"
         generate_ssh_key: yes
         ssh_key_bits: 2048
         ssh_key_file: .ssh/id_rsa
-        system: "{{ user_data.system | default(False) }}"
+        system: "{{ user_data['system'] | default(False) }}"
         state: present
     - name: Create user directories
       block:
         - name: Create desktop user directories
           file:
-            path: "{{ user_home }}/{{ item.value }}"
+            path: "{{ user_home }}/{{ item['value'] }}"
             state: directory
           loop: "{{ xdg|dict2items }}"
         - name: Create extra user directories
           file:
             path: "{{ user_home }}/{{ item }}"
             state: directory
-          loop: extra
+          loop: "{{ extra }}"
       become: true
-      become_user: user_data['name']
+      become_user: "{{ user_data['name'] }} "
   when: user_data['state'] == "create" or user_data['state'] == "all"
 - name: Setup XDG environment
   block:
     - name: Create XDG configuration directory
       file:
-        path: xdg_config_home
+        path: "{{ xdg_config_home }}"
         state: directory
     - name: Deploy XDG configuration file
       template:
@@ -42,8 +42,8 @@
         dest: "{{ user_home }}/.config/user-dirs.dirs"
     - name: Create repositories directory in XDG local directory
       file:
-        path: root_config_repo
+        path: "{{ root_config_repo }}"
         state: directory
   become: true
-  become_user: user_data['name']
+  become_user: "{{ user_data['name'] }}"
   when: user_data['state'] == "config" or user_data['state'] == "all"
