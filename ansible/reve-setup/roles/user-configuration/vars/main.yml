@@ -1,2 +1,0 @@
-# root_config_repo: "/home/{{ user_data.name }}/.local/configs"
-# user_home: "/home/{{ user_data.name }}"

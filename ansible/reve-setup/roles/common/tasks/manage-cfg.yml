@@ -19,6 +19,8 @@
           file:
             path: "{{ xdg_config_home }}/{{ user_conf.xdgdir }}"
             state: directory
+          with_filetree: "{{ root_config_repo }}/{{ user_conf.dir }}"
+          when: item.state == 'directory'
         - name: Deploy new configuration resources
           copy:
             src: "{{ root_config_repo }}/{{ user_conf.dir }}/{{ item }}"
