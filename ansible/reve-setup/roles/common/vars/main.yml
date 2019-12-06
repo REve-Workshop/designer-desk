@@ -1,3 +1,4 @@
 root_config_repo: "/home/{{ user_data.name }}/.local/configs"
 xdg_config_home: "/home/{{ user_data.name }}/.config"
 user_home: "/home/{{ user_data.name }}"
+config_data: "{{ actions | actionsplice(user_conf['value']) }}"

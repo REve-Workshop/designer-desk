@@ -5,7 +5,7 @@
   tasks:
     - name: Load user description data
       include_vars:
-        file: "{{ users_dir }}/{{ remote_user }}.yml"
+        file: "{{ users_dir }}/{{ target_user }}.yml"
         name: user_data
     - name: "Create user environement"
       include_role:

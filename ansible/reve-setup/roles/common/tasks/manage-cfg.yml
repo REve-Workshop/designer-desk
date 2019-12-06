@@ -1,32 +1,34 @@
+- name: Debug
+  debug:
+    var: user_conf
+- name: Debug 2
+  debug:
+    var: config_data
 - name: "{{ user_conf.key }} configuration processing"
   block:
     - name: Checkout lastest version of configuration repository
       git:
-        repo: "{{ user_conf.repo }}"
-        dest: "{{ root_config_repo }}/{{ user_conf.dir }}"
+        repo: "{{ config_data.repo }}"
+        dest: "{{ root_config_repo }}/{{ config_data.dir }}"
         version: 'HEAD'
-      when: (user_conf['checkout'] is defined and user_conf['checkout'] == True) or
-            (actions['checkout'] == True and user_conf['checkout'] is undefined)
+      when: config_data['checkout'] == True
     - name: Deploy XDG compliant configuration
       block:
         - name: Delete old configuration directory
           file:
-            path: "{{ xdg_config_home }}/{{ user_conf.xdgdir }}"
+            path: "{{ xdg_config_home }}/{{ config_data.xdgdir }}"
             state: absent
-          when: (user_conf['delete_xdgdir_first'] is defined and user_conf['delete_xdgdir_first'] == True) or
-                (actions['delete_xdgdir_first'] == True and user_conf['delete_xdgdir_first'] is undefined)
+          when: config_data['delete_xdgdir_first'] == True)
         - name: Create new configuration directory
           file:
-            path: "{{ xdg_config_home }}/{{ user_conf.xdgdir }}"
+            path: "{{ xdg_config_home }}/{{ config_data.xdgdir }}"
             state: directory
-          with_filetree: "{{ root_config_repo }}/{{ user_conf.dir }}"
+          with_filetree: "{{ root_config_repo }}/{{ config_data.dir }}"
           when: item.state == 'directory'
         - name: Deploy new configuration resources
           copy:
-            src: "{{ root_config_repo }}/{{ user_conf.dir }}/{{ item }}"
-            dest: "{{ xdg_config_home }}/{{ user_conf.xdgdir }}"
-          loop: "{{ applic.files }}"
-      when: (user_conf['xdg_compliant'] is defined and user_conf['xdg_compliant'] == True) or
-            (actions['xdg_compliant'] == True and user_conf['xdg_compliant'] is undefined)
-  when: (applic['config'] is defined and applic['config'] == True) or
-        (actions['config'] == True and applic['config'] is undefined)
+            src: "{{ root_config_repo }}/{{ config_data.dir }}/{{ item }}"
+            dest: "{{ xdg_config_home }}/{{ config_data.xdgdir }}"
+          loop: "{{ config_data.files }}"
+      when: config_data['xdg_compliant'] == True)
+  when: config_data['config'] == True)

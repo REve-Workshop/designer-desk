@@ -29,6 +29,7 @@
         repo: "{{ applications.zsh.antigen.repo }}"
         dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
         version: 'HEAD'
+      when: applications['zsh'] is defined
     - name: Create the user for building applcations from sources
       block:
         - name: Load user description data
@@ -53,6 +54,7 @@
             name: quicklisp
           vars:
             working_directory: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+          when: applications['common_lisp'] is defined
     - name: Deploy StumpWM
       include_role:
         name: stumpwm
@@ -60,3 +62,4 @@
         repository: "{{ applications.stumpwm.repo }}"
         repository_contrib: "{{ applications.stumpwm.repo_contrib }}"
         working_dir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir}}"
+      when: applications['stumpwm'] is defined

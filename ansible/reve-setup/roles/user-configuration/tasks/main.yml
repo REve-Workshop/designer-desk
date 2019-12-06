@@ -10,20 +10,21 @@
       copy:
         src: "{{ root_config_repo }}/{{ applications.zsh.dir }}/zshrc"
         dest: "{{ user_home }}/.zshrc"
-      when: (actions['config'] == True and user_data['configurations']['zsh']['config'] is undefined) or
-            (user_data['configurations']['zsh']['config'] is defined and user_data['configurations']['zsh']['config'] == True)
+      vars:
+        config_zsh: "{{ actions | actionsplice(user_data['configurations']['zsh]) }}"
+      when: config_zsh['config'] == True
     # ------------------------------------------
     - name: Deploy TMux configuration
       include_role:
         name: tmux
-      when:
-        - (actions['config'] == True and user_data['configurations']['tmux']['config'] is undefined) or
-          (user_data['configurations']['tmux']['config'] is defined and user_data['configurations']['tmux']['config'] == True)
+      vars:
+        config_tmux: "{{ actions | actionsplice(user_data['configurations']['tmux]) }}"
+      when: config_zsh['config'] == True
     - name: Deploy Emacs configuration
       include_role:
         name: emacs
-      when:
-        - (actions['config'] == True and user_data['configurations']['emacs']['config'] is undefined) or
-          (user_data['configurations']['emacs']['config'] is defined and user_data['configurations']['emacs']['config'] == True)
+      vars:
+        config_emacs: "{{ actions | actionsplice(user_data['configurations']['emacs']) }}"
+      when: config_emacs['config'] == True
   become: True
   become_user: "{{ user_data.name }}"

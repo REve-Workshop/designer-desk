@@ -1,0 +1,151 @@
+---
+- hosts: all
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: False
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+    l_act:
+      checkout: False
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+  tasks:
+    - name: Test1
+      debug:
+        msg: "{{g_actions | actionsplice(l_act) }}"
+
+- hosts: all
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: True
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+    l_act:
+      checkout: False
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+  tasks:
+    - name: Test2
+      debug:
+        msg: "{{g_actions | actionsplice(l_act) }}"
+
+- hosts: all
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: False
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+    l_act:
+      checkout: True
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+  tasks:
+    - name: Test3
+      debug:
+        msg: "{{g_actions | actionsplice(l_act) }}"
+
+- hosts: all
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: False
+      config: False
+      delete_xdgdir_first: False
+    l_act:
+      checkout: True
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+  tasks:
+    - name: Test4
+      debug:
+        msg: "{{g_actions | actionsplice(l_act) }}"
+
+- hosts: all
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: False
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+    l_act:
+      checkout: True
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+      name: "Truc"
+  tasks:
+    - name: Test5
+      debug:
+        msg: "{{g_actions | actionsplice(l_act) }}"
+
+- hosts: all
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: False
+      config: False
+      xdg_compliant: True
+      delete_xdgdir_first: False
+    l_act:
+      checkout: True
+      config: False
+      delete_xdgdir_first: False
+  tasks:
+    - name: Test6
+      debug:
+        msg: "{{g_actions | actionsplice(l_act) }}"
+
+- hosts: all
+  connection: local
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: False
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+      skill: "clever"
+    l_act:
+      checkout: True
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+  tasks:
+    - name: Test7
+      debug:
+        msg: "{{g_actions | actionsplice(l_act) }}"
+
+- hosts: all
+  connection: local
+  gather_facts: False
+  vars:
+    g_actions:
+      checkout: False
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+      skill: "clever"
+    l_act:
+      checkout: True
+      config: False
+      xdg_compliant: False
+      delete_xdgdir_first: False
+      nest:
+        - hello
+        - un
+        - ordinateur
+  tasks:
+    - name: Test8
+      debug:
+        msg: "{{ g_actions | actionsplice(l_act) }}"
