@@ -8,18 +8,19 @@
     # the zsh configuration is stored in the $XDG_CONFIG_HOME directory.
     - name: Deploy .zshrc
       copy:
-        src: "{{ root_config_repo }}/{{ applications.zsh.dir }}/zshrc"
+        src: "{{ root_config_repo }}/{{ config_zsh['dir'] }}/zshrc"
         dest: "{{ user_home }}/.zshrc"
+        remote_src: 'yes'
       vars:
-        config_zsh: "{{ actions | actionsplice(user_data['configurations']['zsh]) }}"
+        config_zsh: "{{ actions | actionsplice(user_data['configurations']['zsh']) }}"
       when: config_zsh['config'] == True
     # ------------------------------------------
     - name: Deploy TMux configuration
       include_role:
         name: tmux
       vars:
-        config_tmux: "{{ actions | actionsplice(user_data['configurations']['tmux]) }}"
-      when: config_zsh['config'] == True
+        config_tmux: "{{ actions | actionsplice(user_data['configurations']['tmux']) }}"
+      when: config_tmux['config'] == True
     - name: Deploy Emacs configuration
       include_role:
         name: emacs

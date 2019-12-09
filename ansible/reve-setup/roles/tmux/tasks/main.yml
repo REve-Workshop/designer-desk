@@ -4,8 +4,9 @@
     state: absent
 - name: Deploy configuration files
   copy:
-    remote_src: "{{ root_config_repo }}/{{ tmux.dir }}/{{ item }}"
+    remote_src: "{{ root_config_repo }}/{{ config_tmux.dir }}/{{ item }}"
     dest: "{{ user_home_dir }}/.{{ item }}"
+    remote_src: 'yes'
   with_item:
     - tmux
     - tmux.conf
