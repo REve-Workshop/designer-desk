@@ -30,6 +30,7 @@ applications:
     pkg_list:
       - pass
       - mosh
+      - direnv
   stumpwm:
     dir: stumpwm
     repo: https://github.com/stumpwm/stumpwm.git

@@ -28,6 +28,7 @@ applications:
   tools:
     pkg_list:
       - mosh
+      - direnv
   python:
     pkg_list:
       - python3
