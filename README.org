@@ -1,5 +1,5 @@
 #+TITLE: Reve Workshop 
-[[https://github.com/montaropdf/reve-workshop][https://img.shields.io/github/commit-activity/m/montaropdf/reve-workshop?style=for-the-badge]]
+[[https://img.shields.io/github/commit-activity/m/montaropdf/reve-workshop?style=for-the-badge]]
 
 * Introduction
   :PROPERTIES:
