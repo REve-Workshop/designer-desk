@@ -1,5 +1,5 @@
 #+TITLE: Reve Workshop 
-[[https://img.shields.io/github/commit-activity/m/montaropdf/reve-workshop?style=for-the-badge][GitHub commit activity]]
+[[https://img.shields.io/github/commit-activity/m/montaropdf/reve-workshop?style=for-the-badge][https://img.shields.io/github/commit-activity/m/montaropdf/reve-workshop?style=for-the-badge]]
 
 #+begin_export html
 <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/montaropdf/reve-workshop?style=for-the-badge">
