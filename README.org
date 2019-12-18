@@ -1,4 +1,6 @@
 #+TITLE: Reve Workshop 
+[[https://img.shields.io/github/commit-activity/m/montaropdf/reve-workshop?style=for-the-badge]]
+
 * Introduction
   :PROPERTIES:
   :ID:       061082f9-4977-4941-bca4-ee64c817e19d
