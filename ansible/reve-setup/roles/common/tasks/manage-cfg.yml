@@ -30,5 +30,5 @@
             remote_src: 'yes'
           loop: "{{ config_data.files }}"
           when: item.state == 'file'
-      when: config_data['xdg_compliant'] == True
+      when: config_data['xdg_compliant'] == True and config_data['xdgdir'] is defined
   when: config_data['config'] == True
