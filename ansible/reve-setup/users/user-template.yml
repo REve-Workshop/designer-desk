@@ -75,9 +75,14 @@ configurations:
   # the dictionnary can be omitted. Usually, a dedicated role or task
   # has been designed to handle the configuration of that application.
     files:
-      - file1
-      - file2.txt
-      - config-subdir/file3.conf
+      - path: file1
+        state: file
+      - path: file2.txt
+        state: file
+      - path: config-subdir
+        state: directory
+      - path: config-subdir/file3.conf
+        state: file
   # ---------------------------------------
   #
   # Some Examples:
@@ -94,31 +99,44 @@ configurations:
     repo: https://github.com/montaropdf/conky-config.git
     files:
       - conky.conf
+    files:
+      - path: conky.conf
+        state: file
   dunst:
     dir: dunst
     xdgdir: dunst
     repo: https://github.com/montaropdf/dunst-config.git
     config: True
     files:
-      - dunstrc
+      - path: dunstrc
+        state: file
   stumpwm:
     dir: stumpwm-config
     xdgdir: stumpwm
     repo: https://github.com/montaropdf/stumpwm-config.git
     config: False
     files:
-      - config
-      - conf.d/autostart.lisp
-      - conf.d/customs.lisp
-      - conf.d/equake-conf.lisp
-      - conf.d/keybindings.lisp
-      - conf.d/lisp-server.lisp
+      - path: config
+        state: file
+      - path: conf.d
+        state: directory
+      - path: conf.d/autostart.lisp
+        state: file
+      - path: conf.d/customs.lisp
+        state: file
+      - path: conf.d/equake-conf.lisp
+        state: file
+      - path: conf.d/keybindings.lisp
+        state: file
+      - path: conf.d/lisp-server.lisp
+        state: file
   surfraw:
     dir: surfraw-config
     xdgdir: surfraw
     repo: https://github.com/montaropdf/surfraw-config.git
     files:
-      - conf
+      - path: conf
+        state: file
   tmux: # No file listed here because the role tmux, knows the list
         # and perform additional naming convertion.
     dir: tmux-config

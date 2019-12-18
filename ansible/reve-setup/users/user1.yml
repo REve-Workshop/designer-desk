@@ -59,9 +59,14 @@ configurations:
   # files contain path, the playbook will ensure the directories
   # exists.
     files:
-      - file1
-      - file2.txt
-      - config-subdir/file3.conf
+      - path: file1
+        state: file
+      - path: file2.txt
+        state: file
+      - path: config-subdir
+        state: directory
+      - path: config-subdir/file3.conf
+        state: file
   # ---------------------------------------
   #
   # Examples:
@@ -78,108 +83,142 @@ configurations:
     repo: https://github.com/montaropdf/alacritty-config.git
     config: False
     files:
-      - alacritty.yml
+      - path: alacritty.yml
+        state: file
   conky:
     dir: conky
     xdgdir: conky
     repo: https://github.com/montaropdf/conky-config.git
     files:
-      - conky.conf
+      - path: conky.conf
+        state: file
   dunst:
     dir: dunst
     xdgdir: dunst
     repo: https://github.com/montaropdf/dunst-config.git
     config: True
     files:
-      - dunstrc
+      - path: dunstrc
+        state: file
   emacs:
     dir: emacs-config
     xdgdir: emacs
     repo: https://github.com/montaropdf/emacs-config.git
     config: False
+    files:
+      - path: init.emacs.org
+        state: file
   mpd:
     dir: mpd
     xdgdir: mpd
     repo: https://github.com/montaropdf/mpd-config.git
     files:
-      - mpd.conf
+      - path: mpd.conf
+        state: file
   neofetch:
     dir: neofetch-config
     xdgdir: neofetch
     repo: https://github.com/montaropdf/neofetch-config.git
     files:
-      - config.conf
+      - path: config.conf
+        state: file
   nitrogen:
     dir: nitrogen-config
     xdgdir: nitrogen
     repo: https://github.com/montaropdf/nitrogen-config.git
     files:
-      - bg-saved.cfg
-      - nitrogen.cfg
-  # polybar:
-  #   dir: polybar-config
-  #   xdgdir: polybar
-  #   repo: https://github.com/montaropdf/polybar-config.git
-  #   files:
-  #     - config
+      - path: bg-saved.cfg
+        state: file
+      - path: nitrogen.cfg
+        state: file
   ranger:
     dir: ranger
     xdgdir: ranger
     repo: https://github.com/montaropdf/ranger-config.git
     files:
-      - rc.conf
-      - rifle.conf
-      - scope.sh
-      - tagged
+      - path: rc.conf
+        state: file
+      - path: rifle.conf
+        state: file
+      - path: scope.sh
+        state: file
+      - path: tagged
+        state: file
   stumpwm:
     dir: stumpwm-config
     xdgdir: stumpwm
     repo: https://github.com/montaropdf/stumpwm-config.git
     config: False
     files:
-      - config
-      - conf.d/autostart.lisp
-      - conf.d/customs.lisp
-      - conf.d/equake-conf.lisp
-      - conf.d/keybindings.lisp
-      - conf.d/lisp-server.lisp
+      - path: config
+        state: file
+      - path: conf.d
+        state: directory
+      - path: conf.d/autostart.lisp
+        state: file
+      - path: conf.d/customs.lisp
+        state: file
+      - path: conf.d/equake-conf.lisp
+        state: file
+      - path: conf.d/keybindings.lisp
+        state: file
+      - path: conf.d/lisp-server.lisp
+        state: file
   surfraw:
     dir: surfraw-config
     xdgdir: surfraw
     repo: https://github.com/montaropdf/surfraw-config.git
     files:
-      - conf
+      - path: conf
+        state: file
   uhk_agent:
     dir: uhk-agent-config
     xdgdir: uhk-agent
     repo: https://github.com/montaropdf/uhk-config.git
     files:
-      - 523379216.json
-      - Preferences
-      - Settings
+      - path: 523379216.json
+        state: file
+      - path: Preferences
+        state: file
+      - path: Settings
+        state: file
   variety:
     dir: variety-config
     xdgdir: variety
     repo: https://github.com/montaropdf/variety-config.git
     files:
-      - banned.txt
-      - plugins/
-      - scripts/
-      - ui.conf
-      - variety.conf
-      - variety_latest_default.conf
-      - wallpaper
+      - path: banned.txt
+        state: file
+      - path: plugins
+        state: directory
+      - path: scripts
+        state: directory
+      - path: ui.conf
+        state: file
+      - path: variety.conf
+        state: file
+      - path: variety_latest_default.conf
+        state: file
+      - path: wallpaper
+        state: file
   zsh:
     dir: zsh
     xdgdir: zsh
     config: True
     repo: https://github.com/montaropdf/zsh-config.git
     files:
-      - antigenrc
-      - conf.d/001-init.zsh
-      - conf.d/010-aliases.zsh
-      - conf.d/020-reve-env.zsh
-      - conf.d/999-close.zsh
+      - path: antigenrc
+        state: file
+      - path: conf.d
+        state: directory
+      - path: conf.d/001-init.zsh
+        state: file
+      - path: conf.d/010-aliases.zsh
+        state: file
+      - path: conf.d/020-reve-env.zsh
+        state: file
+      - path: conf.d/999-close.zsh
+        state: file
   tmux: # No file listed here because the role tmux, knows the list
         # and perform additional naming convertion.
     dir: tmux-config
