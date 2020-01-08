@@ -1,8 +1,10 @@
 # -*- mode: yaml -*-
 ---
 actions:
-  config: False
+  config: True
   xdg_compliant: True
+  checkout: True
+  delete_xdg_dir_first: True
 git_3rdparty: "/usr/local/src/3rdparty"
 applications:
   system:

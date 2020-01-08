@@ -15,13 +15,13 @@
       include_role:
         name: quicklisp
       vars:
-        working_directory: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+        working_directory: "{{ git_3rdparty }}/{{ applications['common_lisp']['ql_repo_dir'] }}"
       when: applications['common_lisp'] is defined
     - name: Deploy StumpWM
       include_role:
         name: stumpwm
       vars:
-        repository: "{{ applications.stumpwm.repo }}"
-        repository_contrib: "{{ applications.stumpwm.repo_contrib }}"
-        working_dir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir}}"
+        repository: "{{ applications['stumpwm']['repo'] }}"
+        repository_contrib: "{{ applications['stumpwm']['repo_contrib'] }}"
+        working_dir: "{{ git_3rdparty }}/{{ applications['stumpwm']['dir'] }}"
       when: applications['stumpwm'] is defined

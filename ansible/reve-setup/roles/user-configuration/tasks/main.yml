@@ -13,19 +13,19 @@
         remote_src: 'yes'
       vars:
         config_zsh: "{{ actions | actionsplice(user_data['configurations']['zsh']) }}"
-      when: config_zsh['config'] == True
+      when: user_data['configurations']['zsh'] is defined and config_zsh['config'] == True
     # ------------------------------------------
     - name: Deploy TMux configuration
       include_role:
         name: tmux
       vars:
         config_tmux: "{{ actions | actionsplice(user_data['configurations']['tmux']) }}"
-      when: config_tmux['config'] == True
+      when: user_data['configurations']['tmux'] is defined and config_tmux['config'] == True
     - name: Deploy Emacs configuration
       include_role:
         name: emacs
       vars:
         config_emacs: "{{ actions | actionsplice(user_data['configurations']['emacs']) }}"
-      when: config_emacs['config'] == True
+      when: user_data['configurations']['emacs'] is defined and config_emacs['config'] == True
   become: True
   become_user: "{{ user_data.name }}"

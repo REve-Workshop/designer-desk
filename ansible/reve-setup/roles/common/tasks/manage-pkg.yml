@@ -1,5 +1,5 @@
 - name: "Install {{ applic.key }}"
   dnf:
-    name: "{{ applic.value.pkg_list }}"
+    name: "{{ applic['value']['pkg_list'] }}"
     state: latest
   when: applic['value']['pkg_list'] is defined
