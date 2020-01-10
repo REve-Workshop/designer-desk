@@ -24,4 +24,5 @@
         repository: "{{ applications['stumpwm']['repo'] }}"
         repository_contrib: "{{ applications['stumpwm']['repo_contrib'] }}"
         working_dir: "{{ git_3rdparty }}/{{ applications['stumpwm']['dir'] }}"
+        working_dir_contrib: "{{ git_3rdparty }}/{{ applications['stumpwm']['dir_contrib'] }}"
       when: applications['stumpwm'] is defined

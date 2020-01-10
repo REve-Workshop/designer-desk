@@ -35,6 +35,7 @@ applications:
       - direnv
   stumpwm:
     dir: stumpwm
+    dir_contrib: stump_contrib
     repo: https://github.com/stumpwm/stumpwm.git
     repo_contrib: https://github.com/stumpwm/stumpwm-contrib.git
   common_lisp:
