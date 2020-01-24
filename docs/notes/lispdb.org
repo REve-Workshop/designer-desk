@@ -59,7 +59,7 @@
    ((INDEX name field-name (order-by ascending))))
   #+end_example
 
-  Q: should index be part of the definition?
+  *Q*: should index be part of the definition?
 
   Possible values for =KEY=:
   - =nil=
@@ -115,13 +115,14 @@
   :PROPERTIES:
   :ID:       d6cdfcfb-f04d-4ad4-b445-e4bd10ae88a1
   :END:
-  (primary-key-field-value field2-value field3-value field4-value...)
+  #+begin_example
+    (primary-key-field-value field2-value field3-value field4-value...)
+  #+end_example
 * Table relationship format
   :PROPERTIES:
   :ID:       b2e5adad-9fd4-4a89-80c3-b99f6a2669fd
   :END:
-  Is it event necessary?
-
+  *Q*: Is it event necessary?
 * Database structure
   :PROPERTIES:
   :ID:       08f53fa4-8691-4ec6-ab13-04bc731f8f38
