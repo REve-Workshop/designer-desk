@@ -1,6 +1,6 @@
 #+TITLE: Idea - LISP Database Format
 
-* Existing tools as possible candidate
+* Existing tools as possible candidates
   :PROPERTIES:
   :ID:       9aaa54c3-35c5-4050-9df3-c27f46e419a8
   :END:
@@ -35,103 +35,165 @@
       - Can be omitted for table that never changes
   - File format 1
     - Table definition and records in same file
-    - One table per file
+    - One table version per file
     - Table definition in each file
   - File format 2
-    - Table definition in a separate file
-    - Reference to table definition in each transaction file
+    - Table definition in a dedicated file
+    - Different versions of the table in the same file
+    - Reference to table definition in each data file
   - Tools
     - Basic search and filtering capability
-    - Allow to add one transaction per call
+    - Allow to add one record per call
     - Build a snapshot of the table state for a range of transactions
       - A set of files
       - A previous snapshot + transaction files
       - A date range
       - A previous snapshot + an end date
-      - Output: LISP-like, csv
-* Table definition
+      - Output: data record format, csv, SQL dump?
+* Format definition
   :PROPERTIES:
-  :ID:       d37699fb-b8ec-4e50-bf5e-db16bfaf11c6
+  :ID:       930b2c1e-93fc-4624-9ded-824f5d411441
   :END:
-  #+begin_example
-  (TABLE name description (VERSION nil)
-   ((FIELD name type description (key nil) (nil-allowed t) (unique nil) (type-specific-options-list nil)))
-   ((INDEX name field-name (order-by ascending))))
-  #+end_example
+** Table definition
+   :PROPERTIES:
+   :ID:       d37699fb-b8ec-4e50-bf5e-db16bfaf11c6
+   :END:
+   #+begin_src lisp
+     (TABLE name description (VERSION nil)
+            ((FIELD name description type (key nil) (nil-allowed t) (unique nil) (type-specific-options-list nil))
+             ...))
+   #+end_src
 
-  *Q*: should index be part of the definition?
+   + Possible values for =KEY=:
+     - =nil=
+     - =primary=
+   + Possible values for =TYPE=:
+     - =integer=
+     - =decimal=
+     - =string=
+     - =char=
+     - =byte-array=
+   + Proposed formats for =VERSION=:
+     - an integer
+     - a triplet vector
+       - major version
+       - minor version
+       - revision version
+       #+begin_src lisp
+         (:major 0 :minor 2 :rev 7)
+       #+end_src
+   + Options list for type =integer=:
+     - =min-value=
+     - =max-value=
+     - =sequence=
+     - =size=
+   + Options list for type =decimal=:
+     - =min-value=
+     - =max-value=
+     - =precision=: format =<number>.<number>=
+   + Options list for type =string=:
+     - =size=
+     - =allowed-values=: a list
+   + Options list for type =char=:
+     - =size=
+     - =allowed-values=: a list
+   + Options list for type =byte-array=:
+     - =size=
+     - =allowed-values=: a list
+** Table reference
+   :PROPERTIES:
+   :ID:       f3c4ef8e-6e80-45f7-ab0a-4697f38f9990
+   :END:
+   #+begin_src lisp
+     (TABLE-REF table-name version)
+   #+end_src
+** Sequence record
+   :PROPERTIES:
+   :ID:       83cd0b1b-4cf0-4482-ad9c-8697e6f6d04f
+   :END:
+   #+begin_src lisp
+     (field-name last-number-used)
+   #+end_src
+** Transaction record
+   :PROPERTIES:
+   :ID:       a18e474a-9c96-451c-a271-8fa104534087
+   :END:
+*** Operations
+    :PROPERTIES:
+    :ID:       886a1e7b-025a-41bf-9152-f9e33e2cb213
+    :END:
+   - INSERT
+     #+begin_src lisp
+     (+ record-datetime field1-value field2-value field3-value... (reason nil))
+     #+end_src
+   - DELETE
+     #+begin_src lisp
+     (- record-datetime primary-key-field-value (reason nil))
+     #+end_src
+   - UPDATE
+     #+begin_src lisp
+     (| record-datetime primary-key-field-value :field1 new-value :field2 new-value :field5 new-value... (reason nil))
+     #+end_src
+     
+     - =reason=: why this operation as been performed.
 
-  Possible values for =KEY=:
-  - =nil=
-  - =primary=
 
-  Possible values for =TYPE=:
-  - =integer=
-  - =decimal=
-  - =string=
-  - =char=
-  - =byte-array=
+     *NOTE*: not sure the symbols used to designate the commands are
+     the best ones. They are part of basic commands in common lisp.
 
-  Options list for type =integer=:
-  - =min-value=
-  - =max-value=
-  - =sequence=
-  - =size=
+     *Q*: =record-datetime= format?
+     *A*: possible formats:
+     - YYYY-MM-DD[Thh:mm[:ss[.SSS]]] - iso-format
+     - UTC timestamp
+*** Precedence of operations 
+    :PROPERTIES:
+    :ID:       86d32485-9294-49b1-97a2-59c3a9472b61
+    :END:
+    To ensure consistency when reading the records, the tools must use
+    the following precedence logic:
+    1. INSERT has precedence over UPDATE.
+    2. UPDATE has precedence over DELETE.
 
-  Options list for type =decimal=:
-  - =min-value=
-  - =max-value=
-  - =precision=: format =<number>.<number>=
-
-  Options list for type =string=:
-  - =size=
-  - =allowed-values=: a list
-
-  Options list for type =char=:
-  - =size=
-  - =allowed-values=: a list
-
-  Options list for type =byte-array=:
-  - =size=
-  - =allowed-values=: a list
-
-* Transaction record format
-  :PROPERTIES:
-  :ID:       a18e474a-9c96-451c-a271-8fa104534087
-  :END:
-  - INSERT
-    #+begin_example
-    (+ record-date field1-value field2-value field3-value...)
-    #+end_example
-  - DELETE
-    #+begin_example
-    (- record-date primary-key-field-value)
-    #+end_example
-  - UPDATE
-    #+begin_example
-    (| record-date primary-key-field-value :field1 new-value :field2 new-value :field5 new-value...)
-    #+end_example
-* Table record format
-  :PROPERTIES:
-  :ID:       d6cdfcfb-f04d-4ad4-b445-e4bd10ae88a1
-  :END:
-  #+begin_example
-    (primary-key-field-value field2-value field3-value field4-value...)
-  #+end_example
-* Table relationship format
-  :PROPERTIES:
-  :ID:       b2e5adad-9fd4-4a89-80c3-b99f6a2669fd
-  :END:
-  *Q*: Is it event necessary?
+    This can be also written as =-= *<* =|= *<* =+=.
+** Data record
+   :PROPERTIES:
+   :ID:       d6cdfcfb-f04d-4ad4-b445-e4bd10ae88a1
+   :END:
+   #+begin_example
+     (primary-key-field-value field2-value field3-value field4-value...)
+   #+end_example
+** Table relationship
+   :PROPERTIES:
+   :ID:       b2e5adad-9fd4-4a89-80c3-b99f6a2669fd
+   :END:
+   *Q*: Is it event necessary?
 * Database structure
   :PROPERTIES:
   :ID:       08f53fa4-8691-4ec6-ab13-04bc731f8f38
   :END:
-  The database will be a directory structure as following:
+  The database will be a directory structure as follow:
   #+begin_example
     database-name/
        etc/
        data/
+        table1-name/
+        table2-name/
+        table3-name/
+        ...
   #+end_example
   - =etc/=, the configuration of the database
   - =data/=, the data files of the database
+** Types of files
+   :PROPERTIES:
+   :ID:       b769f2ad-3984-4408-96cc-6d76298e2a32
+   :END:
+*** In =data/tableX-name=
+    :PROPERTIES:
+    :ID:       b18183ef-1ec1-4d8d-96f0-3642fa3c6a2a
+    :END:
+    - =.tldb=, holds the table descriptions when /format 2/ is used
+      for a table.
+    - =.dldb=, with /format 1/, holds the table description and data
+      of a table. With /format 2/, holds table reference and table
+      data.
+    - =.sldb=, holds the last number used by sequential integers.

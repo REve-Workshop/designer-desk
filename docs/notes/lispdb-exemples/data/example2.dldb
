@@ -1,0 +1,11 @@
+;;-*- mode: lisp -*-
+
+;; The following records are based on some values of my StumpWM configuration.
+
+(table-ref "example2")
+
+("font-family" "DejaVu Sans Mono")
+("font-subfamily" "Book")
+("font-size" "14")
+("*mode-line-foreground-color*" "gainsboro")
+("*mode-line-background-color*" "DeepSkyBlue")
