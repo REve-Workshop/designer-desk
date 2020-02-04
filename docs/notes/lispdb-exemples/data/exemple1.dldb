@@ -11,16 +11,16 @@ The format of the string must be YYYY-MM-DD." string nil t nil (:size 255))
         (field location "Where is it now?" string nil t nil (:size 255))
         (field genre "Genre of literature." string nil t nil (:size 10 :allowed-values ("manga" "novel" "comics" "manual")))))
 
-(+ "2020-01-26" "pra-com-lis-0" "Practical Common Lisp" nil nil "Peter Seibel" "2018-10-23" "http://www.gigamonkeys.com/book/" "manual")
+(insert "2020-01-26" "pra-com-lis-0" "Practical Common Lisp" nil nil "Peter Seibel" "2018-10-23" "http://www.gigamonkeys.com/book/" "manual")
 
-(+ "2020-01-26" "ariadne-01" "Ariadne" "FIXME" 1 "FIXME" "2019-11-23" "@home" "manga")
-(+ "2020-01-26" "ariadne-02" "Ariadne" "FIXME" 2 "FIXME" "2019-12-05" "@home" "manga")
-(+ "2020-01-26" "ariadne-03" "Ariadne" "FIXME" 3 "FIXME" "2020-01-10" "@home" "manga")
+(insert "2020-01-26" "ariadne-01" "Ariadne" "FIXME" 1 "FIXME" "2019-11-23" "@home" "manga")
+(insert "2020-01-26" "ariadne-02" "Ariadne" "FIXME" 2 "FIXME" "2019-12-05" "@home" "manga")
+(insert "2020-01-26" "ariadne-03" "Ariadne" "FIXME" 3 "FIXME" "2020-01-10" "@home" "manga")
 
-(+ "2019-12-14" "bat-nin-1" "Batman Ninja" "FIXME" 1 "FIXME" "2019-12-14" "@home" "manga")
+(insert "2019-12-14" "bat-nin-1" "Batman Ninja" "FIXME" 1 "FIXME" "2019-12-14" "@home" "manga")
 
-(- "2020-01-26" "bat-nin-1" "Sold, see ledger. Not the best manga read ever.")
+(delete "2020-01-26" "bat-nin-1" "Sold, see ledger. Not the best manga read ever.")
 
-(| "2020-01-26"  "ariadne-01" :author "Yagi Norihiro" :volume-title nil)
-(| "2020-01-26"  "ariadne-02" :author "Yagi Norihiro" :volume-title nil)
-(| "2020-01-26"  "ariadne-03" :author "Yagi Norihiro" :volume-title nil)
+(update "2020-01-26"  "ariadne-01" :author "Yagi Norihiro" :volume-title nil)
+(update "2020-01-26"  "ariadne-02" :author "Yagi Norihiro" :volume-title nil)
+(update "2020-01-26"  "ariadne-03" :author "Yagi Norihiro" :volume-title nil)

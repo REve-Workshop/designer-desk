@@ -124,22 +124,18 @@
     :END:
    - INSERT
      #+begin_src lisp
-     (+ record-datetime field1-value field2-value field3-value... (reason nil))
+     (INSERT record-datetime field1-value field2-value field3-value... (reason nil))
      #+end_src
    - DELETE
      #+begin_src lisp
-     (- record-datetime primary-key-field-value (reason nil))
+     (DELETE record-datetime primary-key-field-value (reason nil))
      #+end_src
    - UPDATE
      #+begin_src lisp
-     (| record-datetime primary-key-field-value :field1 new-value :field2 new-value :field5 new-value... (reason nil))
+     (UPDATE record-datetime primary-key-field-value :field1 new-value :field2 new-value :field5 new-value... (reason nil))
      #+end_src
      
      - =reason=: why this operation as been performed.
-
-
-     *NOTE*: not sure the symbols used to designate the commands are
-     the best ones. They are part of basic commands in common lisp.
 
      *Q*: =record-datetime= format?
      *A*: possible formats:
@@ -197,3 +193,16 @@
       of a table. With /format 2/, holds table reference and table
       data.
     - =.sldb=, holds the last number used by sequential integers.
+* Parsing and tools to manage the format and the data
+  :PROPERTIES:
+  :ID:       c0bce6a5-51b2-4d03-a406-6b79e44abb0a
+  :END:
+  - Candidates as parsers:
+    - http://www.lispworks.com/documentation/HyperSpec/Body/f_rd_rd.htm
+    - =parseq= package
+  - List of tools foreseen to manage the databases
+    - =ldb-query=, will allow to retrieve data from a database
+    - =ldb-rec=, will allow to add data to a table in a database
+    - =ldb-export=, data exporter to various text or binary formats
+    - =ldb-manage=, allows to manage collections of databases to easy
+      operation by the other tools.
