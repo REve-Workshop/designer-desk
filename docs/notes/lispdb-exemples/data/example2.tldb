@@ -1,6 +1,0 @@
-(table example2
-       "Example TWO of table definition and usage of the LISP Database Format.
-
-A simple key=value storage table, to hold configuration, for example."
-       ((field variable "Variable name." string primary nil t (:size 255))
-        (field value "Value associate to the variable." string nil nil nil (:size 1024))))

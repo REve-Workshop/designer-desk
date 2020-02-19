@@ -1,10 +1,10 @@
-(defpackage reve-workshop.git
-  (:use :cl :inferior-shell :str :reve-workshop.tools)
+(defpackage xyz.revecloud.re.someday.git
+  (:use :cl :inferior-shell :str :xyz.revecloud.re.tools)
   (:export #:commits-stat
            #:repo-stat
            #:repository-statistics))
 
-(in-package :reve-workshop.git)
+(in-package :xyz.revecloud.re.someday.git)
 
 (defstruct commits-stat
   (ahead 0 :type number)

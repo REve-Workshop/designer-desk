@@ -69,3 +69,90 @@
    :PROPERTIES:
    :ID:       d593a5a3-0661-4e4a-b811-1f9bb1bbe104
    :END:
+* Common lisp
+  :PROPERTIES:
+  :ID:       3d9fee1b-e161-4d4e-b5ee-da551eaea175
+  :END:
+** TODO Add a file to manage compilation and builds
+   :PROPERTIES:
+   :ID:       d6465ea2-4e2f-43df-af74-1e6f9c99e077
+   :END:
+   - File name: =cabs.lisp=
+   - Location: =#P"cl/tools/"=
+
+   It must collect all directories that contain an =asd= file, for a
+   given directory tree. It must do it recursively.
+
+   Next, those collected path must be added to the ASDF registry
+   global variable =asdf:*central-registry*=.
+** TODO Add a directory for the management of DBMS
+   :PROPERTIES:
+   :ID:       4a90c91a-c646-4526-a3c5-b9cc6c1eb469
+   :END:
+   This directory should contain one file per database management
+   system. The priority must be toward plain text lisp format.
+
+   Foreseen format:
+   - fact-base
+   - sexp - =com.informatimago.common-lisp.cesarum=
+
+   Location: =cl/is/=
+   Directory name: =dbms/=
+
+   These source files are responsible for providing a common API to
+   access data stored in files of the given format. This includes
+   opening and closing the file, and ensuring that any buffered data
+   is written when closing the file.
+** TODO Add a file to provide a query API for the information system
+   :PROPERTIES:
+   :ID:       e5f99bc6-ccff-4bb2-81c8-5b1d4749c45a
+   :END:
+   File name: =query.lisp=
+   Location: =cl/is/=
+
+   Foreseen functions and macros:
+   - =search=: will allow to search for entries in a information system for data corresponding to given criteria.
+     - =is=: information system.
+     - =path=: the search will be limited to elements present at that path.
+     - =condition=: the condition to match to collect a value.
+     - =fields=: a list of fields whos data must be returned.
+
+   Foreseen criteria:
+   - =one-of=: The field must contains one of the element in the provided list or vector.
+   - =unique=: The value must be present only once in the scope.
+   - =and=
+   - =or=
+   - =not=
+** TODO Add a file to provide a write API for the information system
+   :PROPERTIES:
+   :ID:       69f83ed1-5406-43ae-bde9-57d2d85ef284
+   :END:
+   File name: =record.lisp=
+   Location: =cl/is/=
+   
+   Foreseen function:
+   - =write=: open access to the given path, write the provided data and close the data store.
+   - =with-is-path=: allows to perform multiple operation on the provided path.
+   - =delete=: delete the data at path.
+   - =update=: update the data at path with the new one.
+** TODO Add a source file to manage an information system initialisation
+   :PROPERTIES:
+   :ID:       681d859d-3ae1-4b00-8f97-39361e296999
+   :END:
+   File name: =boot.lisp=
+   Location: =cl/is/=
+
+   The file must provides ways to initialize a new file system, but
+   also to boot an existing one. And to ensure that the calling
+   program can manage the data consistently.
+
+   Foreseen function:
+   - =init-information-system=: creates an new information system.
+     - =is-name=: name of the information system.
+     - =description=: a text describing the information system.
+     - =ism-location=: an empty directory where the information system manager
+       this information system will reside.
+     - =default-dbms=: the default dbms to use to store data.
+   - =boot-information-system=: prepare an existing information system
+     to be used by the calling program.
+     - =location=: A directory containing an information system manager.
