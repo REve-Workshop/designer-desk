@@ -1,0 +1,25 @@
+#+TITLE: Information System Design
+
+* Definition
+  :PROPERTIES:
+  :ID:       9c706d38-1bce-4096-b338-97f90738a4cc
+  :END:
+  An information system will be defined by:
+  - A configuration file with the following information:
+    - The list of directories to manage.
+    - Values global to the whole information system.
+  - A list of directories specified by the configuration file.
+  - A special directory with:
+    - The definition of the data structure.
+    - The validators of those data structure.
+    - Any logic defining relationship between data.
+* Contents of a directory managed by an information system
+  :PROPERTIES:
+  :ID:       0b7d237a-1b32-4aa8-90bc-01e00bbe7f8a
+  :END:
+  - A file defining properties for this directory and its children. A
+    child directory can contain such file and any value defined in it
+    will supersede the value defined in one of its parent children or
+    globally.
+  - Data files composed of lisp data structures.
+  - Any file associated to some data in a data file.

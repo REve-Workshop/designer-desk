@@ -96,29 +96,48 @@
    - fact-base
    - sexp - =com.informatimago.common-lisp.cesarum=
 
-   Location: =cl/is/=
-   Directory name: =dbms/=
+   Location: =#P"cl/is/"=
+   Directory name: =#P"dbms/"=
 
    These source files are responsible for providing a common API to
    access data stored in files of the given format. This includes
    opening and closing the file, and ensuring that any buffered data
    is written when closing the file.
+
+   Foreseen API:
+   - =open=, connect the calling application to the database
+   - =close=, close the connection
+   - crud API:
+     - =insert= / =create=, add a record to the database
+     - =read=, read a record from the data base
+     - =update=, update a record in the database
+     - =delete=, remove a record from the database
+   - =load=, load the database in memory for use by the crud API
+   - =save=, save all the changes to the database
 ** TODO Add a file to provide a query API for the information system
    :PROPERTIES:
    :ID:       e5f99bc6-ccff-4bb2-81c8-5b1d4749c45a
    :END:
    File name: =query.lisp=
-   Location: =cl/is/=
+   Location: =#P"cl/is/"=
 
    Foreseen functions and macros:
-   - =search=: will allow to search for entries in a information system for data corresponding to given criteria.
-     - =is=: information system.
-     - =path=: the search will be limited to elements present at that path.
-     - =condition=: the condition to match to collect a value.
-     - =fields=: a list of fields whos data must be returned.
+   - =search=: will allow to search for entries in a information
+               system for data corresponding to given criteria.
+     - Parameters:
+       - =is=: information system.
+       - =path=: the search will be limited to elements present at that path.
+       - =condition=: the condition to match to collect a value.
+       - =fields=: a list of fields whose data must be returned.
+     - Possible Returned values:
+       - A list of records, if the query is successful.
+       - =nil=, if the query returns nothing.
+       - a complex lisp object, in case of error, with all the data to
+         help diagnose the problem.
 
    Foreseen criteria:
-   - =one-of=: The field must contains one of the element in the provided list or vector.
+   - =one-of=: The field must contains one of the element in the
+               provided list or vector.
    - =unique=: The value must be present only once in the scope.
    - =and=
    - =or=
@@ -128,7 +147,7 @@
    :ID:       69f83ed1-5406-43ae-bde9-57d2d85ef284
    :END:
    File name: =record.lisp=
-   Location: =cl/is/=
+   Location: =#P"cl/is/"=
    
    Foreseen function:
    - =write=: open access to the given path, write the provided data and close the data store.
@@ -140,7 +159,7 @@
    :ID:       681d859d-3ae1-4b00-8f97-39361e296999
    :END:
    File name: =boot.lisp=
-   Location: =cl/is/=
+   Location: =#P"cl/is/"=
 
    The file must provides ways to initialize a new file system, but
    also to boot an existing one. And to ensure that the calling

@@ -3,6 +3,7 @@
     :author "Roland Everaert"
     :license ""
     ;; :depends-on (:fact-base :str)
-    :components ((:file "define"))
+    :components (;; (:file "define")
+                 (:file "tree"))
     :description "REVE Workshop information system."
     :in-order-to ((test-op (test-op "xyz.revecloud.re.is/tests"))))
