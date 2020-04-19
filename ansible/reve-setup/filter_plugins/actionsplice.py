@@ -2,9 +2,9 @@
 from ansible.errors import AnsibleFilterError
 
 def actionsplice(global_actions, local_actions):
-    """Return the combination of 2 instances of an action-like dictionnary.
+    """Return the combination of 2 instances of an action-like dictionary.
 
-An action-like dictionnary can have any combination of the following key/value pair fields:
+An action-like dictionary can have any combination of the following key/value pair fields:
 - config
 - xdg_compliant
 - checkout
@@ -15,6 +15,8 @@ Other fields are accepted in local_actions. Any extra field in global_actions wi
 Value in fields of local_actions have precedence over values in fields of global_actions.
 """
 
+    print("Global Actions: ".format(global_actions))
+    print("Local Actions: ".format(local_actions))
     out_actions = {}
     actions_list = ['config', 'xdg_compliant', 'checkout', 'delete_xdgdir_first']
     for key, value in local_actions.items():

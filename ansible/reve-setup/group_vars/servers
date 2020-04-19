@@ -53,7 +53,7 @@ applications:
       - powerline-fonts
   emacs:
     pkg_list:
-      - emacs
+      - emacs-nox
       - emacs-common
       - emacs-filesystem  
   tmux:
