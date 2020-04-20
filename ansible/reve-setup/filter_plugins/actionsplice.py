@@ -12,11 +12,11 @@ An action-like dictionary can have any combination of the following key/value pa
 
 Other fields are accepted in local_actions. Any extra field in global_actions will be ignored
 
-Value in fields of local_actions have precedence over values in fields of global_actions.
+Values in fields of local_actions have precedence over values in fields of global_actions.
+
+The actions checked in this function have nothing to do with ansible actions. I should surely find another word for them.
 """
 
-    print("Global Actions: ".format(global_actions))
-    print("Local Actions: ".format(local_actions))
     out_actions = {}
     actions_list = ['config', 'xdg_compliant', 'checkout', 'delete_xdgdir_first']
     for key, value in local_actions.items():

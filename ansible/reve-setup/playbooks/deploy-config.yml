@@ -13,6 +13,10 @@
       loop: "{{ user_data['configurations']|dict2items }}"
       loop_control:
         loop_var: user_conf
+      become: True
+      become_user: "{{ target_user }}"
     - name: Deploy non XDG compliant configuration elements
       include_role:
         name: user-configuration
+      become: True
+      become_user: "{{ target_user }}"
