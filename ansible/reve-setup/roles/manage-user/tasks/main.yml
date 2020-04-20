@@ -31,8 +31,8 @@
             owner: "{{ user_data.name }}"
             group: "{{ user_data.name }}"
           loop: "{{ extra }}"
-      become: true
-      become_user: user_data.name
+      # become: True
+      # become_user: "{{ user_data.name }}"
   when: user_data.state == "create" or user_data.state == "all"
 - name: Setup XDG environment
   block:
@@ -54,6 +54,6 @@
         state: directory
         owner: "{{ user_data.name }}"
         group: "{{ user_data.name }}"
-  become: true
-  become_user: user_data.name
+  # become: True
+  # become_user: "{{ user_data.name }}"
   when: user_data.state == "config" or user_data.state == "all"
