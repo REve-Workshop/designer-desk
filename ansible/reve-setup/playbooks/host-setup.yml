@@ -29,34 +29,4 @@
         repo: "{{ applications.zsh.antigen.repo }}"
         dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
         version: 'HEAD'
-    - name: Create the user for building applcations from sources
-      block:
-        - name: Load user description data
-          include_vars:
-            file: "{{ users_dir }}/builder.yml"
-            name: user_data
-        - name: Create the user
-          include_role:
-            name: manage-user
-        - name: Update configuration repositories and deploy XDG compliant configuration elements
-          include_role:
-            name: common
-            tasks_from: manage-cfg.yml
-          loop: "{{ user_data.configurations|dict2items }}"
-          loop_control:
-            loop_var: user_conf
-        - name: Deploy other configuration elements
-          include_role:
-            name: user-configuration
-        - name: Ensure QuickLisp is installed
-          include_role:
-            name: quicklisp
-          vars:
-            working_directory: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
-    - name: Deploy StumpWM
-      include_role:
-        name: stumpwm
-      vars:
-        repository: "{{ applications.stumpwm.repo }}"
-        repository_contrib: "{{ applications.stumpwm.repo_contrib }}"
-        working_dir: "{{ git_3rdparty }}/{{ applications.stumpwm.dir}}"
+      when: applications['zsh'] is defined

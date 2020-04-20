@@ -29,7 +29,7 @@
       include_role:
         name: emacs
       vars:
-        config_tmux: "{{ actions | actionsplice(user_data.configurations.emacs) }}"
+        config_emacs: "{{ actions | actionsplice(user_data.configurations.emacs) }}"
       when:
         - user_data.configurations.emacs is defined
         - config_emacs.config == True
