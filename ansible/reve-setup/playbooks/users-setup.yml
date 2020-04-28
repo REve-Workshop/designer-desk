@@ -10,6 +10,11 @@
     - name: "Create user environment"
       include_role:
         name: manage-user
+        tasks_from: main.yml
+    - name: Configure git environment for the user
+      include_role:
+        name: manage-user
+        tasks_from: git.yml
     - name: "Install Python dependencies"
       include_role:
         name: python
