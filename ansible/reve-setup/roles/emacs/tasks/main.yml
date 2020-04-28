@@ -1,11 +1,7 @@
-- name: Create .emacs.d/ directory
-  file:
-    path: ~/.emacs.d/
-    state: directory
 - name: Deploy init.el
   copy:
     src: "{{ root_config_repo }}/{{ config_emacs.dir }}/{{ item }}"
-    dest: ~/.emacs.d/
+    dest: ~/.emacs
     remote_src: 'yes'
   with_items:
-    - init.el
+    - .emacs
