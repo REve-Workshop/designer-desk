@@ -32,3 +32,5 @@
           when: item['state'] == 'file'
       when: config_data['xdg_compliant'] == True and config_data['xdgdir'] is defined
   when: config_data['config'] == True
+  become: True
+  become_user: "{{ user_data.name }}"

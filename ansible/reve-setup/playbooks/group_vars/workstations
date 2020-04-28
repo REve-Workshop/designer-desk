@@ -68,6 +68,7 @@ applications:
   emacs:
     pkg_list:
       - emacs
+      - emacs-nox
       - emacs-common
       - emacs-filesystem  
   tmux:
@@ -101,3 +102,6 @@ applications:
   variety:
     pkg_list:
       - variety
+  firefox:
+    pkg_list:
+      - firefox

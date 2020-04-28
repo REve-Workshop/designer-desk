@@ -1,7 +1,7 @@
 - name: Deploy init.el
   copy:
     src: "{{ root_config_repo }}/{{ config_emacs.dir }}/{{ item }}"
-    dest: ~/.emacs.d
+    dest: ~/.emacs
     remote_src: 'yes'
   with_items:
-    - init.el
+    - .emacs
