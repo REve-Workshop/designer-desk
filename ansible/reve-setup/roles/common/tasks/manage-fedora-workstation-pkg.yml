@@ -1,5 +1,5 @@
 - name: Common packages for any Fedora installation
-  include_task: manage-fedora-common-pkg.yml
+  include_tasks: manage-fedora-common-pkg.yml
 - name: udisk GUI
   dnf:
     name: "udiskie"
@@ -16,7 +16,7 @@
     - emacs
     - emacs-nox
     - emacs-common
-    - emacs-filesystem  
+    - emacs-filesystem
 - name: alacritty VTE
   dnf:
     name: "alacritty"

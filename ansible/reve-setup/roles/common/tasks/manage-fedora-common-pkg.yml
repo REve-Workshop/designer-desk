@@ -60,18 +60,20 @@
     - powerline-fonts
 - name: Python3 execution environment
   dnf:
-    name: "python3"
-    state: latest
-- name: Python3 development environment
-  dnf:
     name: "{{ item }}"
     state: latest
   loop:
+    - python3
     - python3-pip
-    - python3-virtualenv
-  when: 
-    - "development" in user_data.profiles
-    - "python" in user_data.profiles
+# - name: Python3 development environment
+#   dnf:
+#     name: "{{ item }}"
+#     state: latest
+#   loop:
+#     - python3-virtualenv
+#   when:
+#     - "development" in user_data.profiles
+#     - "python" in user_data.profiles
 - name: Git repositories management
   dnf:
     name: "{{ item }}"
@@ -83,11 +85,11 @@
     - libgit2
     - perl-Git
     - python3-pygit2
-- name: Common lisp SBCL implementation
-  dnf:
-    name: "sbcl"
-    state: latest
-  when: "common-lisp" in user_data.profiles
+# - name: Common lisp SBCL implementation
+#   dnf:
+#     name: "sbcl"
+#     state: latest
+#   when: "common-lisp" in user_data.profiles
 - name: TMux
   dnf:
     name: "{{ item }}"
@@ -104,4 +106,4 @@
     name: "ranger"
     state: latest
 - name: Deploy 3rd party applications common to any hosts
-  include_task: common-3rdparty.yml
+  include_tasks: common-3rdparty.yml

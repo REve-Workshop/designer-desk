@@ -30,9 +30,6 @@
           include_role:
             name: common
             tasks_from: manage-fedora-workstation-pkg.yml
-          # loop: "{{ applications|dict2items }}"
-          # loop_control:
-          #   loop_var: applic
           when: "'workstations' in group_names"
         - name: Install applications from package manager
           include_role:

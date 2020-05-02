@@ -1,15 +1,15 @@
-- name: Include common variables
-  include_vars:
-    file: ../../common/vars/main.yml
+# - name: Include common variables
+#   include_vars:
+#     file: ../../common/vars/main.yml
 - name: Set git user name
   git_config:
     name: user.name
     scope: global
     value: '{{ user_data.user_name }}'
-  when: user_data.dev_profile is defined and user_data.dev_profile == True
+  when: "'development' in user_data.profiles"
 - name: Set git user email address
   git_config:
     name: user.email
     scope: global
     value: '{{ user_data.email_address }}'
-  when: user_data.dev_profile is defined and user_data.dev_profile == True
+  when: "'development' in user_data.profiles"
