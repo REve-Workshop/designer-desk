@@ -1,0 +1,19 @@
+- name: "Stop container {{ ct_template.id }} / {{ ct_template.hostname }}"
+  proxmox:
+    vmid: "{{ ct_template.id }}"
+    api_user: "{{ proxmox_user }}"
+    api_password: "{{ proxmox_password }}"
+    api_host: "{{ proxmox_cluster_host }}"
+    node: "{{ proxmox_node }}"
+    pool: "{{ proxmox_pool }}"
+    force: yes
+    state: stopped
+- name: "Remove container {{ ct_template.id }} / {{ ct_template.hostname }}"
+  proxmox:
+    vmid: "{{ ct_template.id }}"
+    api_user: "{{ proxmox_user }}"
+    api_password: "{{ proxmox_password }}"
+    api_host: "{{ proxmox_cluster_host }}"
+    node: "{{ proxmox_node }}"
+    pool: "{{ proxmox_pool }}"
+    state: absent

@@ -1,0 +1,35 @@
+- name: "Create new unpriviledged container {{ ct_template.id }} / {{ ct_template.hostname }}"
+  proxmox:
+    vmid: "{{ ct_template.id }}"
+    api_user: "{{ proxmox_user }}"
+    api_password: "{{ proxmox_password }}"
+    api_host: "{{ proxmox_cluster_host }}"
+    node: "{{ proxmox_node }}"
+    pool: "{{ proxmox_pool }}"
+    password: "{{ ct_template.root_pwd }}"
+    hostname: "{{ ct_template.hostname }}"
+    ostemplate: "{{ ct_template.image }}"
+    cpus: "{{ ct_template.cpus }}"
+    disk: "{{ ct_template.disk }}"
+    memory: "{{ ct_template.memory }}"
+    swap: "{{ ct_template.swap }}"
+    pubkey: "{{ ct_template.pubkey }}"
+    netif: "{{ ct_template.netif }}"
+    unprivileged: yes
+    storage: "local"
+    state: present
+- name: "Start container {{ ct_template.id }} / {{ ct_template.hostname }}"
+  proxmox:
+    vmid: "{{ ct_template.id }}"
+    api_user: "{{ proxmox_user }}"
+    api_password: "{{ proxmox_password }}"
+    api_host: "{{ proxmox_cluster_host }}"
+    node: "{{ proxmox_node }}"
+    pool: "{{ proxmox_pool }}"
+    state: started
+- name: Install SSH server
+  shell: 'pct exec {{ ct_template.id }} -- bash -c "dnf -y install openssh-server"'
+- name: Enable and start SSH server
+  shell: 'pct exec {{ ct_template.id }} -- bash -c "systemctl enable sshd && systemctl start sshd"'
+- name: Install MoSH
+  shell: 'pct exec {{ ct_template.id }} -- bash -c "dnf -y install mosh"'

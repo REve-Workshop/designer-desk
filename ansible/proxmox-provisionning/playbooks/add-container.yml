@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: Get Container definition from file
+      include_vars:
+        file: "{{ ct_def_file }}"
+        name: ct_template
+    - name: "Create container in proxmox - Cluster {{ proxmox_cluster_host }} / Node {{ proxmox_node }}"
+      include_role:
+        name: ct-managment
+        tasks_from: add-ct
