@@ -5,64 +5,64 @@ actions:
   xdg_compliant: True
 git_3rdparty: "/usr/local/src/3rdparty"
 applications:
-  system:
-    pkg_list:
-      - man
-      - man-pages
-      - man-db
-      - texinfo
-      - info
-      - bind-utils
-      - autoconf
-      - libtool
-      - gcc
-      - curl
-      - wget
-  admin-tools:
-    pkg_list:
-      - ftop
-      - iftop
-      - net-tools
-      - sysstat
-      - glances
-  tools:
-    pkg_list:
-      - mosh
-      - direnv
-  python:
-    pkg_list:
-      - python3
-      - python3-pip
-      - python3-virtualenv
-  git:
-    pkg_list:
-      - git
-      - git-core
-      - git-core-doc
-      - libgit2
-      - perl-Git
-      - python3-pygit2
+  # system:
+  #   pkg_list:
+  #     - man
+  #     - man-pages
+  #     - man-db
+  #     - texinfo
+  #     - info
+  #     - bind-utils
+  #     - autoconf
+  #     - libtool
+  #     - gcc
+  #     - curl
+  #     - wget
+  # admin-tools:
+  #   pkg_list:
+  #     - ftop
+  #     - iftop
+  #     - net-tools
+  #     - sysstat
+  #     - glances
+  # tools:
+  #   pkg_list:
+  #     - mosh
+  #     - direnv
+  # python:
+  #   pkg_list:
+  #     - python3
+  #     - python3-pip
+  #     - python3-virtualenv
+  # git:
+  #   pkg_list:
+  #     - git
+  #     - git-core
+  #     - git-core-doc
+  #     - libgit2
+  #     - perl-Git
+  #     - python3-pygit2
   zsh:
     antigen:
       dir: antigen
       repo: https://github.com/zsh-users/antigen.git
-    pkg_list:
-      - zsh
-      - powerline
-      - powerline-docs
-      - powerline-fonts
-  emacs:
-    pkg_list:
-      - emacs-nox
-      - emacs-common
-      - emacs-filesystem  
-  tmux:
-    pkg_list:
-      - tmux
-      - tmux-powerline
-  neofetch:
-    pkg_list:
-      - neofetch
-  ranger:
-    pkg_list:
-      - ranger
+    # pkg_list:
+    #   - zsh
+    #   - powerline
+    #   - powerline-docs
+    #   - powerline-fonts
+  # emacs:
+  #   pkg_list:
+  #     - emacs-nox
+  #     - emacs-common
+  #     - emacs-filesystem  
+  # tmux:
+  #   pkg_list:
+  #     - tmux
+  #     - tmux-powerline
+  # neofetch:
+  #   pkg_list:
+  #     - neofetch
+  # ranger:
+  #   pkg_list:
+  #     - ranger

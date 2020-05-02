@@ -1,4 +1,4 @@
-- name: Deploy init.el
+- name: Deploy root configuration file of Emacs in user's home directory
   copy:
     src: "{{ root_config_repo }}/{{ config_emacs.dir }}/{{ item }}"
     dest: ~/.emacs

@@ -1,0 +1,6 @@
+- name: Configuration of the root user account
+  user:
+    name: root
+    local: True
+    shell: /usr/bin/zsh
+    state: present

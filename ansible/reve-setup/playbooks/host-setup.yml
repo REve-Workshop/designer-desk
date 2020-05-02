@@ -1,7 +1,7 @@
 # The target host user must be root.
 ---
 - hosts: all
-  gather_facts: False
+  gather_facts: True
   tasks:
     - name: Setup Time Zone
       timezone:
@@ -10,23 +10,54 @@
       file:
         path: "{{ git_3rdparty }}"
         state: directory
-    - name: Enable package manager's extra repositories
-      include_role:
-        name: enable-pm-repos
-    - name: Ensure System is up to date
-      dnf:
-        name: "*"
-        state: latest
-    - name: Install applications from package manager
+    - name: Manage fedora based packages
+      block:
+        - name: Enable package manager's extra repositories
+          include_role:
+            name: enable-pm-repos
+            tasks_from: fedora-workstation-repos.yml
+          when: "'workstations' in group_names"
+        - name: Enable package manager's extra repositories
+          include_role:
+            name: enable-pm-repos
+            tasks_from: fedora-server-repos.yml
+          when: "'servers' in group_names"
+        - name: Ensure System is up to date
+          dnf:
+            name: "*"
+            state: latest
+        - name: Install applications from package manager
+          include_role:
+            name: common
+            tasks_from: manage-fedora-workstation-pkg.yml
+          # loop: "{{ applications|dict2items }}"
+          # loop_control:
+          #   loop_var: applic
+          when: "'workstations' in group_names"
+        - name: Install applications from package manager
+          include_role:
+            name: common
+            tasks_from: manage-fedora-server-pkg.yml
+          when: "'servers' in group_names"
+      when: ansible_facts['distribution'] == 'Fedora' and (ansible_facts['distribution_major_version'] | int) > 30
+    - name: Manage centos based packages
+      block:
+        - name: Enable package manager's extra repositories
+          include_role:
+            name: enable-pm-repos
+            tasks_from: centos-server-repos.yml
+          when: "'servers' in group_names"
+        - name: Ensure System is up to date
+          dnf:
+            name: "*"
+            state: latest
+        - name: Install applications from package manager
+          include_role:
+            name: common
+            tasks_from: manage-centos-server-pkg.yml
+          when: "'servers' in group_names"
+      when: ansible_facts['distribution'] == 'CentOS' and (ansible_facts['distribution_major_version'] | int) >= 8
+    - name: Setup root user
       include_role:
         name: common
-        tasks_from: manage-pkg
-      loop: "{{ applications|dict2items }}"
-      loop_control:
-        loop_var: applic
-    - name: Install antigen (ZSH package manager)
-      git:
-        repo: "{{ applications.zsh.antigen.repo }}"
-        dest: "{{ git_3rdparty }}/{{ applications.zsh.antigen.dir }}"
-        version: 'HEAD'
-      when: applications['zsh'] is defined
+        tasks_from: root-user.yml
