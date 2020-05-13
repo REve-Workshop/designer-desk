@@ -3,37 +3,53 @@
 - hosts: all
   gather_facts: True
   tasks:
-    - name: Setup Time Zone
-      timezone:
-        name: 'Europe/Brussels'
-    - name: Setup third party Git repository directory
-      file:
-        path: "{{ git_3rdparty }}"
-        state: directory
+    - name: Initial tasks for host setup
+      include_role:
+        name: common
+        tasks_from: init.yml
     - name: Manage fedora based packages
       block:
         - name: Enable package manager's extra repositories
           include_role:
-            name: enable-pm-repos
+            name: workstation
             tasks_from: fedora-workstation-repos.yml
           when: "'workstations' in group_names"
         - name: Enable package manager's extra repositories
           include_role:
-            name: enable-pm-repos
+            name: server
             tasks_from: fedora-server-repos.yml
           when: "'servers' in group_names"
         - name: Ensure System is up to date
           dnf:
             name: "*"
             state: latest
-        - name: Install applications from package manager
+        - name: Install minimum packages for root and builder users
+          dnf:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - git
+        - name: Setup root user
           include_role:
             name: common
-            tasks_from: manage-fedora-workstation-pkg.yml
+            tasks_from: root-user.yml
+        - name: Setup builder user
+          include_role:
+            name: common
+            tasks_from: builder-user.yml
+        - name: Install Desktop Environments
+          include_role:
+            name: workstation
+            tasks_from: desk-env.yml
           when: "'workstations' in group_names"
         - name: Install applications from package manager
           include_role:
-            name: common
+            name: workstation
+            tasks_from: manage-fedora-workstation-pkg.yml
+          when: "'workstations' in group_names"
+        - name: Install applications from package manager for Server installation
+          include_role:
+            name: server
             tasks_from: manage-fedora-server-pkg.yml
           when: "'servers' in group_names"
       when: ansible_facts['distribution'] == 'Fedora' and (ansible_facts['distribution_major_version'] | int) > 30
@@ -54,7 +70,3 @@
             tasks_from: manage-centos-server-pkg.yml
           when: "'servers' in group_names"
       when: ansible_facts['distribution'] == 'CentOS' and (ansible_facts['distribution_major_version'] | int) >= 8
-    - name: Setup root user
-      include_role:
-        name: common
-        tasks_from: root-user.yml

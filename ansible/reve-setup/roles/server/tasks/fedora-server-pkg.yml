@@ -1,3 +1,7 @@
+- name: Fedora Server Edition group package installation
+  dnf:
+    name: "Fedora Server Edition"
+    state: latest
 - name: Common packages for any Fedora installation
   include_tasks: manage-fedora-common-pkg.yml
 - name: Emacs no X Server support

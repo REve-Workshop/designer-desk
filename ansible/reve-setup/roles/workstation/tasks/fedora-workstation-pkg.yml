@@ -1,5 +1,14 @@
 - name: Common packages for any Fedora installation
-  include_tasks: manage-fedora-common-pkg.yml
+  include_role:
+    name: common
+    tasks_from: manage-fedora-common-pkg.yml
+- name: openvpn client and network manager plugins for openvpn
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+     - openvpn
+     - NetworkManager-openvpn
 - name: udisk GUI
   dnf:
     name: "udiskie"
@@ -24,10 +33,6 @@
 - name: Conky local monitoring GUI
   dnf:
     name: "conky"
-    state: latest
-- name: Dunst D-Bus manager
-  dnf:
-    name: "dunst"
     state: latest
 - name: MPC the music player client for MPD
   dnf:

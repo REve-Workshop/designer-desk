@@ -1,0 +1,79 @@
+- name: Remove XFCE Desktop
+  dnf:
+    name: "xfce-desktop-environment"
+    state: "absent"
+  when: xfce == False
+- name: Install XFCE Desktop
+  shell: dnf -y groupinstall xfce-desktop-environment
+    # name: 
+    # state: "latest"
+  when: xfce == True
+- name: Remove KDE Desktop
+  dnf:
+    name: "kde-desktop-environment"
+    state: "absent"
+  when: kde == False
+- name: Install KDE Desktop
+  dnf:
+    name: "kde-desktop-environment"
+    state: "latest"
+  when: kde == True
+- name: Remove GNOME Desktop
+  dnf:
+    name: "workstation-product-environment"
+    state: "absent"
+  when: gnome == False
+- name: Install GNOME Desktop
+  dnf:
+    name: "workstation-product-environment"
+    state: "latest"
+  when: gnome == True
+- name: Remove StumpWM
+  block:
+    - name: Dunst D-Bus manager
+      dnf:
+        name: "dunst"
+        state: absent
+    - name: Remove StumpWM
+      include_role:
+        name: stumpwm
+        tasks_from: remove.yml
+    - name: Remove Common lisp SBCL implementation
+      dnf:
+        name: "sbcl"
+        state: absent
+      when: "'common-lisp not in profiles"
+    - name: Ensure QuickLisp is removed from builder user home directory
+      include_role:
+        name: quicklisp
+        tasks_from: remove.yml
+      vars:
+        working_directory: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+      when: "'common-lisp not in profiles"
+  when: stumpwm == False
+- name: Install StumpWM
+  block:
+    - name: Install Basic Desktop environment
+      shell: dnf -y groupinstall basic-desktop-environment
+      # dnf:
+      #   name: basic-desktop-environment
+      #   state: "latest"
+    - name: Common lisp SBCL implementation
+      dnf:
+        name: "sbcl"
+        state: latest
+    - name: Ensure QuickLisp is installed
+      include_role:
+        name: quicklisp
+        tasks_from: install.yml
+      vars:
+        working_directory: "{{ git_3rdparty }}/{{ applications.common_lisp.ql_repo_dir }}"
+    - name: Install StumpWM
+      include_role:
+        name: stumpwm
+        tasks_from: install.yml
+    - name: Dunst D-Bus manager
+      dnf:
+        name: "dunst"
+        state: latest
+  when: stumpwm == True

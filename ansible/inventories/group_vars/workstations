@@ -6,6 +6,10 @@ actions:
   checkout: True
   delete_xdg_dir_first: True
 git_3rdparty: "/usr/local/src/3rdparty"
+xfce: True
+stumpwm: True
+gnome: False
+kde: False
 applications:
   stumpwm:
     dir: stumpwm

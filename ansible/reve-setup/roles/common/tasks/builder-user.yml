@@ -1,13 +1,11 @@
-- name: Load root description data
+- name: Load user description data
   include_vars:
-    file: "{{ users_dir }}/root.yml"
+    file: "{{ users_dir }}/builder.yml"
     name: user_data
-- name: Configuration of the root user account
-  user:
-    name: root
-    local: True
-    shell: /usr/bin/zsh
-    state: present
+- name: Create the user
+  include_role:
+    name: manage-user
+    tasks_from: user-init.yml
 - name: Configure git environment for the root user
   include_role:
     name: manage-user
@@ -16,10 +14,6 @@
   include_role:
     name: manage-user
     tasks_from: xdg-conf.yml
-  vars:
-    root_config_repo: "/root/.local/configs"
-    xdg_config_home: "/root/.config"
-    user_home: "/root"
   loop: "{{ user_data.configurations|dict2items }}"
   loop_control:
     loop_var: user_conf
@@ -27,7 +21,3 @@
   include_role:
     name: manage-user
     tasks_from: non-xdg-conf.yml
-  vars:
-    root_config_repo: "/root/.local/configs"
-    xdg_config_home: "/root/.config"
-    user_home: "/root"
