@@ -1,9 +1,0 @@
-- name: "Install pipenv for {{ user_data.name }}"
-  pip:
-    name: pipenv
-    executable: 'pip-3'
-    extra_args: "--user"
-    state: latest
-  become: yes
-  become_user: "{{ user_data['name'] }}"
-  when: user_data['state'] != "None"

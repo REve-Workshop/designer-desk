@@ -1,7 +1,0 @@
-- name: Setup Time Zone
-  timezone:
-    name: 'Europe/Brussels'
-- name: Setup third party Git repository directory
-  file:
-    path: "{{ git_3rdparty }}"
-    state: directory
