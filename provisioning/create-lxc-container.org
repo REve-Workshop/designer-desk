@@ -1,5 +1,4 @@
-#+TITLE: Create an LXC container in proxmox
-
+#+TITLE: Create an LXC container in =proxmox=
 * Create container
 Example:
 #+begin_src shell
