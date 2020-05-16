@@ -17,10 +17,10 @@
    Document regarding various ansible projects, leading to
    repositories like =xyz.revecloud.re.ansible.reve-setup=, for
    example.
-** =is.re=
+** =is.re/=
    Description of a project to develop a software and a file format
    based on Common Lisp to manage an information system.
-** =provisioning=
+** =provisioning/=
    Documents related to virtual environment provisioning in the
    =revecloud= infrastructure. Actually only proxmox compose the
    infrastructure.
