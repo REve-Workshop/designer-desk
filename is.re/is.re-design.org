@@ -1,5 +1,4 @@
 #+TITLE: Information System Design
-
 * Definition
   :PROPERTIES:
   :ID:       9c706d38-1bce-4096-b338-97f90738a4cc

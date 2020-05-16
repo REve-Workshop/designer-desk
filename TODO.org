@@ -10,15 +10,19 @@
    :ID:       d3b52d34-1bbd-421d-bf10-4164e23a14b8
    :END:
    - State "DONE"       from "TODO"       [2019-11-19 mar. 08:17]
-   Some applications need to be installed in the user environement and not during host setup.
+   Some applications need to be installed in the user environment and
+   not during host set-up.
 
    It should be easier to manage everything from one ansible project
    instead of 2 or more for those tasks.
 
    In the new project, create 4 playbooks:
-   - =host-setup.yml=, setup a new host or ensure that a host has the minimum required for a REVE host.
-   - =user-setup.yml=, setup a new user or ensure that a user is setup according to my standard.
-   - =deploy-config.yml=, ensure the configuration is deployed for a user 
+   - =host-setup.yml=, set-up a new host or ensure that a host has the
+     minimum required for a REVE host.
+   - =user-setup.yml=, set-up a new user or ensure that a user is set-up
+     according to my standard.
+   - =deploy-config.yml=, ensure the configuration is deployed for a
+     user.
    - =sites.yml=, call the 3 other playbooks in this order:
      1. =host-setup.yml=
      2. =user-setup.yml=
@@ -40,7 +44,7 @@
    :ID:       692c6cb5-a846-46e4-a9d6-b8168cd8af46
    :END:
    - Note taken on [2020-04-28 mar. 20:42] \\
-     This is handled by issue https://github.com/REve-Workshop/main-processor/issues/2.
+     This is handled by issue [[https://github.com/REve-Workshop/xyz.revecloud.re.ansible.reve-setup/issues/2][Issue 2 - xyz.revecloud.re.ansible.reve-setup repository]].
    - Private repos
      - ansible_vault?
      - private playbooks?
@@ -56,13 +60,13 @@
    :ID:       cb42b36f-7101-4987-a575-134fe083c296
    :END:
    - Note taken on [2020-04-28 mar. 20:54] \\
-     Follow up in https://github.com/REve-Workshop/main-processor/issues/8.
+     Follow up in [[https://github.com/REve-Workshop/xyz.revecloud.re.ansible.reve-setup/issues/1][Issue 1 - xyz.revecloud.re.ansible.reve-setup repository]].
    The skeleton parameter allows to use the skeleton feature of linux
    system. When using this feature, the content of =/etc/skel=, the
-   skeleton directory, is used to populate the user's $HOME directory
+   skeleton directory, is used to populate the user's =$HOME= directory
    with an initial content.
 
-   The skeleton directory should be populated during the host setup
+   The skeleton directory should be populated during the host set-up
    phase.
 ** DONE Develop a playbook to install the UHK Agent
    CLOSED: [2020-04-28 mar. 21:08]
@@ -70,120 +74,14 @@
    :ID:       a3bfc4bb-0044-4930-bb2c-f354d301ee86
    :END:
    - Note taken on [2020-04-28 mar. 21:08] \\
-     Follow up at https://github.com/REve-Workshop/main-processor/issues/9.
+     Follow up at [[https://github.com/REve-Workshop/designer-desk/issues/9][Issues 9 - Designer Desk repository]].
    The UHK repository provides a file called =latest.yml=. Check with
    the vendor if it can be reliably used to retrieve the latest
    version of the agent and firmware.
-** DONE Add a role to setup git_config
+** DONE Add a role to set-up =git_config=
    CLOSED: [2020-04-28 mar. 21:16]
    :PROPERTIES:
    :ID:       d593a5a3-0661-4e4a-b811-1f9bb1bbe104
    :END:
    - Note taken on [2020-04-28 mar. 21:16] \\
-     Follow up in https://github.com/REve-Workshop/main-processor/issues/11.
-* Common lisp
-  :PROPERTIES:
-  :ID:       3d9fee1b-e161-4d4e-b5ee-da551eaea175
-  :END:
-** TODO Add a file to manage compilation and builds
-   :PROPERTIES:
-   :ID:       d6465ea2-4e2f-43df-af74-1e6f9c99e077
-   :END:
-   - File name: =cabs.lisp=
-   - Location: =#P"cl/tools/"=
-
-   It must collect all directories that contain an =asd= file, for a
-   given directory tree. It must do it recursively.
-
-   Next, those collected path must be added to the ASDF registry
-   global variable =asdf:*central-registry*=.
-** TODO Add a directory for the management of DBMS
-   :PROPERTIES:
-   :ID:       4a90c91a-c646-4526-a3c5-b9cc6c1eb469
-   :END:
-   This directory should contain one file per database management
-   system. The priority must be toward plain text lisp format.
-
-   Foreseen format:
-   - fact-base
-   - sexp - =com.informatimago.common-lisp.cesarum=
-
-   Location: =#P"cl/is/"=
-   Directory name: =#P"dbms/"=
-
-   These source files are responsible for providing a common API to
-   access data stored in files of the given format. This includes
-   opening and closing the file, and ensuring that any buffered data
-   is written when closing the file.
-
-   Foreseen API:
-   - =open=, connect the calling application to the database
-   - =close=, close the connection
-   - crud API:
-     - =insert= / =create=, add a record to the database
-     - =read=, read a record from the data base
-     - =update=, update a record in the database
-     - =delete=, remove a record from the database
-   - =load=, load the database in memory for use by the crud API
-   - =save=, save all the changes to the database
-** TODO Add a file to provide a query API for the information system
-   :PROPERTIES:
-   :ID:       e5f99bc6-ccff-4bb2-81c8-5b1d4749c45a
-   :END:
-   File name: =query.lisp=
-   Location: =#P"cl/is/"=
-
-   Foreseen functions and macros:
-   - =search=: will allow to search for entries in a information
-               system for data corresponding to given criteria.
-     - Parameters:
-       - =is=: information system.
-       - =path=: the search will be limited to elements present at that path.
-       - =condition=: the condition to match to collect a value.
-       - =fields=: a list of fields whose data must be returned.
-     - Possible Returned values:
-       - A list of records, if the query is successful.
-       - =nil=, if the query returns nothing.
-       - a complex lisp object, in case of error, with all the data to
-         help diagnose the problem.
-
-   Foreseen criteria:
-   - =one-of=: The field must contains one of the element in the
-               provided list or vector.
-   - =unique=: The value must be present only once in the scope.
-   - =and=
-   - =or=
-   - =not=
-** TODO Add a file to provide a write API for the information system
-   :PROPERTIES:
-   :ID:       69f83ed1-5406-43ae-bde9-57d2d85ef284
-   :END:
-   File name: =record.lisp=
-   Location: =#P"cl/is/"=
-   
-   Foreseen function:
-   - =write=: open access to the given path, write the provided data and close the data store.
-   - =with-is-path=: allows to perform multiple operation on the provided path.
-   - =delete=: delete the data at path.
-   - =update=: update the data at path with the new one.
-** TODO Add a source file to manage an information system initialisation
-   :PROPERTIES:
-   :ID:       681d859d-3ae1-4b00-8f97-39361e296999
-   :END:
-   File name: =boot.lisp=
-   Location: =#P"cl/is/"=
-
-   The file must provides ways to initialize a new file system, but
-   also to boot an existing one. And to ensure that the calling
-   program can manage the data consistently.
-
-   Foreseen function:
-   - =init-information-system=: creates an new information system.
-     - =is-name=: name of the information system.
-     - =description=: a text describing the information system.
-     - =ism-location=: an empty directory where the information system manager
-       this information system will reside.
-     - =default-dbms=: the default dbms to use to store data.
-   - =boot-information-system=: prepare an existing information system
-     to be used by the calling program.
-     - =location=: A directory containing an information system manager.
+     Follow up in [[https://github.com/REve-Workshop/designer-desk/issues/11][Issues 11 - Designer Desk repository]].
