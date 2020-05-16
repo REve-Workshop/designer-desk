@@ -4,55 +4,26 @@
   :PROPERTIES:
   :ID:       061082f9-4977-4941-bca4-ee64c817e19d
   :END:
-  This repository contains various tools I use to manage my machines
-  and data.
-* Usage
-  :PROPERTIES:
-  :ID:       184140f8-2355-4ba6-a87f-93d4ad3b05c2
-  :END:
-* Installation
-  :PROPERTIES:
-  :ID:       bcb8e202-07d3-4da5-a617-878b6e99fef0
-  :END:
-
-  The tools in this repository target linux machines and more
-  specifically Fedora and other RedHat derivatives.
-
-  1. Fork this repos
-  2. Modify any part you need to adapt.
-  3. add the =bin/= directory to your PATH.
+  This repository contains various description of projects past,
+  present and future maybe.
 * Repository structure
   :PROPERTIES:
   :ID:       6b5567b2-7bd2-4248-aeba-e740c9e6ad52
   :END:
 ** =ansible/=
    :PROPERTIES:
-   :ID:       7227dfd5-8aa1-4737-89f6-b6f8e1c3530a
-   :END:
-   Ansible playbooks to help automate deployment of tools and configuration
-** =bin/=
-   :PROPERTIES:
-   :ID:       36197e7d-aff4-4fe5-8217-aa75a6e05cef
-   :END:
-   Shell scripts tools, mainly.
-** =cl/=
-   :PROPERTIES:
-   :ID:       ab110838-34b1-4809-925c-154793eea11a
-   :END:
-   Some home made tools in Common Lisp. Not usable yet.
-** =elisp=
-   :PROPERTIES:
-   :ID:       e9e16a2d-72fa-47b9-b20a-315551dfdc57
-   :END:
-   Some helper functions for Emacs.
-
-   It contains the definition of global variables and skeletons for
-   use with auto-insert, for example.
-** =docs/=
-   :PROPERTIES:
    :ID:       a721a1c3-da72-4052-b2c1-d0b4f137f46e
    :END:
-   Documentation of the tools in the repository.
+   Document regarding various ansible projects, leading to
+   repositories like =xyz.revecloud.re.ansible.reve-setup=, for
+   example.
+** =is.re=
+   Description of a project to develop a software and a file format
+   based on Common Lisp to manage an information system.
+** =provisioning=
+   Documents related to virtual environment provisioning in the
+   =revecloud= infrastructure. Actually only proxmox compose the
+   infrastructure.
 * Author
   :PROPERTIES:
   :ID:       29dedef8-dfa5-4c47-97e5-b6332d1aaa15

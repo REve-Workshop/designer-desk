@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [[https://keepachangelog.com/en/1.0.0/][Keep a Changelog]], and this project adheres to [[https://semver.org/spec/v2.0.0.html][Semantic Versioning]].
 
 * Unreleased
+** Removed
+   - The =TODO.org= document is no more needed as everything has been
+     closed or moved to GitHub issues.
 * [0.1.0] 2020-05-15
 ** Added
    - This file.
+* [0.1.1] 2020-05-16
+** Changed
+   - Redefining the scope of the repository through the rewrite of
+     =README.org=.
+   - Moved documents out of =docs/= to there own directory or another
+     repository.
+   - Modify some links to issues, in =TODO.org=.
+** Removed
+   - The =docs/= directory, as it as no more use.
+   - Remove all tasks, in =TODO.org=, related to Common Lisp.
