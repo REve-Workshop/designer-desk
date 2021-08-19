@@ -1,18 +1,127 @@
-#+TITLE: Information System Design
+#+TITLE: Information System idea and thoughts
 
-* Definition
+* What?
+  :PROPERTIES:
+  :ID:       4b2ab089-2cb7-4989-adfb-204e9c03d794
+  :END:
+  Build and manage an information system using simple and flexible
+  data structures, based on symbolic-expressions (s-exps).
+
+  Produce common lisp tools to help applications, build and manage
+  s-exp structures, as log records, data storage or configuration
+  format.
+
+  It is also important that the data must be editable with tools such
+  as text editors. So they will be stored in plain text files.
+
+  I have no idea if such data formats will be particularly efficient
+  for large data sets. I mainly target informations like an address
+  book, an accounting ledger, a list of books, etc...
+* Why?
+  :PROPERTIES:
+  :ID:       8964af5e-de79-4805-a3e5-33f5a9da5726
+  :END:
+  I am a long time Emacs user. I could manage an information system
+  using Emacs packages like bookmarks, BBDB, Org mode and the like,
+  but they are not very well integrated with each other and the
+  interfaces to use them are not always easy or well defined, in my
+  opinion.
+
+  I also want the tools helping manage those structures not to be
+  dependent on a particular editing interface. So, Common Lisp seems
+  to be a good candidate for this project.
+
+  Finally, while the data structures used by the Emacs packages are
+  quite simple, they are not all well documented, there API included.
+  This makes it difficult to automate some tasks like importing data
+  from external tools.
+* How?
+  :PROPERTIES:
+  :ID:       3b0d1bd9-815e-4abf-bf97-cf186a62c5b3
+  :END:
+  Instead of trying to keep all files and directories, part of an
+  information system, in one place, a directory will contain a
+  database listing the location of the directories and files to manage
+  and the global configuration for an information system.
+
+  A file will contain data for one topic, like a library for books, a
+  ledger for accounting or for events related to said books (books
+  bought, sold, read, lend, ...) or appointment events.
+  
+  For each data file, a common lisp file will define the constraints
+  to ensure its validity. This definition should be both programming
+  logic and human readable. This will enable manual edition and ensure
+  that files can be modified outside of the land of common lisp if
+  required.
+
+  The common lisp files does not need to be part of the information
+  system, they could be stored in a location like the default common
+  lisp package location (e.g.: =~/common-lisp/=).
+
+  Relationship between files will be defined at the level of the
+  information system, so, for each information system, a directory
+  will contain the common lisp source files dedicated to the
+  management of those relationships.
+
+* A more technical definition of 'how?'
   :PROPERTIES:
   :ID:       9c706d38-1bce-4096-b338-97f90738a4cc
   :END:
+  The definition of the data structure and there validators are stored
+  in a central location on the computer hosting the information
+  systems.
+
   An information system will be defined by:
   - A configuration file with the following information:
     - The list of directories to manage.
     - Values global to the whole information system.
-  - A list of directories specified by the configuration file.
+  - The list of directories specified by the configuration file.
   - A special directory with:
-    - The definition of the data structure.
-    - The validators of those data structure.
     - Any logic defining relationship between data.
+
+  Example of a directory structure on a computer storing one or more
+  information systems:
+  #+begin_example
+    /home/billy/
+            common-lisp/
+                    is.re/
+            organization/
+                    data/
+                    conf/
+                    lib/
+            work/
+                    data/
+                    conf/
+                    lib/
+            is-management/
+                    data/
+                    conf/
+                    lib/
+  #+end_example
+
+  In the above example:
+  - =/home/billy/= is the home directory of a user, named =billy= on
+    the computer.
+  - =/home/billy/common-lisp/is.re/= is a directory in the default
+    common lisp directory of the user, where to store the definition
+    and validator of the data files to be stored in the information
+    system.
+  - =organization/=, =work/= and =is-management/= are information
+    system directories created by =billy=.
+    - =billy= plan to manage its daily life and its personal projects
+      using =organization/=.
+    - =work/= will be used by =billy= to centralize every information
+      related to its job.
+    - Finally, =is-management/= is meant to be used to track all the
+      information system =billy= may define on this computer or any
+      other machine.
+
+  - For each information system, the following subdirectories exist:
+    - =data/=, will contains all the data files, potentially split
+      among subdirectories
+    - =conf/=, the configuration of the information system.
+    - =lib/=, any code related to the relationship or special tools
+      for the information system.
 * Contents of a directory managed by an information system
   :PROPERTIES:
   :ID:       0b7d237a-1b32-4aa8-90bc-01e00bbe7f8a
@@ -22,4 +131,110 @@
     will supersede the value defined in one of its parent children or
     globally.
   - Data files composed of lisp data structures.
+    - Example 1:
+      #+begin_src lisp
+        (ledger
+         (transaction
+          (date "2020-02-27")
+          (id "txn:001-enter")
+          (book (collection-id "manga:voisin-esprits")
+                (volume 1))
+          (book (collection-id "manga:voisin-esprits")
+                (volume 2))
+          (book (collection-id "manga:grim-zero")
+                (volume 4 5 6))
+          (state in)
+          (location @home)
+          (annotation "Achat chez Slumberland Namur."))
+         (transaction
+          (date "2020-02-29")
+          (id "txn:001-read")
+          (book (collection-id "manga:voisin-esprits")
+                (volume 1))
+          (state read)
+          (reader "roland")))
+       #+end_src
+       The above example show the content of a ledger, possibly linked
+      to another file or set of files defining books or collections of
+      books.
+    - Example 2:
+      #+begin_src lisp
+        (cmdb
+         (configuration-item
+          (name "proxmox-5")
+          (application
+           (version "5.x")
+           (vendor unknown)
+           (license unknown))
+          (state in-production))
+         (configuration-item
+          (name "server1")
+          (computer
+           (hardware "phys-1")
+           (cpu 1)
+           (memory 2 Gb)
+           (storage 500 Gb)
+           (os linux)
+           (ip "123.123.123.2")
+           (service "archiving")
+           (application "nfs"))
+          (state retired)
+          (tags virtual remote)))
+      #+end_src
+      The above example shows the content of a data file defining some
+      resources inside a computing infrastructure.
   - Any file associated to some data in a data file.
+* Tools to manipulate the data
+  :PROPERTIES:
+  :ID:       4f1812bc-86e4-44c0-900a-ecd135cefef2
+  :END:
+  - A Common Lisp package to query a data file and extract
+    information. This package should be able to deal with relationship
+    between data files using the logic provided by the information
+    system.
+  - A Common Lisp package to insert/modify/remove data with respect to
+    there structure and relationship definition.
+  - A =CLI= tool that exposes the functionality of the query package
+    without applying the relationship logic nor the data structure
+    definition. The aim is to provide a simple tool to retrieve data
+    from one file or from the output of a tool printing information as
+    lisp expression.
+** Data query
+   :PROPERTIES:
+   :ID:       fd06564a-560a-474d-9e6d-b84aea57cc2b
+   :END:
+   A query is defined by what to search for, where to search for  must allow to gather information like the content of a
+   field or set of fields relative or not to the field hierarchy.
+
+   - Examples of queries:
+     #+begin_src lisp
+       (string= (*p :collection :publisher) "Gĺénat")
+     #+end_src
+
+     #+begin_src lisp
+       (member (*p :transaction :source :account :type) (assets income))
+     #+end_src
+
+     #+begin_src lisp
+       (null (*p :collection :author))
+     #+end_src
+
+   - Examples of fields selection:
+     #+begin_src lisp
+       ((count :collection)
+        (alias auth (*p :collection :author))
+        (alias vol (*p :collection :volumes)))
+     #+end_src
+
+     #+begin_src lisp
+       ((sum (*p :source :amount) :key (*p :transaction :source :account :type) :in src-amount)
+        (alias dest-acc (*p :transaction :destination :account))
+        (alias txn-date (*p :transaction :date)))
+     #+end_src
+
+   - Example of output formatting
+     #+begin_src lisp
+       ("Assets total: " (sum-of src-amount asset) "\n"
+        "Income total: " (sum-of src-amount income) "\n\n"
+        "Transaction Date: " txn-date " destination account: " dest-acc "\n")
+     #+end_src

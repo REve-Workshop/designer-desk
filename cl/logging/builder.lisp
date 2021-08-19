@@ -1,7 +1,7 @@
 (defpackage xyz.revecloud.re.logging.builder
   (:use :cl)
   (:export #:init-logging #:set-operation #:make-log-record)
-  (:import-from :xyz.revecloud.re.tools.tools "escape-double-quote"))
+  (:import-from :xyz.revecloud.re.tools.misc "escape-double-quote"))
 
 (in-package :xyz.revecloud.re.logging.builder)
 
