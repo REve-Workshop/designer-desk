@@ -1,0 +1,5 @@
+- name: Install antigen (ZSH package manager)
+  git:
+    repo: "https://github.com/zsh-users/antigen.git"
+    dest: "{{ git_3rdparty }}/antigen"
+    version: 'HEAD'

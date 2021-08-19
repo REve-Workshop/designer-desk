@@ -1,0 +1,37 @@
+- name: Include common variables
+  include_vars:
+    file: ../../common/vars/main.yml
+- name: "Update non XDG compliant configuration"
+  block:
+    ### ----------------------------------------
+    # .zshrc must remain in the $HOME directory of the user.  The rest of
+    # the zsh configuration is stored in the $XDG_CONFIG_HOME directory.
+    - name: Deploy .zshrc
+      copy:
+        src: "{{ root_config_repo }}/{{ config_zsh.dir }}/zshrc"
+        dest: "{{ user_home }}/.zshrc"
+        remote_src: 'yes'
+      vars:
+        config_zsh: "{{ actions | actionsplice(user_data.configurations.zsh) }}"
+      when: config_zsh.config == True
+        # - user_data.configurations.zsh is defined
+        # - config_zsh.config == True
+    # ------------------------------------------
+    - name: Deploy TMux configuration
+      include_tasks: tmux.yml
+        # name: tmux
+      vars:
+        config_tmux: "{{ actions | actionsplice(user_data.configurations.tmux) }}"
+      when: config_tmux.config == True
+        # - user_data.configurations.tmux is defined
+        # - config_tmux.config == True
+    - name: Deploy Emacs configuration
+      include_tasks: emacs.yml
+        # name: emacs
+      vars:
+        config_emacs: "{{ actions | actionsplice(user_data.configurations.emacs) }}"
+      when: config_emacs.config == True
+        # - user_data.configurations.emacs is defined
+        # - config_emacs.config == True
+  become: True
+  become_user: "{{ user_data.name }}"

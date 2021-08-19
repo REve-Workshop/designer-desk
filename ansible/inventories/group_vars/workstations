@@ -1,0 +1,20 @@
+# -*- mode: yaml -*-
+---
+actions:
+  config: True
+  xdg_compliant: True
+  checkout: True
+  delete_xdg_dir_first: True
+git_3rdparty: "/usr/local/src/3rdparty"
+xfce: True
+stumpwm: True
+gnome: False
+kde: False
+applications:
+  stumpwm:
+    dir: stumpwm
+    dir_contrib: stump_contrib
+    repo: https://github.com/stumpwm/stumpwm.git
+    repo_contrib: https://github.com/stumpwm/stumpwm-contrib.git
+  common_lisp:
+    ql_repo_dir: quicklisp

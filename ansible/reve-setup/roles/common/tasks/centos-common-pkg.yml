@@ -1,0 +1,99 @@
+- name: Install system documentation packages
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - man
+    - man-pages
+    - man-db
+    - texinfo
+    - info
+- name: bind-utils package
+  dnf:
+    name: "bind-utils"
+    state: latest
+- name: curl and wget
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - curl
+    - wget
+- name: local monitoring CLI
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - ftop
+    - iftop
+    - net-tools
+    - sysstat
+    - glances
+- name: user management CLI
+  dnf:
+    name: "sudo"
+    state: latest
+- name: Mobile SHell
+  dnf:
+    name: "mosh"
+    state: latest
+- name: direnv
+  dnf:
+    name: "direnv"
+    state: latest
+- name: zsh
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - zsh
+    - powerline
+    - powerline-docs
+    - powerline-fonts
+- name: Python3 execution environment
+  dnf:
+    name: "python3"
+    state: latest
+- name: Python3 development environment
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - python3-pip
+    - python3-virtualenv
+  when: 
+    - "development" in user_data.profiles
+    - "python" in user_data.profiles
+- name: Git repositories management
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - git
+    - git-core
+    - git-core-doc
+    - libgit2
+    - perl-Git
+    - python3-pygit2
+- name: Common lisp SBCL implementation
+  dnf:
+    name: "sbcl"
+    state: latest
+  when: "common-lisp" in user_data.profiles
+- name: TMux
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - tmux
+    - tmux-powerline
+- name: Neofetch
+  dnf:
+    name: "neofetch"
+    state: latest
+- name: Terminal File Manager
+  dnf:
+    name: "ranger"
+    state: latest
+- name: Deploy 3rd party applications common to any hosts
+  include_task: common-3rdparty.yml

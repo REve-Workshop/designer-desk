@@ -1,0 +1,5 @@
+- import_playbook: host-setup
+- import_playbook: setup-builder
+- import_playbook: install-stumpwm
+- import_playbook: users-setup
+- import_playbook: deploy-config

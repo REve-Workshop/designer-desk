@@ -1,0 +1,36 @@
+- name: "Configuration processing"
+  block:
+    - name: "Checkout lastest version of configuration repository for {{ user_conf['key'] }}"
+      git:
+        repo: "{{ config_data['repo'] }}"
+        dest: "{{ root_config_repo }}/{{ config_data['dir'] }}"
+        version: 'HEAD'
+      when: config_data['checkout'] == True and config_data['repo'] is defined
+    - name: Deploy XDG compliant configuration
+      block:
+        - name: Delete old configuration directory
+          file:
+            path: "{{ xdg_config_home }}/{{ config_data['xdgdir'] }}"
+            state: absent
+          when: config_data['delete_xdgdir_first'] == True
+        - name: Create new configuration directory
+          file:
+            path: "{{ xdg_config_home }}/{{ config_data['xdgdir'] }}"
+            state: directory
+        - name: "Create directory structure"
+          file:
+            path: "{{ xdg_config_home }}/{{ config_data['xdgdir'] }}/{{ item['path'] }}"
+            state: directory
+          loop: "{{ config_data['files'] }}"
+          when: item['state'] == 'directory'
+        - name: Deploy new configuration resources
+          copy:
+            src: "{{ root_config_repo }}/{{ config_data['dir'] }}/{{ item['path'] }}"
+            dest: "{{ xdg_config_home }}/{{ config_data['xdgdir'] }}/{{ item['path'] }}"
+            remote_src: 'yes'
+          loop: "{{ config_data['files'] }}"
+          when: item['state'] == 'file'
+      when: config_data['xdg_compliant'] == True and config_data['xdgdir'] is defined
+  when: config_data['config'] == True
+  become: True
+  become_user: "{{ user_data.name }}"

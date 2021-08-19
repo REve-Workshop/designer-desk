@@ -1,0 +1,14 @@
+#+TITLE: Create an LXC container in proxmox
+
+* Create container
+Example:
+#+begin_src shell
+  pct create 150 templates:vztmpl/fedora-31-default_20191029_amd64.tar.xz --arch=amd64 --cores=1 --memory=1024 --hostname=fedora31.staging --ostype=fedora -unprivileged=1
+  pct set 150 -net0 name=eth0,bridge=vmbr1,ip=10.10.10.100/24,gw=10.10.10.1
+  pct resize 150 rootfs +10G
+#+end_src
+
+* Remove container
+#+begin_src shell
+  pct destroy 150
+#+end_src

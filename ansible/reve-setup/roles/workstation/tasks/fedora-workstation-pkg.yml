@@ -1,0 +1,56 @@
+- name: Common packages for any Fedora installation
+  include_role:
+    name: common
+    tasks_from: manage-fedora-common-pkg.yml
+- name: openvpn client and network manager plugins for openvpn
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+     - openvpn
+     - NetworkManager-openvpn
+- name: udisk GUI
+  dnf:
+    name: "udiskie"
+    state: latest
+- name: password-store
+  dnf:
+    name: "pass"
+    state: latest
+- name: Emacs
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - emacs
+    - emacs-nox
+    - emacs-common
+    - emacs-filesystem
+- name: alacritty VTE
+  dnf:
+    name: "alacritty"
+    state: latest
+- name: Conky local monitoring GUI
+  dnf:
+    name: "conky"
+    state: latest
+- name: MPC the music player client for MPD
+  dnf:
+    name: "mpc"
+    state: latest
+- name: Nitrogen - The wallpaper manager
+  dnf:
+    name: "nitrogen"
+    state: latest
+- name: Variety - The wallpaper downloader
+  dnf:
+    name: "variety"
+    state: latest
+- name: Surfraw
+  dnf:
+    name: "surfraw"
+    state: latest
+- name: Firefox web browser
+  dnf:
+    name: "firefox"
+    state: latest

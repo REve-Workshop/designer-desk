@@ -34,10 +34,13 @@
      - Idea: use =group_vars=, see actual implementation
        ([2019-11-05 mar.]) of =deploy-config= and =setup-host=.
    - define the intent of the playbooks.
-** TODO Study how to deal with private data
+** DONE Study how to deal with private data
+   CLOSED: [2020-04-28 mar. 20:42]
    :PROPERTIES:
    :ID:       692c6cb5-a846-46e4-a9d6-b8168cd8af46
    :END:
+   - Note taken on [2020-04-28 mar. 20:42] \\
+     This is handled by issue https://github.com/REve-Workshop/main-processor/issues/2.
    - Private repos
      - ansible_vault?
      - private playbooks?
@@ -47,10 +50,13 @@
    - Data to modify/add/remove in standard files, with private data
      - ansible_vault?
      - private playbooks?
-** TODO Study how to use the skeleton parameter of the =user= module
+** DONE Study how to use the skeleton parameter of the =user= module
+   CLOSED: [2020-04-28 mar. 20:54]
    :PROPERTIES:
    :ID:       cb42b36f-7101-4987-a575-134fe083c296
    :END:
+   - Note taken on [2020-04-28 mar. 20:54] \\
+     Follow up in https://github.com/REve-Workshop/main-processor/issues/8.
    The skeleton parameter allows to use the skeleton feature of linux
    system. When using this feature, the content of =/etc/skel=, the
    skeleton directory, is used to populate the user's $HOME directory
@@ -58,17 +64,23 @@
 
    The skeleton directory should be populated during the host setup
    phase.
-** TODO Develop a playbook to install the UHK Agent
+** DONE Develop a playbook to install the UHK Agent
+   CLOSED: [2020-04-28 mar. 21:08]
    :PROPERTIES:
    :ID:       a3bfc4bb-0044-4930-bb2c-f354d301ee86
    :END:
-   The UHK repository provide a file called =latest.yml=. Check with
+   - Note taken on [2020-04-28 mar. 21:08] \\
+     Follow up at https://github.com/REve-Workshop/main-processor/issues/9.
+   The UHK repository provides a file called =latest.yml=. Check with
    the vendor if it can be reliably used to retrieve the latest
    version of the agent and firmware.
-** TODO Add a role to setup git_config
+** DONE Add a role to setup git_config
+   CLOSED: [2020-04-28 mar. 21:16]
    :PROPERTIES:
    :ID:       d593a5a3-0661-4e4a-b811-1f9bb1bbe104
    :END:
+   - Note taken on [2020-04-28 mar. 21:16] \\
+     Follow up in https://github.com/REve-Workshop/main-processor/issues/11.
 * Common lisp
   :PROPERTIES:
   :ID:       3d9fee1b-e161-4d4e-b5ee-da551eaea175

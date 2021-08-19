@@ -1,0 +1,6 @@
+# -*- mode: yaml -*-
+---
+actions:
+  config: True
+  xdg_compliant: True
+git_3rdparty: "/usr/local/src/3rdparty"

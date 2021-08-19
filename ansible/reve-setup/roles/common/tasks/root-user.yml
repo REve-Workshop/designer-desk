@@ -1,0 +1,33 @@
+- name: Load root description data
+  include_vars:
+    file: "{{ users_dir }}/root.yml"
+    name: user_data
+- name: Configuration of the root user account
+  user:
+    name: root
+    local: True
+    shell: /usr/bin/zsh
+    state: present
+- name: Configure git environment for the root user
+  include_role:
+    name: manage-user
+    tasks_from: git.yml
+- name: Update configuration repositories and deploy XDG compliant configuration elements
+  include_role:
+    name: manage-user
+    tasks_from: xdg-conf.yml
+  vars:
+    root_config_repo: "/root/.local/configs"
+    xdg_config_home: "/root/.config"
+    user_home: "/root"
+  loop: "{{ user_data.configurations|dict2items }}"
+  loop_control:
+    loop_var: user_conf
+- name: Deploy other configuration elements
+  include_role:
+    name: manage-user
+    tasks_from: non-xdg-conf.yml
+  vars:
+    root_config_repo: "/root/.local/configs"
+    xdg_config_home: "/root/.config"
+    user_home: "/root"
